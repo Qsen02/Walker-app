@@ -1,18 +1,21 @@
 import express from "express";
 import dotenv from "dotenv";
 import { expressConfig } from "./config/express";
+import { runDB } from "./config/mongoose";
 
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-async function startServer(){
-    expressConfig(app);
+async function startServer() {
+	await runDB();
 
-    app.listen(()=>{
-        console.log(`Server is listening on port ${port}`);
-    })
+	expressConfig(app);
+
+	app.listen(() => {
+		console.log(`Server is listening on port ${port}`);
+	});
 }
 
 startServer();
