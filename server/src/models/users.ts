@@ -20,11 +20,16 @@ const userSchema = new mongoose.Schema({
 		ref: "Steps",
 		default: [],
 	},
+    waterDays:{
+        type:[mongoose.SchemaTypes.ObjectId],
+        ref:"Water",
+        default:[],
+    },
 	purpose: {
 		type: Number,
 		default: 6000,
 	},
-});
+},{ timestamps: { createdAt: "created_at", updatedAt: "updated_at" } });
 
 const Users = mongoose.model("Users", userSchema);
 
