@@ -11,17 +11,28 @@ function setToken(user: UserAttributes) {
 		purpose: user.purpose,
 	};
 
-	const token = jwt.sign(payload, process.env.JWT_SECRET!, {
-		expiresIn: "3d",
-	});
+	if (process.env.JWT_SECRET) {
+		const token = jwt.sign(payload, process.env.JWT_SECRET, {
+			expiresIn: "3d",
+		});
 
-	return token;
+		return token;
+	} else {
+		return null;
+	}
 }
 
 function verifyToken(token: string) {
-	const isValid = jwt.verify(token, process.env.JWT_SECRET!);
+	if (process.env.JWT_SECRET) {
+		const isValid = jwt.verify(
+			token,
+			process.env.JWT_SECRET
+		) as UserAttributes;
 
-	return isValid;
+		return isValid;
+	} else {
+		return null;
+	}
 }
 
 export { setToken, verifyToken };
