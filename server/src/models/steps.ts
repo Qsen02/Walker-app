@@ -12,7 +12,7 @@ const stepsSchema = new mongoose.Schema(
 		},
 		isPurposeCompleted: {
 			type: Boolean,
-			require: true,
+			default:false
 		},
         userId:{
             type:mongoose.SchemaTypes.ObjectId,
