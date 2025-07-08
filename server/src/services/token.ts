@@ -1,14 +1,35 @@
 import { UserAttributes } from "../types/user";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
+import { Document, Types } from "mongoose";
 dotenv.config();
 
-function setToken(user: UserAttributes) {
+function setToken(
+	user: Document<
+		unknown,
+		{},
+		{
+			activeDays: Types.ObjectId[];
+			waterDays: Types.ObjectId[];
+			purpose: number;
+			username?: string | null | undefined;
+			email?: string | null | undefined;
+			password?: string | null | undefined;
+		}
+	> & {
+		activeDays: Types.ObjectId[];
+		waterDays: Types.ObjectId[];
+		purpose: number;
+		username?: string | null | undefined;
+		email?: string | null | undefined;
+		password?: string | null | undefined;
+	} | undefined
+) {
 	const payload = {
-		_id: user._id,
-		username: user.username,
-		email: user.email,
-		purpose: user.purpose,
+		_id: user?._id,
+		username: user?.username,
+		email: user?.email,
+		purpose: user?.purpose,
 	};
 
 	if (process.env.JWT_SECRET) {

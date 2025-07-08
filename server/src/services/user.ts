@@ -21,7 +21,7 @@ async function register(username: string, password: string, email: string) {
 }
 
 async function login(username: string, password: string) {
-	const isValidUsername = await Users.findOne({ username: username }).lean();
+	const isValidUsername = await Users.findOne({ username: username });
 	if (!isValidUsername) {
 		throw new Error("Username or password don't match!");
 	}
@@ -36,7 +36,7 @@ async function login(username: string, password: string) {
 		throw new Error("Username or password don't match!");
 	}
 
-	return isValidPassword;
+	return isValidUsername;
 }
 
 async function getUserById(userId: string) {
@@ -64,7 +64,7 @@ async function editUser(
 	userId: string,
 	newUsername: string,
 	newEmail: string,
-	newPurpose: number
+	newPurpose: number | undefined
 ) {
 	const updatedUser = await Users.findByIdAndUpdate(
 		userId,
