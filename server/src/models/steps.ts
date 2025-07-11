@@ -5,6 +5,7 @@ const stepsSchema = new mongoose.Schema(
 		stepsCount: {
 			type: Number,
 			require: true,
+			default:0
 		},
 		date: {
 			type: String,

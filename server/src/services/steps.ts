@@ -1,6 +1,7 @@
 import { format } from "date-fns";
 import { Steps } from "../models/steps";
 import { UserAttributes } from "../types/user";
+import { Users } from "../models/users";
 
 async function getStepsById(stepsId: string) {
 	const steps = await Steps.findById(stepsId).lean();
@@ -20,7 +21,13 @@ async function checkStepsId(stepsId: string) {
 	return true;
 }
 
-async function incrementSteps(stepsId: string, user: UserAttributes) {
+async function incrementSteps(
+	stepsId: string,
+	user: UserAttributes | null | undefined
+) {
+	if (!user) {
+		throw new Error("Resource not found!");
+	}
 	const updatedSteps = await Steps.findByIdAndUpdate(
 		stepsId,
 		{ $inc: { stepsCount: 1 } },
@@ -35,11 +42,16 @@ async function incrementSteps(stepsId: string, user: UserAttributes) {
 	return updatedSteps;
 }
 
-async function createSteps(user: UserAttributes) {
+async function createSteps(user: UserAttributes | null | undefined) {
+	if (!user) {
+		throw new Error("No user yet!");
+	}
 	const steps = await Steps.create({
 		userId: user._id,
 		date: format(new Date(), "dd-MM-yyyy"),
 	});
+
+	await Users.findByIdAndUpdate(user._id, { $push: { activeDays: steps } });
 
 	return steps;
 }
