@@ -1,6 +1,7 @@
 import { format } from "date-fns";
 import { Water } from "../models/water";
 import { UserAttributes } from "../types/user";
+import { Users } from "../models/users";
 
 async function getWaterById(waterId: string) {
 	const water = await Water.findById(waterId).lean();
@@ -20,11 +21,16 @@ async function checkWaterId(waterId: string) {
 	return true;
 }
 
-async function createWater(user: UserAttributes) {
+async function createWater(user: UserAttributes | null | undefined) {
+	if (!user) {
+		throw new Error("Resource not found!");
+	}
 	const newWater = await Water.create({
 		userId: user._id,
 		date: format(new Date(), "dd-MM-yyyy"),
 	});
+
+	await Users.findByIdAndUpdate(user._id, { $push: { waterDays: newWater } });
 
 	return newWater;
 }
@@ -36,9 +42,7 @@ async function updateWater(waterId: string, newWaterCount: number) {
 		{ new: true }
 	).lean();
 
-    return updatedWater;
+	return updatedWater;
 }
 
-export {
-    getWaterById,checkWaterId,createWater,updateWater
-}
+export { getWaterById, checkWaterId, createWater, updateWater };

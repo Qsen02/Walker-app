@@ -5,6 +5,7 @@ const waterSchema = new mongoose.Schema(
 		waterCount: {
 			type: Number,
 			require: true,
+			default:0
 		},
 		date: {
 			type: String,
