@@ -3,7 +3,9 @@ import {
 	checkUserId,
 	editPassword,
 	editUser,
+	getUserActiveDays,
 	getUserById,
+	getUserWaterDays,
 	login,
 	register,
 } from "../services/user";
@@ -24,6 +26,36 @@ userRouter.get("/:userId", isUser(), async (req, res) => {
 		const userId = req.params.userId;
 		const user = await getUserById(userId);
 		res.json(user);
+	} catch (err) {
+		if (err instanceof Error) {
+			res.status(404).json({ message: err.message });
+		} else {
+			res.status(400).json({ message: "Error occurd!" });
+		}
+		return;
+	}
+});
+
+userRouter.get("/:userId/active-days", isUser(), async (req, res) => {
+	try {
+		const userId = req.params.userId;
+		const activeDays = await getUserActiveDays(userId);
+		res.json(activeDays);
+	} catch (err) {
+		if (err instanceof Error) {
+			res.status(404).json({ message: err.message });
+		} else {
+			res.status(400).json({ message: "Error occurd!" });
+		}
+		return;
+	}
+});
+
+userRouter.get("/:userId/water-days", isUser(), async (req, res) => {
+	try {
+		const userId = req.params.userId;
+		const waterDays = await getUserWaterDays(userId);
+		res.json(waterDays);
 	} catch (err) {
 		if (err instanceof Error) {
 			res.status(404).json({ message: err.message });

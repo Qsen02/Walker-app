@@ -103,4 +103,31 @@ async function editPassword(userId: string, newPassword: string) {
 	return updatedUser;
 }
 
-export { register, login, getUserById, checkUserId, editUser, editPassword };
+async function getUserActiveDays(userId: string) {
+	const user = await Users.findById(userId).populate("activeDays").lean();
+	if (!user) {
+		throw new Error("Resource not found!");
+	}
+
+	return user.activeDays;
+}
+
+async function getUserWaterDays(userId: string) {
+	const user = await Users.findById(userId).populate("waterDays").lean();
+	if (!user) {
+		throw new Error("Resource not found!");
+	}
+
+	return user.waterDays;
+}
+
+export {
+	register,
+	login,
+	getUserById,
+	checkUserId,
+	editUser,
+	editPassword,
+	getUserActiveDays,
+	getUserWaterDays,
+};
