@@ -18,4 +18,5 @@ export interface UserForAuth {
 	username: string;
 	email: string;
 	purpose: number;
+	accessToken:string;
 }
