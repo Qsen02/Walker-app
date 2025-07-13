@@ -4,7 +4,7 @@ import { UserAttributes } from "../types/user";
 import { Users } from "../models/users";
 
 async function getWaterById(waterId: string) {
-	const water = await Water.findById(waterId).lean();
+	const water = await Water.findById(waterId).populate("userId").lean();
 	if (!water) {
 		throw new Error("Resource not found!");
 	}

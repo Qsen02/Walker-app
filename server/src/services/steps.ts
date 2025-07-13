@@ -4,7 +4,7 @@ import { UserAttributes } from "../types/user";
 import { Users } from "../models/users";
 
 async function getStepsById(stepsId: string) {
-	const steps = await Steps.findById(stepsId).lean();
+	const steps = await Steps.findById(stepsId).populate("userId").lean();
 	if (!steps) {
 		throw new Error("Resource not found!");
 	}
