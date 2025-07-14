@@ -60,6 +60,9 @@ export default function RegistrationWrapper() {
 								? registrationWrapperStyles.touched
 								: "",
 							registrationWrapperStyles.buttonText,
+							theme == "light"
+								? { color: "black" }
+								: { color: "white" },
 						]}
 					>
 						Login
@@ -80,6 +83,9 @@ export default function RegistrationWrapper() {
 								? registrationWrapperStyles.touched
 								: "",
 							registrationWrapperStyles.buttonText,
+							theme == "light"
+								? { color: "black" }
+								: { color: "white" },
 						]}
 					>
 						Register
