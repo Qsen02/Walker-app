@@ -1,10 +1,13 @@
-import { View,Text } from "react-native";
+import { View, Text } from "react-native";
 import { homeStyles } from "./HomeStyles";
+import { useUserThemeContext } from "../../contexts/user_theme_context";
 
-export default function HomeScreen(){
-    return (
-        <View style={homeStyles.container}>
-            <Text>Home works!</Text>
-        </View>
-    )
+export default function HomeScreen() {
+	const { userState } = useUserThemeContext();
+
+	return (
+		<View style={homeStyles.container}>
+			<Text>Home works!</Text>
+		</View>
+	);
 }

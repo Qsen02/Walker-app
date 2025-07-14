@@ -1,6 +1,6 @@
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 
-export type RouteTypes = {
+export type RootStackParamList = {
 	Home: undefined;
 	Register: undefined;
 	Login: undefined;
@@ -10,4 +10,4 @@ export type RouteTypes = {
 	WaterDetails: { waterId: string };
 };
 
-export type NavigationType=NativeStackNavigationProp<RouteTypes>
+export type NavigationType=NativeStackNavigationProp<RootStackParamList>
