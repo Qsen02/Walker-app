@@ -24,7 +24,7 @@ export const registrationWrapperStyles=StyleSheet.create({
         borderStyle:"solid",
     },
     touched:{
-        backgroundColor:"rgb(200,200,200)",
+        backgroundColor:"darkgray",
         color:"white"
     },
     button:{

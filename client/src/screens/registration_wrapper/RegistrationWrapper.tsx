@@ -41,8 +41,8 @@ export default function RegistrationWrapper() {
 		<View
 			style={[
 				theme == "light"
-					? globalStyles.whiteThemeLighter
-					: globalStyles.darkThemeDarker,
+					? globalStyles.whiteThemeNormal
+					: globalStyles.darkThemeNormal,
 				registrationWrapperStyles.wrapper,
 			]}
 		>
