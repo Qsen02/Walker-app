@@ -18,11 +18,11 @@ export const globalStyles=StyleSheet.create({
         color:"black"
     },
     whiteThemeNormal:{
-        backgroundColor:"rgb(230,230,230)",
+        backgroundColor:"rgb(240,240,240)",
         color:"black"
     },
     whiteThemeDark:{
-        backgroundColor:"rgb(210,210,210)",
+        backgroundColor:"rgb(220,220,220)",
         color:"black"
     }
 })

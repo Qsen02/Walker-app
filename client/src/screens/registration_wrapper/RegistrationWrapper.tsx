@@ -1,41 +1,16 @@
 import { Text, TouchableOpacity, View } from "react-native";
 import { useUserThemeContext } from "../../contexts/user_theme_context";
 import { globalStyles } from "../../../globalStyles";
-import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { useNavigation } from "@react-navigation/native";
-import { NavigationType } from "../../types/RoutingTable";
 import Register from "../register/Register";
 import { registrationWrapperStyles } from "./RegistrationWrapperStyles";
 import { useState } from "react";
+import Login from "../login/Login";
 
 export default function RegistrationWrapper() {
 	const { theme } = useUserThemeContext();
-	const Stack = createNativeStackNavigator();
-	const naviagtion = useNavigation<NavigationType>();
-	const [isRegisterTouched, setIsRegisterTouched] = useState(true);
-	const [isLoginTouched, setIsLoginTouched] = useState(false);
-
-	function touchLogin() {
-		if (!isLoginTouched) {
-			setIsLoginTouched(true);
-			setIsRegisterTouched(false);
-		} else {
-			setIsLoginTouched(false);
-			setIsRegisterTouched(true);
-		}
-		naviagtion.navigate("Login");
-	}
-
-	function touchRegister() {
-		if (!isRegisterTouched) {
-			setIsLoginTouched(false);
-			setIsRegisterTouched(true);
-		} else {
-			setIsLoginTouched(true);
-			setIsRegisterTouched(false);
-		}
-		naviagtion.navigate("Register");
-	}
+	const [activeScreen, setActiveScreen] = useState<"Login" | "Register">(
+		"Register"
+	);
 
 	return (
 		<View
@@ -48,15 +23,17 @@ export default function RegistrationWrapper() {
 		>
 			<View style={registrationWrapperStyles.header}>
 				<TouchableOpacity
-					onPress={touchLogin}
+					onPress={() => setActiveScreen("Login")}
 					style={[
-						isLoginTouched ? registrationWrapperStyles.touched : "",
+						activeScreen == "Login"
+							? registrationWrapperStyles.touched
+							: "",
 						registrationWrapperStyles.button,
 					]}
 				>
 					<Text
 						style={[
-							isLoginTouched
+							activeScreen == "Login"
 								? registrationWrapperStyles.touched
 								: "",
 							registrationWrapperStyles.buttonText,
@@ -69,9 +46,9 @@ export default function RegistrationWrapper() {
 					</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
-					onPress={touchRegister}
+					onPress={() => setActiveScreen("Register")}
 					style={[
-						isRegisterTouched
+						activeScreen == "Register"
 							? registrationWrapperStyles.touched
 							: "",
 						registrationWrapperStyles.button,
@@ -79,7 +56,7 @@ export default function RegistrationWrapper() {
 				>
 					<Text
 						style={[
-							isRegisterTouched
+							activeScreen == "Register"
 								? registrationWrapperStyles.touched
 								: "",
 							registrationWrapperStyles.buttonText,
@@ -92,12 +69,7 @@ export default function RegistrationWrapper() {
 					</Text>
 				</TouchableOpacity>
 			</View>
-			<Stack.Navigator
-				screenOptions={{ headerShown: false }}
-				initialRouteName="Register"
-			>
-				<Stack.Screen name="Register" component={Register} />
-			</Stack.Navigator>
+			{activeScreen == "Login" ? <Login /> : <Register />}
 		</View>
 	);
 }
