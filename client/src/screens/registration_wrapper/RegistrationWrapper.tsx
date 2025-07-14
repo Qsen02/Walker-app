@@ -55,11 +55,12 @@ export default function RegistrationWrapper() {
 					]}
 				>
 					<Text
-						style={
+						style={[
 							isLoginTouched
 								? registrationWrapperStyles.touched
-								: ""
-						}
+								: "",
+							registrationWrapperStyles.buttonText,
+						]}
 					>
 						Login
 					</Text>
@@ -74,11 +75,12 @@ export default function RegistrationWrapper() {
 					]}
 				>
 					<Text
-						style={
+						style={[
 							isRegisterTouched
 								? registrationWrapperStyles.touched
-								: ""
-						}
+								: "",
+							registrationWrapperStyles.buttonText,
+						]}
 					>
 						Register
 					</Text>

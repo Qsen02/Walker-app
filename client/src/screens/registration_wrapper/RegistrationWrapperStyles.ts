@@ -2,7 +2,7 @@ import { StyleSheet } from "react-native";
 
 export const registrationWrapperStyles=StyleSheet.create({
     wrapper:{
-        width:"70%",
+        width:"80%",
         height:"70%",
         marginTop:120,
         marginLeft:"auto",
@@ -10,26 +10,30 @@ export const registrationWrapperStyles=StyleSheet.create({
         borderRadius:15,
         display:"flex",
         flexDirection:"column",
-        alignItems:"center"
+        alignItems:"center",
+        overflow:"hidden"
     },
     header:{
         width:"100%",
-        padding:20,
+        height:60,
         display:"flex",
         flexDirection:"row",
         justifyContent:"center",
-        gap:70,
         borderBottomColor:"grey",
         borderBottomWidth:1,
-        borderStyle:"solid"
+        borderStyle:"solid",
     },
     touched:{
-        backgroundColor:"lightgrey",
+        backgroundColor:"rgb(200,200,200)",
         color:"white"
     },
     button:{
-        flexBasis:"45%",
-        width:"100%",
-        height:"100%"
+       width:"50%",
+       height:"100%",
+    },
+    buttonText:{
+        marginTop:18,
+        marginLeft:50,
+        fontSize:16,
     }
 })
