@@ -24,5 +24,40 @@ export const globalStyles=StyleSheet.create({
     whiteThemeDark:{
         backgroundColor:"rgb(220,220,220)",
         color:"black"
+    },
+    formWrapper:{
+        width:"90%",
+        textAlign:"center",
+        fontSize:16,
+        display:"flex",
+        flexDirection:"column",
+        alignItems:"center",
+        gap:20
+    },
+    inputWrapper:{
+        width:"90%",
+        display:"flex",
+        flexDirection:"column",
+        gap:10,
+        alignItems:"center"
+    },
+    input:{
+        width:"100%",
+        borderRadius:10,
+        paddingLeft:10,
+        fontSize:14
+    },
+    button:{
+        paddingLeft:20,
+        paddingTop:10,
+        paddingRight:20,
+        paddingBottom:10,
+        backgroundColor:"rgba(6, 173, 0, 1)",
+        borderRadius:10,
+    },
+    buttonText:{
+        color:"white",
+        fontSize:16,
+        fontWeight:"bold"
     }
 })

@@ -8,6 +8,7 @@ export type RootStackParamList = {
 	Water: { userId: string };
 	StepsDetails: { stepsId: string };
 	WaterDetails: { waterId: string };
+	Profile: { userId: string };
 };
 
-export type NavigationType=NativeStackNavigationProp<RootStackParamList>
+export type NavigationType = NativeStackNavigationProp<RootStackParamList>;

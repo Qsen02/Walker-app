@@ -3,8 +3,8 @@ import { StyleSheet } from "react-native";
 export const registrationWrapperStyles=StyleSheet.create({
     wrapper:{
         width:"80%",
-        height:"70%",
-        marginTop:120,
+        height:"auto",
+        marginTop:170,
         marginLeft:"auto",
         marginRight:"auto",
         borderRadius:15,
