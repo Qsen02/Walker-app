@@ -8,9 +8,15 @@ import {
 import { useUserThemeContext } from "../../contexts/user_theme_context";
 import { globalStyles } from "../../../globalStyles";
 import { loginStyles } from "./LoginStyles";
+import { useState } from "react";
+import InputField from "../../commons/input_field/InputField";
 
 export default function Login() {
 	const { theme } = useUserThemeContext();
+	const [formValues, setFormValues] = useState({
+		username: "",
+		password: "",
+	});
 
 	return (
 		<SafeAreaView
@@ -19,49 +25,25 @@ export default function Login() {
 					? globalStyles.whiteThemeNormal
 					: globalStyles.darkThemeNormal,
 				globalStyles.formWrapper,
-                loginStyles.wrapper
+				loginStyles.wrapper,
 			]}
 		>
-			<View style={globalStyles.inputWrapper}>
-				<Text
-					style={
-						theme == "light"
-							? { color: "black" }
-							: { color: "white" }
-					}
-				>
-					Username
-				</Text>
-				<TextInput
-					value=""
-					style={[
-						theme == "light"
-							? globalStyles.whiteThemeDark
-							: globalStyles.darkThemeLight,
-						globalStyles.input,
-					]}
-				/>
-			</View>
-			<View style={globalStyles.inputWrapper}>
-				<Text
-					style={
-						theme == "light"
-							? { color: "black" }
-							: { color: "white" }
-					}
-				>
-					Password
-				</Text>
-				<TextInput
-					value=""
-					style={[
-						theme == "light"
-							? globalStyles.whiteThemeDark
-							: globalStyles.darkThemeLight,
-						globalStyles.input,
-					]}
-				/>
-			</View>
+			<InputField
+				title="Username"
+				changeHanlder={(e: string) =>
+					setFormValues({ ...formValues, username: e })
+				}
+				value={formValues.username}
+				theme={theme}
+			/>
+			<InputField
+				title="Password"
+				changeHanlder={(e: string) =>
+					setFormValues({ ...formValues, password: e })
+				}
+				value={formValues.password}
+				theme={theme}
+			/>
 			<TouchableOpacity style={globalStyles.button}>
 				<Text style={globalStyles.buttonText}>SUBMIT</Text>
 			</TouchableOpacity>

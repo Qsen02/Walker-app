@@ -1,0 +1,49 @@
+import { KeyboardTypeOptions, View, Text, TextInput } from "react-native";
+import { globalStyles } from "../../../globalStyles";
+
+interface InputFieldProps {
+	title: string;
+	changeHanlder: (e: string) => void;
+	value: string;
+	placeholder?: string;
+	keyboardType?: KeyboardTypeOptions;
+	theme: "light" | "dark" | undefined;
+}
+
+export default function InputField({
+	title,
+	changeHanlder,
+	value,
+	placeholder,
+	keyboardType,
+	theme,
+}: InputFieldProps) {
+	return (
+		<View style={globalStyles.inputWrapper}>
+			<Text
+				style={
+					theme == "light" ? { color: "black" } : { color: "white" }
+				}
+			>
+				{title}
+			</Text>
+			<TextInput
+				style={[
+					theme == "light"
+						? globalStyles.whiteThemeDark
+						: globalStyles.darkThemeLight,
+					globalStyles.input,
+				]}
+				onChangeText={changeHanlder}
+				value={value}
+				placeholder={placeholder}
+				keyboardType={keyboardType}
+				secureTextEntry={
+					title == "Password" || title == "Repeat password"
+						? true
+						: false
+				}
+			/>
+		</View>
+	);
+}
