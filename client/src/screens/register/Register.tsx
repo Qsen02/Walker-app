@@ -16,7 +16,15 @@ export default function Register() {
 			]}
 		>
 			<View style={globalStyles.inputWrapper}>
-				<Text>Username</Text>
+				<Text
+					style={
+						theme == "light"
+							? { color: "black" }
+							: { color: "white" }
+					}
+				>
+					Username
+				</Text>
 				<TextInput
 					value=""
 					style={[
@@ -28,7 +36,15 @@ export default function Register() {
 				/>
 			</View>
 			<View style={globalStyles.inputWrapper}>
-				<Text>Email</Text>
+				<Text
+					style={
+						theme == "light"
+							? { color: "black" }
+							: { color: "white" }
+					}
+				>
+					Email
+				</Text>
 				<TextInput
 					value=""
 					style={[
@@ -40,7 +56,15 @@ export default function Register() {
 				/>
 			</View>
 			<View style={globalStyles.inputWrapper}>
-				<Text>Password</Text>
+				<Text
+					style={
+						theme == "light"
+							? { color: "black" }
+							: { color: "white" }
+					}
+				>
+					Password
+				</Text>
 				<TextInput
 					value=""
 					style={[
@@ -52,7 +76,15 @@ export default function Register() {
 				/>
 			</View>
 			<View style={globalStyles.inputWrapper}>
-				<Text>Repeat password</Text>
+				<Text
+					style={
+						theme == "light"
+							? { color: "black" }
+							: { color: "white" }
+					}
+				>
+					Repeat password
+				</Text>
 				<TextInput
 					value=""
 					style={[
