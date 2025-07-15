@@ -1,9 +1,7 @@
 import {
 	SafeAreaView,
 	Text,
-	TextInput,
-	TouchableOpacity,
-	View,
+	TouchableOpacity
 } from "react-native";
 import { useUserThemeContext } from "../../contexts/user_theme_context";
 import { globalStyles } from "../../../globalStyles";
