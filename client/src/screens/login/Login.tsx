@@ -1,20 +1,61 @@
-import {
-	SafeAreaView,
-	Text,
-	TouchableOpacity
-} from "react-native";
+import { SafeAreaView, Text, TouchableOpacity } from "react-native";
 import { useUserThemeContext } from "../../contexts/user_theme_context";
 import { globalStyles } from "../../../globalStyles";
 import { loginStyles } from "./LoginStyles";
 import { useState } from "react";
 import InputField from "../../commons/input_field/InputField";
+import { useLogin } from "../../hooks/userUser";
+import { useNavigation } from "@react-navigation/native";
+import { NavigationType } from "../../types/RoutingTable";
 
 export default function Login() {
-	const { theme } = useUserThemeContext();
+	const { theme, setUser } = useUserThemeContext();
 	const [formValues, setFormValues] = useState({
 		username: "",
 		password: "",
 	});
+	const login = useLogin();
+	const [isErr, setIsErr] = useState(false);
+	const [errMessage, setErrMessage] = useState("");
+	const navigation = useNavigation<NavigationType>();
+
+	async function onLogin() {
+		try {
+			const username = formValues.username;
+			const password = formValues.password;
+			let isErrorsHave=false
+			if (username.length < 2) {
+				isErrorsHave=true;
+			}
+			if (!/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/.test(password)) {
+				isErrorsHave=true;
+			}
+			if (isErrorsHave) {
+				setErrMessage("Username or password don't match!");
+				setIsErr(true);
+				return;
+			}
+			const user = await login({
+				username: username,
+				password: password,
+			});
+			if (setUser) {
+				setUser(user);
+			}
+			setFormValues({
+				username: "",
+				password: "",
+			});
+			navigation.navigate("Home");
+		} catch (err) {
+			if (err instanceof Error) {
+				setErrMessage(err.message);
+			} else {
+				setErrMessage("Error occurd!");
+			}
+			return;
+		}
+	}
 
 	return (
 		<SafeAreaView
@@ -26,6 +67,7 @@ export default function Login() {
 				loginStyles.wrapper,
 			]}
 		>
+			{isErr ? <Text style={globalStyles.errors}>{errMessage}</Text> : ""}
 			<InputField
 				title="Username"
 				changeHanlder={(e: string) =>
@@ -42,7 +84,7 @@ export default function Login() {
 				value={formValues.password}
 				theme={theme}
 			/>
-			<TouchableOpacity style={globalStyles.button}>
+			<TouchableOpacity style={globalStyles.button} onPress={onLogin}>
 				<Text style={globalStyles.buttonText}>SUBMIT</Text>
 			</TouchableOpacity>
 		</SafeAreaView>
