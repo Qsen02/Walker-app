@@ -1,7 +1,7 @@
 import { Water } from "../types/water";
 import { get, post, put } from "./requester";
 
-const endpoint = "/water";
+const endpoint = "water";
 
 export async function getWaterById(waterId:string){
     const data = await get(`${endpoint}/${waterId}`);

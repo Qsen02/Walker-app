@@ -3,7 +3,7 @@ import { User, UserForAuth } from "../types/user";
 import { Water } from "../types/water";
 import { get, post, put } from "./requester";
 
-const endpoint = "/users";
+const endpoint = "users";
 
 export async function logout(){
     await get(`${endpoint}/logout`);

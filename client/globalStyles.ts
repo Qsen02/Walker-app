@@ -1,63 +1,68 @@
 import { StyleSheet } from "react-native";
 
-export const globalStyles=StyleSheet.create({
-    darkThemeLight:{
-        backgroundColor:"rgb(60,60,60)",
-        color:"white"
-    },
-    darkThemeNormal:{
-        backgroundColor:"rgb(40,40,40)",
-        color:"white"
-    },
-    darkThemeDarker:{
-        backgroundColor:"rgb(20,20,20)",
-        color:"white"
-    },
-    whiteThemeLighter:{
-        backgroundColor:"white",
-        color:"black"
-    },
-    whiteThemeNormal:{
-        backgroundColor:"rgb(240,240,240)",
-        color:"black"
-    },
-    whiteThemeDark:{
-        backgroundColor:"rgb(220,220,220)",
-        color:"black"
-    },
-    formWrapper:{
-        width:"90%",
-        textAlign:"center",
-        fontSize:16,
-        display:"flex",
-        flexDirection:"column",
-        alignItems:"center",
-        gap:20
-    },
-    inputWrapper:{
-        width:"90%",
-        display:"flex",
-        flexDirection:"column",
-        gap:10,
-        alignItems:"center"
-    },
-    input:{
-        width:"100%",
-        borderRadius:10,
-        paddingLeft:10,
-        fontSize:14
-    },
-    button:{
-        paddingLeft:20,
-        paddingTop:10,
-        paddingRight:20,
-        paddingBottom:10,
-        backgroundColor:"rgba(6, 173, 0, 1)",
-        borderRadius:10,
-    },
-    buttonText:{
-        color:"white",
-        fontSize:16,
-        fontWeight:"bold"
-    }
-})
+export const globalStyles = StyleSheet.create({
+	darkThemeLight: {
+		backgroundColor: "rgb(60,60,60)",
+		color: "white",
+	},
+	darkThemeNormal: {
+		backgroundColor: "rgb(40,40,40)",
+		color: "white",
+	},
+	darkThemeDarker: {
+		backgroundColor: "rgb(20,20,20)",
+		color: "white",
+	},
+	whiteThemeLighter: {
+		backgroundColor: "white",
+		color: "black",
+	},
+	whiteThemeNormal: {
+		backgroundColor: "rgb(240,240,240)",
+		color: "black",
+	},
+	whiteThemeDark: {
+		backgroundColor: "rgb(220,220,220)",
+		color: "black",
+	},
+	formWrapper: {
+		width: "90%",
+		textAlign: "center",
+		fontSize: 16,
+		display: "flex",
+		flexDirection: "column",
+		alignItems: "center",
+		gap: 20,
+	},
+	inputWrapper: {
+		width: "90%",
+		display: "flex",
+		flexDirection: "column",
+		gap: 10,
+		alignItems: "center",
+	},
+	input: {
+		width: "100%",
+		borderRadius: 10,
+		paddingLeft: 10,
+		fontSize: 14,
+	},
+	button: {
+		paddingLeft: 20,
+		paddingTop: 10,
+		paddingRight: 20,
+		paddingBottom: 10,
+		backgroundColor: "rgba(6, 173, 0, 1)",
+		borderRadius: 10,
+	},
+	buttonText: {
+		color: "white",
+		fontSize: 16,
+		fontWeight: "bold",
+	},
+	errors: {
+		fontSize: 14,
+		color: "red",
+        textAlign:"center"
+	},
+});

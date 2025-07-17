@@ -1,6 +1,6 @@
 import { getUserData, removeData } from "../utils/userHelper";
 
-const host="https://1a491f8ee62b.ngrok-free.app";
+const host="https://f7a1e25a79a1.ngrok-free.app";
 
 export async function request(method: string, url: string, data?: object) {
 	const headers: Record<string, string> = {

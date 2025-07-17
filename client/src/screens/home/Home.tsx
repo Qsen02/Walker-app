@@ -8,6 +8,7 @@ export default function HomeScreen() {
 	return (
 		<View style={homeStyles.container}>
 			<Text>Home works!</Text>
+			<Text>{userState?.username}</Text>
 		</View>
 	);
 }

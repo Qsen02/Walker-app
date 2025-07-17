@@ -1,7 +1,7 @@
 import { Steps } from "../types/steps";
 import { get, post, put } from "./requester";
 
-const endpoint="/steps";
+const endpoint="steps";
 
 export async function getStepsById(stpesId:string){
     const data=await get(`${endpoint}/${stpesId}`);

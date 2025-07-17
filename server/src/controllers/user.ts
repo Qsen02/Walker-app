@@ -77,7 +77,7 @@ userRouter.post(
 		.trim()
 		.matches(/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/)
 		.withMessage(
-			"Password must be at least 6 symbols ant must contain digits, letters and at least one capital letter and special symbol!"
+			"Password must be at least 6 symbols and must contain digits, letters and at least one capital letter and special symbol!"
 		),
 	body("repass")
 		.trim()

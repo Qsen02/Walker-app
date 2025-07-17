@@ -4,14 +4,74 @@ import { globalStyles } from "../../../globalStyles";
 import { SafeAreaView } from "react-native-safe-area-context";
 import InputField from "../../commons/input_field/InputField";
 import { useState } from "react";
+import { useRegister } from "../../hooks/userUser";
+import { useNavigation } from "@react-navigation/native";
+import { NavigationType } from "../../types/RoutingTable";
 
 export default function Register() {
-	const { theme } = useUserThemeContext();
+	const { theme, setUser } = useUserThemeContext();
 	const [formValues, setFormValues] = useState({
 		username: "",
 		email: "",
-		password: "",		repass: "",
+		password: "",
+		repass: "",
 	});
+	const [isErr, setIsErr] = useState(false);
+	const [errMessage, setErrMessage] = useState("");
+	const register = useRegister();
+	const navigation = useNavigation<NavigationType>();
+
+	async function onRegister() {
+		try {
+			const username = formValues.username;
+			const email = formValues.email;
+			const password = formValues.password;
+			const repass = formValues.repass;
+			const errors: string[] = [];
+			if (username.length < 2) {
+				errors.push("Username must be at least 2 letters long!");
+			}
+			if (!/^[a-z0-9]+@[a-z0-9]+\.[a-z0-9]+$/.test(email)) {
+				errors.push("Email must be valid email!");
+			}
+			if (!/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/.test(password)) {
+				errors.push(
+					"Password must be at least 6 symbols and must contain digits, letters and at least one capital letter and special symbol!"
+				);
+			}
+			if (password != repass) {
+				errors.push("Repeat password must match!");
+			}
+			if (errors.length > 0) {
+				setErrMessage(errors.join("\n"));
+				setIsErr(true);
+				return;
+			}
+			const newUser = await register({
+				username: username,
+				email: email,
+				password: password,
+				repass: repass,
+			});
+			if (setUser) {
+				setUser(newUser);
+			}
+			setFormValues({
+				username: "",
+				email: "",
+				password: "",
+				repass: "",
+			});
+			navigation.navigate("Home");
+		} catch (err) {
+			if (err instanceof Error) {
+				setErrMessage(err.message);
+			} else {
+				setErrMessage("Error occurd!");
+			}
+			return;
+		}
+	}
 
 	return (
 		<SafeAreaView
@@ -22,6 +82,7 @@ export default function Register() {
 				globalStyles.formWrapper,
 			]}
 		>
+			{isErr ? <Text style={globalStyles.errors}>{errMessage}</Text> : ""}
 			<InputField
 				title="Username"
 				changeHanlder={(e: string) =>
@@ -54,7 +115,7 @@ export default function Register() {
 				value={formValues.repass}
 				theme={theme}
 			/>
-			<TouchableOpacity style={globalStyles.button}>
+			<TouchableOpacity style={globalStyles.button} onPress={onRegister}>
 				<Text style={globalStyles.buttonText}>SUBMIT</Text>
 			</TouchableOpacity>
 		</SafeAreaView>
