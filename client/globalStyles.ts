@@ -63,6 +63,25 @@ export const globalStyles = StyleSheet.create({
 	errors: {
 		fontSize: 14,
 		color: "red",
-        textAlign:"center"
+		textAlign: "center",
 	},
+	modalOverlay: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		backgroundColor: "rgba(0,0,0,0.5)",
+	},
+    modalContainer:{
+        width:"90%",
+        padding:20,
+        display:"flex",
+        flexDirection:"column",
+        alignItems:"center",
+        fontSize:16,
+        gap:20,
+        borderRadius:15
+    },
+    modalText:{
+        textAlign:"center"
+    }
 });

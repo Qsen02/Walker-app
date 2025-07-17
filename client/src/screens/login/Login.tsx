@@ -7,6 +7,7 @@ import InputField from "../../commons/input_field/InputField";
 import { useLogin } from "../../hooks/userUser";
 import { useNavigation } from "@react-navigation/native";
 import { NavigationType } from "../../types/RoutingTable";
+import ErrorModal from "../../commons/error_modal/ErrorModal";
 
 export default function Login() {
 	const { theme, setUser } = useUserThemeContext();
@@ -23,12 +24,12 @@ export default function Login() {
 		try {
 			const username = formValues.username;
 			const password = formValues.password;
-			let isErrorsHave=false
+			let isErrorsHave = false;
 			if (username.length < 2) {
-				isErrorsHave=true;
+				isErrorsHave = true;
 			}
 			if (!/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/.test(password)) {
-				isErrorsHave=true;
+				isErrorsHave = true;
 			}
 			if (isErrorsHave) {
 				setErrMessage("Username or password don't match!");
@@ -58,35 +59,47 @@ export default function Login() {
 	}
 
 	return (
-		<SafeAreaView
-			style={[
-				theme == "light"
-					? globalStyles.whiteThemeNormal
-					: globalStyles.darkThemeNormal,
-				globalStyles.formWrapper,
-				loginStyles.wrapper,
-			]}
-		>
-			{isErr ? <Text style={globalStyles.errors}>{errMessage}</Text> : ""}
-			<InputField
-				title="Username"
-				changeHanlder={(e: string) =>
-					setFormValues({ ...formValues, username: e })
-				}
-				value={formValues.username}
-				theme={theme}
-			/>
-			<InputField
-				title="Password"
-				changeHanlder={(e: string) =>
-					setFormValues({ ...formValues, password: e })
-				}
-				value={formValues.password}
-				theme={theme}
-			/>
-			<TouchableOpacity style={globalStyles.button} onPress={onLogin}>
-				<Text style={globalStyles.buttonText}>SUBMIT</Text>
-			</TouchableOpacity>
-		</SafeAreaView>
+		<>
+			{isErr ? (
+				<ErrorModal
+					message={errMessage}
+					visible={isErr}
+					visibleHanlder={setIsErr}
+					messageHandler={setErrMessage}
+					theme={theme}
+				/>
+			) : (
+				""
+			)}
+			<SafeAreaView
+				style={[
+					theme == "light"
+						? globalStyles.whiteThemeNormal
+						: globalStyles.darkThemeNormal,
+					globalStyles.formWrapper,
+					loginStyles.wrapper,
+				]}
+			>
+				<InputField
+					title="Username"
+					changeHanlder={(e: string) =>
+						setFormValues({ ...formValues, username: e })
+					}
+					value={formValues.username}
+					theme={theme}
+				/>
+				<InputField
+					title="Password"
+					changeHanlder={(e: string) =>
+						setFormValues({ ...formValues, password: e })
+					}
+					value={formValues.password}
+					theme={theme}
+				/>
+				<TouchableOpacity style={globalStyles.button} onPress={onLogin}>
+					<Text style={globalStyles.buttonText}>SUBMIT</Text>
+				</TouchableOpacity>
+			</SafeAreaView>
+		</>
 	);
 }

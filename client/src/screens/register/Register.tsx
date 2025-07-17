@@ -7,6 +7,7 @@ import { useState } from "react";
 import { useRegister } from "../../hooks/userUser";
 import { useNavigation } from "@react-navigation/native";
 import { NavigationType } from "../../types/RoutingTable";
+import ErrorModal from "../../commons/error_modal/ErrorModal";
 
 export default function Register() {
 	const { theme, setUser } = useUserThemeContext();
@@ -74,50 +75,65 @@ export default function Register() {
 	}
 
 	return (
-		<SafeAreaView
-			style={[
-				theme == "light"
-					? globalStyles.whiteThemeNormal
-					: globalStyles.darkThemeNormal,
-				globalStyles.formWrapper,
-			]}
-		>
-			{isErr ? <Text style={globalStyles.errors}>{errMessage}</Text> : ""}
-			<InputField
-				title="Username"
-				changeHanlder={(e: string) =>
-					setFormValues({ ...formValues, username: e })
-				}
-				value={formValues.username}
-				theme={theme}
-			/>
-			<InputField
-				title="Email"
-				changeHanlder={(e: string) =>
-					setFormValues({ ...formValues, email: e })
-				}
-				value={formValues.email}
-				theme={theme}
-			/>
-			<InputField
-				title="Password"
-				changeHanlder={(e: string) =>
-					setFormValues({ ...formValues, password: e })
-				}
-				value={formValues.password}
-				theme={theme}
-			/>
-			<InputField
-				title="Repeat password"
-				changeHanlder={(e: string) =>
-					setFormValues({ ...formValues, repass: e })
-				}
-				value={formValues.repass}
-				theme={theme}
-			/>
-			<TouchableOpacity style={globalStyles.button} onPress={onRegister}>
-				<Text style={globalStyles.buttonText}>SUBMIT</Text>
-			</TouchableOpacity>
-		</SafeAreaView>
+		<>
+			{isErr ? (
+				<ErrorModal
+					message={errMessage}
+					visible={isErr}
+					visibleHanlder={setIsErr}
+					messageHandler={setErrMessage}
+					theme={theme}
+				/>
+			) : (
+				""
+			)}
+			<SafeAreaView
+				style={[
+					theme == "light"
+						? globalStyles.whiteThemeNormal
+						: globalStyles.darkThemeNormal,
+					globalStyles.formWrapper,
+				]}
+			>
+				<InputField
+					title="Username"
+					changeHanlder={(e: string) =>
+						setFormValues({ ...formValues, username: e })
+					}
+					value={formValues.username}
+					theme={theme}
+				/>
+				<InputField
+					title="Email"
+					changeHanlder={(e: string) =>
+						setFormValues({ ...formValues, email: e })
+					}
+					value={formValues.email}
+					theme={theme}
+				/>
+				<InputField
+					title="Password"
+					changeHanlder={(e: string) =>
+						setFormValues({ ...formValues, password: e })
+					}
+					value={formValues.password}
+					theme={theme}
+				/>
+				<InputField
+					title="Repeat password"
+					changeHanlder={(e: string) =>
+						setFormValues({ ...formValues, repass: e })
+					}
+					value={formValues.repass}
+					theme={theme}
+				/>
+				<TouchableOpacity
+					style={globalStyles.button}
+					onPress={onRegister}
+				>
+					<Text style={globalStyles.buttonText}>SUBMIT</Text>
+				</TouchableOpacity>
+			</SafeAreaView>
+		</>
 	);
 }
