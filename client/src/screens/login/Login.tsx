@@ -4,7 +4,7 @@ import { globalStyles } from "../../../globalStyles";
 import { loginStyles } from "./LoginStyles";
 import { useState } from "react";
 import InputField from "../../commons/input_field/InputField";
-import { useLogin } from "../../hooks/userUser";
+import { useLogin } from "../../hooks/useUser";
 import { useNavigation } from "@react-navigation/native";
 import { NavigationType } from "../../types/RoutingTable";
 import ErrorModal from "../../commons/error_modal/ErrorModal";

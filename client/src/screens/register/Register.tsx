@@ -4,7 +4,7 @@ import { globalStyles } from "../../../globalStyles";
 import { SafeAreaView } from "react-native-safe-area-context";
 import InputField from "../../commons/input_field/InputField";
 import { useState } from "react";
-import { useRegister } from "../../hooks/userUser";
+import { useRegister } from "../../hooks/useUser";
 import { useNavigation } from "@react-navigation/native";
 import { NavigationType } from "../../types/RoutingTable";
 import ErrorModal from "../../commons/error_modal/ErrorModal";

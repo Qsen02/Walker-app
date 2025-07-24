@@ -3,9 +3,11 @@ import { homeStyles } from "./HomeStyles";
 import { useUserThemeContext } from "../../contexts/user_theme_context";
 import { globalStyles } from "../../../globalStyles";
 import Icon from "react-native-vector-icons/FontAwesome6";
+import { useGetOneUser } from "../../hooks/useUser";
 
 export default function HomeScreen() {
 	const {userState, removeUser, theme, changeTheme } = useUserThemeContext();
+	const {user,loading,error}=useGetOneUser(null,userState?._id);
 
 	async function onLogout() {
 		if (removeUser) {
