@@ -6,8 +6,8 @@ import Icon from "react-native-vector-icons/FontAwesome6";
 import { useGetOneUser } from "../../hooks/useUser";
 
 export default function HomeScreen() {
-	const {userState, removeUser, theme, changeTheme } = useUserThemeContext();
-	const {user,loading,error}=useGetOneUser(null,userState?._id);
+	const { userState, removeUser, theme, changeTheme } = useUserThemeContext();
+	const { user, loading, error } = useGetOneUser(null, userState?._id);
 
 	async function onLogout() {
 		if (removeUser) {
@@ -47,11 +47,81 @@ export default function HomeScreen() {
 			<Text
 				style={[
 					theme == "light" ? { color: "black" } : { color: "white" },
-					homeStyles.title
+					homeStyles.title,
 				]}
 			>
 				Walker app
 			</Text>
+			<View style={homeStyles.contentContainer}>
+				<TouchableOpacity style={homeStyles.contentItemWrapper}>
+					<View
+						style={[
+							theme == "light"
+								? globalStyles.whiteThemeNormal
+								: globalStyles.darkThemeNormal,
+							homeStyles.contentItems,
+						]}
+					>
+						<Text
+							style={[
+								theme == "light"
+									? { color: "black" }
+									: { color: "white" },
+								homeStyles.contenteItemText,
+							]}
+						>
+							Steps
+						</Text>
+						<Text
+							style={[
+								theme == "light"
+									? { color: "black" }
+									: { color: "white" },
+								homeStyles.contenteItemText,
+							]}
+						>
+							{
+								user?.activeDays[user.activeDays.length - 1]
+									.stepsCount
+							}
+						</Text>
+					</View>
+				</TouchableOpacity>
+				<TouchableOpacity style={homeStyles.contentItemWrapper}>
+					<View
+						style={[
+							theme == "light"
+								? globalStyles.whiteThemeNormal
+								: globalStyles.darkThemeNormal,
+							homeStyles.contentItems,
+						]}
+					>
+						<Text
+							style={[
+								theme == "light"
+									? { color: "black" }
+									: { color: "white" },
+								homeStyles.contenteItemText,
+							]}
+						>
+							Water
+						</Text>
+						<Text
+							style={[
+								theme == "light"
+									? { color: "black" }
+									: { color: "white" },
+								homeStyles.contenteItemText,
+							]}
+						>
+							{
+								user?.waterDays[user.waterDays.length - 1]
+									.waterCount
+							}
+						</Text>
+					</View>
+				</TouchableOpacity>
+			</View>
 		</View>
 	);
 }

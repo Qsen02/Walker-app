@@ -97,6 +97,7 @@ userRouter.post(
 			);
 			const token = setToken(user);
 			res.json({
+				_id:user?._id,
 				username: user.username,
 				email: user.email,
 				purpose: user.purpose,
@@ -133,6 +134,7 @@ userRouter.post(
 			const user = await login(fields.username, fields.password);
 			const token = setToken(user);
 			res.json({
+				_id:user?._id,
 				username: user?.username,
 				email: user?.email,
 				purpose: user?.purpose,
