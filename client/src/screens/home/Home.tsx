@@ -38,12 +38,19 @@ export default function HomeScreen() {
 			]}
 		>
 			<View style={homeStyles.buttonsContainer}>
+				<TouchableOpacity>
+					<Icon
+						name="circle-user"
+						color={theme == "light" ? "black" : "white"}
+						size={24}
+					/>
+				</TouchableOpacity>
 				<Icon
 					name="circle-half-stroke"
 					color={theme == "light" ? "black" : "white"}
 					size={24}
 					onPress={onChangeTheme}
-				></Icon>
+				/>
 				<TouchableOpacity
 					onPress={onLogout}
 					style={globalStyles.button}

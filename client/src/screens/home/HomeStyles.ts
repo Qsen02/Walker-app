@@ -11,12 +11,13 @@ export const homeStyles = StyleSheet.create({
 		gap: 20,
 	},
 	buttonsContainer: {
+		marginLeft:45,
 		width: "100%",
 		paddingRight: 30,
 		display: "flex",
 		flexDirection: "row",
 		gap: 20,
-		justifyContent: "flex-end",
+		justifyContent:"space-evenly",
 		alignItems: "center",
 	},
 	title: {
