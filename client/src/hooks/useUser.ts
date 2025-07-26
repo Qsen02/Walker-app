@@ -39,7 +39,7 @@ export function useGetOneUser(initialValues: null, userId: string | undefined) {
 				return;
 			}
 		})();
-	});
+	},[]);
 
 	return {
 		user,

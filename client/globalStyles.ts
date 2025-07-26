@@ -94,4 +94,23 @@ export const globalStyles = StyleSheet.create({
 		gap: 30,
 		justifyContent: "center",
 	},
+	spinner:{
+		zIndex:1000,
+		position:"absolute",
+		top:"50%",
+		left:"50%",
+		transform:"translate(-50%)",
+	},
+	errorContainer:{
+		marginLeft:"auto",
+		marginRight:"auto",
+		marginTop:"85%",
+		width:"95%",
+		padding:20,
+		borderRadius:15
+	},
+	errorText:{
+		textAlign:"center",
+		fontSize:20
+	}
 });
