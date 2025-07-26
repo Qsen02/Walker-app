@@ -71,17 +71,27 @@ export const globalStyles = StyleSheet.create({
 		alignItems: "center",
 		backgroundColor: "rgba(0,0,0,0.5)",
 	},
-    modalContainer:{
-        width:"90%",
-        padding:20,
-        display:"flex",
-        flexDirection:"column",
-        alignItems:"center",
-        fontSize:16,
-        gap:20,
-        borderRadius:15
-    },
-    modalText:{
-        textAlign:"center"
-    }
+	modalContainer: {
+		width: "90%",
+		padding: 20,
+		display: "flex",
+		flexDirection: "column",
+		alignItems: "center",
+		fontSize: 16,
+		gap: 20,
+		borderRadius: 15,
+	},
+	modalText: {
+		textAlign: "center",
+	},
+	confirmModalText: {
+		textAlign: "center",
+		fontSize: 20,
+	},
+	confirmModalButtons: {
+		display: "flex",
+		flexDirection: "row",
+		gap: 30,
+		justifyContent: "center",
+	},
 });
