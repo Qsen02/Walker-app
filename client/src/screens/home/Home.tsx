@@ -4,14 +4,20 @@ import { useUserThemeContext } from "../../contexts/user_theme_context";
 import { globalStyles } from "../../../globalStyles";
 import Icon from "react-native-vector-icons/FontAwesome6";
 import { useGetOneUser } from "../../hooks/useUser";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { Routes } from "../../types/RoutingTable";
 
 export default function HomeScreen() {
 	const { userState, removeUser, theme, changeTheme } = useUserThemeContext();
 	const { user, loading, error } = useGetOneUser(null, userState?._id);
+	const navigation=useNavigation<NavigationProp<Routes>>();
 
 	async function onLogout() {
 		if (removeUser) {
 			await removeUser();
+			navigation.navigate("AuthGate",{
+				screen:"RegistrationWrapper"
+			});
 		}
 	}
 

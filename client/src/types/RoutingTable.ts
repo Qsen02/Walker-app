@@ -1,6 +1,7 @@
-import { NativeStackNavigationProp } from "@react-navigation/native-stack";
+import { ParamListBase } from "@react-navigation/native";
 
-export type RootStackParamList = {
+export interface Routes extends ParamListBase {
+	AuthGate: { screen: string };
 	Home: undefined;
 	Register: undefined;
 	Login: undefined;
@@ -9,6 +10,4 @@ export type RootStackParamList = {
 	StepsDetails: { stepsId: string };
 	WaterDetails: { waterId: string };
 	Profile: { userId: string };
-};
-
-export type NavigationType = NativeStackNavigationProp<RootStackParamList>;
+}

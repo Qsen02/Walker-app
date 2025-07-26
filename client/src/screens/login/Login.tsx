@@ -5,8 +5,8 @@ import { loginStyles } from "./LoginStyles";
 import { useState } from "react";
 import InputField from "../../commons/input_field/InputField";
 import { useLogin } from "../../hooks/useUser";
-import { useNavigation } from "@react-navigation/native";
-import { NavigationType } from "../../types/RoutingTable";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { Routes } from "../../types/RoutingTable";
 import ErrorModal from "../../commons/error_modal/ErrorModal";
 
 export default function Login() {
@@ -18,7 +18,7 @@ export default function Login() {
 	const login = useLogin();
 	const [isErr, setIsErr] = useState(false);
 	const [errMessage, setErrMessage] = useState("");
-	const navigation = useNavigation<NavigationType>();
+	const navigation = useNavigation<NavigationProp<Routes>>();
 
 	async function onLogin() {
 		try {
@@ -47,7 +47,9 @@ export default function Login() {
 				username: "",
 				password: "",
 			});
-			navigation.navigate("Home");
+			navigation.navigate("AuthGate",{
+				screen:"Home"
+			});
 		} catch (err) {
 			if (err instanceof Error) {
 				setErrMessage(err.message);
