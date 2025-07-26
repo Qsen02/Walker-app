@@ -6,17 +6,18 @@ import Icon from "react-native-vector-icons/FontAwesome6";
 import { useGetOneUser } from "../../hooks/useUser";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { Routes } from "../../types/RoutingTable";
+import Slider from "@react-native-community/slider";
 
 export default function HomeScreen() {
 	const { userState, removeUser, theme, changeTheme } = useUserThemeContext();
 	const { user, loading, error } = useGetOneUser(null, userState?._id);
-	const navigation=useNavigation<NavigationProp<Routes>>();
+	const navigation = useNavigation<NavigationProp<Routes>>();
 
 	async function onLogout() {
 		if (removeUser) {
 			await removeUser();
-			navigation.navigate("AuthGate",{
-				screen:"RegistrationWrapper"
+			navigation.navigate("AuthGate", {
+				screen: "RegistrationWrapper",
 			});
 		}
 	}
@@ -78,6 +79,33 @@ export default function HomeScreen() {
 						>
 							Steps
 						</Text>
+						{user ? (
+							<View
+								style={[
+									theme == "light"
+										? globalStyles.whiteThemeDark
+										: globalStyles.darkThemeLight,
+									homeStyles.sliderContainer,
+								]}
+							>
+								<View
+									style={[
+										homeStyles.slider,
+										{
+											width: `${
+												(user?.activeDays[
+													user.activeDays.length - 1
+												].stepsCount /
+													user?.purpose) *
+												100
+											}%`,
+										},
+									]}
+								></View>
+							</View>
+						) : (
+							<Text>Error! No user yet</Text>
+						)}
 						<Text
 							style={[
 								theme == "light"
@@ -90,6 +118,7 @@ export default function HomeScreen() {
 								user?.activeDays[user.activeDays.length - 1]
 									.stepsCount
 							}
+							/{user?.purpose}
 						</Text>
 					</View>
 				</TouchableOpacity>
@@ -123,7 +152,8 @@ export default function HomeScreen() {
 							{
 								user?.waterDays[user.waterDays.length - 1]
 									.waterCount
-							}
+							}{" "}
+							ml
 						</Text>
 					</View>
 				</TouchableOpacity>

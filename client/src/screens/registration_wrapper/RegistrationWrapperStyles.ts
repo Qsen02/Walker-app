@@ -4,7 +4,7 @@ export const registrationWrapperStyles=StyleSheet.create({
     wrapper:{
         width:"80%",
         height:"auto",
-        marginTop:170,
+        marginTop:70,
         marginLeft:"auto",
         marginRight:"auto",
         borderRadius:15,
