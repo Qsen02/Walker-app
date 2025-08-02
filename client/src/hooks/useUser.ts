@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getUserById, login, register } from "../api/userService";
 import { User } from "../types/user";
 import { useLoadingError } from "./useLoadingError";
-import { createSteps } from "../api/stepsService";
+import { incrementSteps } from "../api/stepsService";
 import { registrateBackgoundTask } from "../utils/checkMidnight";
 
 export function useRegister() {
@@ -48,4 +48,10 @@ export function useGetOneUser(initialValues: null, userId: string | undefined) {
 		loading,
 		error,
 	};
+}
+
+export function useIncrementSteps(){
+	return async function (stpesId:string | undefined){
+		return await incrementSteps(stpesId);
+	}
 }

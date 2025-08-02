@@ -13,7 +13,7 @@ export async function createSteps(){
     return data as Steps;
 }
 
-export async function incrementSteps(stepsId:string){
+export async function incrementSteps(stepsId:string | undefined){
     const updatedData = await put(`${endpoint}/${stepsId}`,{});
     return updatedData as Steps;
 }

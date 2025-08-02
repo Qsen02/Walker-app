@@ -3,17 +3,25 @@ import { homeStyles } from "./HomeStyles";
 import { useUserThemeContext } from "../../contexts/user_theme_context";
 import { globalStyles } from "../../../globalStyles";
 import Icon from "react-native-vector-icons/FontAwesome6";
-import { useGetOneUser } from "../../hooks/useUser";
+import { useGetOneUser, useIncrementSteps } from "../../hooks/useUser";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { Routes } from "../../types/RoutingTable";
 import { useState } from "react";
 import Logout from "./logout/Logout";
+import { Pedometer } from "expo-sensors";
 
 export default function HomeScreen() {
 	const { userState, removeUser, theme, changeTheme } = useUserThemeContext();
 	const { user, loading, error } = useGetOneUser(null, userState?._id);
 	const navigation = useNavigation<NavigationProp<Routes>>();
 	const [isLogoutActive, setIsLogoutActive] = useState(false);
+	const incrementSteps=useIncrementSteps();
+
+	Pedometer.watchStepCount(checkMovement)
+
+	async function checkMovement(result:{steps:number}) {
+			await incrementSteps(user?.activeDays[user.activeDays.length-1]._id);
+	}
 
 	function openLogout() {
 		setIsLogoutActive(true);
