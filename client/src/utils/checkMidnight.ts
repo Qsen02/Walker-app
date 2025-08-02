@@ -17,7 +17,7 @@ TaskManager.defineTask(CHECK_MIDNIGHT, async () => {
 		if (hour === 0 && minute === 0 && today != lastRun) {
 			await createSteps();
 			await AsyncStorage.setItem("lastMidnightRequest", today);
-			console.log("Request sen successfully at midnight!");
+			console.log("Request send successfully at midnight!");
 			return BackgoundFetch.BackgroundFetchResult.NewData;
 		}
 
@@ -28,20 +28,22 @@ TaskManager.defineTask(CHECK_MIDNIGHT, async () => {
 	}
 });
 
-export async function registrateBackgoundTask(){
-    try{
-        const isRegitrated=await TaskManager.isTaskRegisteredAsync(CHECK_MIDNIGHT);
+export async function registrateBackgoundTask() {
+	try {
+		const isRegitrated = await TaskManager.isTaskRegisteredAsync(
+			CHECK_MIDNIGHT
+		);
 
-        if(!isRegitrated){
-            await BackgoundFetch.registerTaskAsync(CHECK_MIDNIGHT,{
-                minimumInterval:60*15,
-                stopOnTerminate:false,
-                startOnBoot:true
-            });
-        }
-        console.log("Task was registrated successfull!");
-    }catch(err){
-        console.log("Task was not regitrated successfully");
-        return;
-    }
+		if (isRegitrated) {
+			await BackgoundFetch.registerTaskAsync(CHECK_MIDNIGHT, {
+				minimumInterval: 60 * 15,
+				stopOnTerminate: false,
+				startOnBoot: true,
+			});
+			console.log("Task was registrated successfull!");
+		}
+	} catch (err) {
+		console.log("Task was not regitrated successfully");
+		return;
+	}
 }
