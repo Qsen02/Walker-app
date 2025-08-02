@@ -15,12 +15,12 @@ export default function HomeScreen() {
 	const { user, loading, error } = useGetOneUser(null, userState?._id);
 	const navigation = useNavigation<NavigationProp<Routes>>();
 	const [isLogoutActive, setIsLogoutActive] = useState(false);
-	const incrementSteps=useIncrementSteps();
+	const incrementSteps = useIncrementSteps();
 
-	Pedometer.watchStepCount(checkMovement)
+	Pedometer.watchStepCount(checkMovement);
 
-	async function checkMovement(result:{steps:number}) {
-			await incrementSteps(user?.activeDays[user.activeDays.length-1]._id);
+	async function checkMovement(result: { steps: number }) {
+		await incrementSteps(user?.activeDays[user.activeDays.length - 1]._id);
 	}
 
 	function openLogout() {
