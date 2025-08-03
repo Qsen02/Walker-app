@@ -8,19 +8,37 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { Routes } from "../../types/RoutingTable";
 import { useState } from "react";
 import Logout from "./logout/Logout";
-import { Pedometer } from "expo-sensors";
+import { Accelerometer } from "expo-sensors";
+
+interface AccelerometerProps {
+	x: number;
+	y: number;
+	z: number;
+}
 
 export default function HomeScreen() {
 	const { userState, removeUser, theme, changeTheme } = useUserThemeContext();
 	const { user, loading, error } = useGetOneUser(null, userState?._id);
+	const [steps, setSteps] = useState(
+		user?.activeDays[user?.activeDays.length - 1].stepsCount
+	);
 	const navigation = useNavigation<NavigationProp<Routes>>();
 	const [isLogoutActive, setIsLogoutActive] = useState(false);
 	const incrementSteps = useIncrementSteps();
 
-	Pedometer.watchStepCount(checkMovement);
+	Accelerometer.addListener(checkMovement);
 
-	async function checkMovement(result: { steps: number }) {
-		await incrementSteps(user?.activeDays[user.activeDays.length - 1]._id);
+	async function checkMovement({ x, y, z }: AccelerometerProps) {
+		const totalForce = Math.sqrt(x * x + y * y + z * z);
+		const delta = Math.abs(totalForce - 1);
+		if (delta > 1.2 && user) {
+			await incrementSteps(
+				user.activeDays[user.activeDays.length - 1]._id
+			);
+			setSteps((value: number | undefined) =>
+				value ? value + 1 : value
+			);
+		}
 	}
 
 	function openLogout() {
@@ -131,7 +149,7 @@ export default function HomeScreen() {
 								>
 									Steps
 								</Text>
-								{user ? (
+								{user && steps? (
 									<View
 										style={[
 											theme == "light"
@@ -145,10 +163,7 @@ export default function HomeScreen() {
 												homeStyles.slider,
 												{
 													width: `${
-														(user?.activeDays[
-															user.activeDays
-																.length - 1
-														].stepsCount /
+														(steps /
 															user?.purpose) *
 														100
 													}%`,
@@ -167,12 +182,7 @@ export default function HomeScreen() {
 										homeStyles.contenteItemText,
 									]}
 								>
-									{
-										user?.activeDays[
-											user.activeDays.length - 1
-										].stepsCount
-									}
-									/{user?.purpose}
+									{steps}/{user?.purpose}
 								</Text>
 							</View>
 						</TouchableOpacity>
