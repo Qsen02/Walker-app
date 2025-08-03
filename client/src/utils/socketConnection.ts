@@ -5,8 +5,8 @@ export function connectSocket(){
     socket.connect();
 }
 
-export function sendMovement(stepsId:string){
-    socket.emit("movement",stepsId);
+export function sendMovement(stepsCount:number){
+    socket.emit("movement",stepsCount);
 }
 
 export function sendMidnight(){
