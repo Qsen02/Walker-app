@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { getUserById, login, register } from "../api/userService";
+import { getActiveDays, getUserById, login, register } from "../api/userService";
 import { User } from "../types/user";
 import { useLoadingError } from "./useLoadingError";
-import { incrementSteps } from "../api/stepsService";
+import {  incrementSteps } from "../api/stepsService";
 import { registrateBackgoundTask } from "../utils/checkMidnight";
 import { Accelerometer } from "expo-sensors";
+import { Steps } from "../types/steps";
 
 interface AccelerometerProps {
 	x: number;
@@ -77,4 +78,33 @@ export function useGetOneUser(initialValues: null, userId: string | undefined) {
 		error,
 		steps,
 	};
+}
+
+export function useGetLastSteps(
+	initialValues: [],
+	userId: string
+) {
+	const [steps,setSteps]=useState<Steps[]>(initialValues);
+	const { loading, setLoading, error, setError } = useLoadingError(
+		false,
+		false
+	);
+
+		useEffect(() => {
+		(async () => {
+			try {
+				setLoading(true);
+				const curSteps=await getActiveDays(userId);
+				setSteps(curSteps);
+				setLoading(false);
+			} catch (err) {
+				setLoading(false);
+				setError(true);
+			}
+		})();
+	}, []);
+
+	return {
+		steps,loading,error
+	}
 }

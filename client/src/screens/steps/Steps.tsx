@@ -5,12 +5,14 @@ import { useUserThemeContext } from "../../contexts/user_theme_context";
 import { globalStyles } from "../../../globalStyles";
 import { stepsStyles } from "./StepsStyles";
 import Icon from "react-native-vector-icons/FontAwesome6";
+import { useGetLastSteps } from "../../hooks/useUser";
 
 export default function Steps() {
 	const { theme } = useUserThemeContext();
 	const route = useRoute<RouteProp<Routes, "Steps">>();
 	const { userId } = route.params;
     const navigation=useNavigation<NavigationProp<Routes>>();
+    const {steps,loading,error}=useGetLastSteps([],userId);
 
 	return (
 		<View
