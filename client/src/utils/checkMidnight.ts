@@ -28,7 +28,7 @@ TaskManager.defineTask(CHECK_MIDNIGHT, async () => {
 	}
 });
 
-export async function registrateBackgoundTask() {
+export async function registrateBackgoundTask(setStepsHanlder:React.Dispatch<React.SetStateAction<number>>) {
 	try {
 		const isRegitrated = await TaskManager.isTaskRegisteredAsync(
 			CHECK_MIDNIGHT
@@ -40,6 +40,7 @@ export async function registrateBackgoundTask() {
 				stopOnTerminate: false,
 				startOnBoot: true,
 			});
+			setStepsHanlder(0);
 			console.log("Task was registrated successfull!");
 		}
 	} catch (err) {

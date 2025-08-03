@@ -59,7 +59,7 @@ export function useGetOneUser(initialValues: null, userId: string | undefined) {
 				} else {
 					return;
 				}
-				await registrateBackgoundTask();
+				await registrateBackgoundTask(setSteps);
 				setLoading(false);
 				return () => {
 					subscription.remove();
