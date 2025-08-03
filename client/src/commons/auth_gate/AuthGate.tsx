@@ -3,7 +3,7 @@ import { useUserThemeContext } from "../../contexts/user_theme_context";
 import HomeScreen from "../../screens/home/Home";
 import RegistrationWrapper from "../../screens/registration_wrapper/RegistrationWrapper";
 import { globalStyles } from "../../../globalStyles";
-import { View } from "react-native";
+import Steps from "../../screens/steps/Steps";
 
 export default function AuthGate() {
 	const { userState, theme } = useUserThemeContext();
@@ -17,11 +17,14 @@ export default function AuthGate() {
 					theme == "light"
 						? globalStyles.whiteThemeLighter
 						: globalStyles.darkThemeDarker,
-				statusBarStyle:theme=="light"?"dark":"light"
+				statusBarStyle: theme == "light" ? "dark" : "light",
 			}}
 		>
 			{userState ? (
-				<Stack.Screen name="Home" component={HomeScreen} />
+				<>
+					<Stack.Screen name="Home" component={HomeScreen} />
+					<Stack.Screen name="Steps" component={Steps} />
+				</>
 			) : (
 				<Stack.Screen
 					name="RegistrationWrapper"

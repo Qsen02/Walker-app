@@ -25,6 +25,12 @@ export default function HomeScreen() {
 		}
 	}
 
+	function onNavigateToSteps(){
+		if(userState){
+			navigation.navigate("Steps",{userId:userState._id})
+		}
+	}
+
 	return (
 		<>
 			{isLogoutActive ? (
@@ -104,7 +110,7 @@ export default function HomeScreen() {
 						Walker app
 					</Text>
 					<View style={homeStyles.contentContainer}>
-						<TouchableOpacity style={homeStyles.contentItemWrapper}>
+						<TouchableOpacity style={homeStyles.contentItemWrapper} onPress={onNavigateToSteps}>
 							<View
 								style={[
 									theme == "light"
