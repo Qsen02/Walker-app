@@ -109,6 +109,13 @@ async function getUserActiveDays(userId: string) {
 		throw new Error("Resource not found!");
 	}
 
+	if (user.activeDays.length > 7) {
+		return user.activeDays.slice(
+			user.activeDays.length - 8,
+			user.activeDays.length - 1
+		);
+	}
+
 	return user.activeDays;
 }
 
@@ -116,6 +123,13 @@ async function getUserWaterDays(userId: string) {
 	const user = await Users.findById(userId).populate("waterDays").lean();
 	if (!user) {
 		throw new Error("Resource not found!");
+	}
+
+	if (user.waterDays.length > 7) {
+		return user.waterDays.slice(
+			user.waterDays.length - 8,
+			user.waterDays.length - 1
+		);
 	}
 
 	return user.waterDays;
