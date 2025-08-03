@@ -4,6 +4,13 @@ import { User } from "../types/user";
 import { useLoadingError } from "./useLoadingError";
 import { incrementSteps } from "../api/stepsService";
 import { registrateBackgoundTask } from "../utils/checkMidnight";
+import { Accelerometer } from "expo-sensors";
+
+interface AccelerometerProps {
+	x: number;
+	y: number;
+	z: number;
+}
 
 export function useRegister() {
 	return async function (data: object) {
@@ -23,19 +30,40 @@ export function useGetOneUser(initialValues: null, userId: string | undefined) {
 		false,
 		false
 	);
+	const [steps, setSteps] = useState(0);
+
+	async function checkMovement({ x, y, z }: AccelerometerProps) {
+		const rawAccel = Math.sqrt(x * x + y * y + z * z);
+		const gravity = 1.0;
+		const netAccel = Math.abs(rawAccel - gravity);
+
+		if (netAccel > 0.2 && netAccel < 2.0) {
+			await incrementSteps(
+				user?.activeDays[user?.activeDays.length - 1]._id
+			);
+			setSteps((value: number) => value + 1);
+		}
+	}
 
 	useEffect(() => {
 		(async () => {
 			try {
 				setLoading(true);
+				const subscription = Accelerometer.addListener(checkMovement);
 				if (userId) {
 					const user = await getUserById(userId);
 					setUser(user);
+					setSteps(
+						user.activeDays[user.activeDays.length - 1].stepsCount
+					);
 				} else {
 					return;
 				}
 				await registrateBackgoundTask();
 				setLoading(false);
+				return () => {
+					subscription.remove();
+				};
 			} catch (err) {
 				setLoading(false);
 				setError(true);
@@ -47,11 +75,6 @@ export function useGetOneUser(initialValues: null, userId: string | undefined) {
 		user,
 		loading,
 		error,
+		steps,
 	};
-}
-
-export function useIncrementSteps(){
-	return async function (stpesId:string | undefined){
-		return await incrementSteps(stpesId);
-	}
 }

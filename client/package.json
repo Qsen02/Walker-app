@@ -15,6 +15,7 @@
     "@react-navigation/native-stack": "^7.3.21",
     "expo": "~53.0.17",
     "expo-background-fetch": "~13.1.6",
+    "expo-dev-client": "^5.2.4",
     "expo-secure-store": "^14.2.3",
     "expo-sensors": "^14.1.4",
     "expo-status-bar": "~2.2.3",

@@ -3,44 +3,18 @@ import { homeStyles } from "./HomeStyles";
 import { useUserThemeContext } from "../../contexts/user_theme_context";
 import { globalStyles } from "../../../globalStyles";
 import Icon from "react-native-vector-icons/FontAwesome6";
-import { useGetOneUser, useIncrementSteps } from "../../hooks/useUser";
+import { useGetOneUser } from "../../hooks/useUser";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { Routes } from "../../types/RoutingTable";
 import { useState } from "react";
 import Logout from "./logout/Logout";
-import { Accelerometer } from "expo-sensors";
-
-interface AccelerometerProps {
-	x: number;
-	y: number;
-	z: number;
-}
 
 export default function HomeScreen() {
 	const { userState, removeUser, theme, changeTheme } = useUserThemeContext();
-	const { user, loading, error } = useGetOneUser(null, userState?._id);
-	const [steps, setSteps] = useState(
-		user?.activeDays[user?.activeDays.length - 1].stepsCount
-	);
+	const { user, loading, error,steps } = useGetOneUser(null, userState?._id);
 	const navigation = useNavigation<NavigationProp<Routes>>();
 	const [isLogoutActive, setIsLogoutActive] = useState(false);
-	const incrementSteps = useIncrementSteps();
-
-	Accelerometer.addListener(checkMovement);
-
-	async function checkMovement({ x, y, z }: AccelerometerProps) {
-		const totalForce = Math.sqrt(x * x + y * y + z * z);
-		const delta = Math.abs(totalForce - 1);
-		if (delta > 1.2 && user) {
-			await incrementSteps(
-				user.activeDays[user.activeDays.length - 1]._id
-			);
-			setSteps((value: number | undefined) =>
-				value ? value + 1 : value
-			);
-		}
-	}
-
+	
 	function openLogout() {
 		setIsLogoutActive(true);
 	}
