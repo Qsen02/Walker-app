@@ -3,7 +3,7 @@ import { get, post, put } from "./requester";
 
 const endpoint="steps";
 
-export async function getStepsById(stpesId:string){
+export async function getStepsById(stpesId:string | undefined){
     const data=await get(`${endpoint}/${stpesId}`);
     return data as Steps;
 }

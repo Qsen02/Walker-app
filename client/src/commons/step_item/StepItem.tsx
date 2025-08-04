@@ -1,6 +1,8 @@
 import { Text, TouchableOpacity, View } from "react-native";
 import { globalStyles } from "../../../globalStyles";
 import { stepItemStyles } from "./StepItemStyles";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import { Routes } from "../../types/RoutingTable";
 
 interface StepItemProps {
 	id: string;
@@ -17,6 +19,7 @@ export default function StepItem({
 	date,
 	theme,
 }: StepItemProps) {
+	const navigation=useNavigation<NavigationProp<Routes>>()
 	return (
 		<TouchableOpacity
 			style={[
@@ -25,6 +28,7 @@ export default function StepItem({
 					: globalStyles.darkThemeNormal,
 				stepItemStyles.itemWrapper,
 			]}
+			onPress={()=>navigation.navigate("StepsDetails",{stepsId:id})}
 		>
 			<View>
 				<Text

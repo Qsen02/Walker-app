@@ -27,68 +27,75 @@ export default function Steps() {
 	const { steps, loading, error } = useGetLastSteps([], userId);
 
 	return (
-		<View
-			style={[
-				theme == "light"
-					? globalStyles.whiteThemeLighter
-					: globalStyles.darkThemeDarker,
-				stepsStyles.wrapper,
-			]}
-		>
-			<TouchableOpacity
-				style={stepsStyles.arrowButton}
-				onPress={() => navigation.goBack()}
-			>
-				<Icon
-					name="arrow-left"
-					color={theme == "light" ? "black" : "white"}
-					size={25}
-				/>
-			</TouchableOpacity>
-			<View style={stepsStyles.title}>
-				<Text
-					style={[
-						theme == "light"
-							? { color: "black" }
-							: { color: "white" },
-						stepsStyles.titleText,
-					]}
-				>
-					Last 7 days of activity
-				</Text>
-			</View>
+		<>
 			{loading && !error ? (
 				<ActivityIndicator
 					color="rgba(6,173,0,1)"
 					size={60}
 					style={globalStyles.spinner}
 				/>
-			) : error ? (
-				<View style={globalStyles.errorContainer}>
-					<Text style={globalStyles.errorText}>
-						Server is not responding! Please try again later.
+			) : (
+				""
+			)}
+			<View
+				style={[
+					theme == "light"
+						? globalStyles.whiteThemeLighter
+						: globalStyles.darkThemeDarker,
+					stepsStyles.wrapper,
+				]}
+			>
+				<TouchableOpacity
+					style={stepsStyles.arrowButton}
+					onPress={() => navigation.goBack()}
+				>
+					<Icon
+						name="arrow-left"
+						color={theme == "light" ? "black" : "white"}
+						size={25}
+					/>
+				</TouchableOpacity>
+				<View style={stepsStyles.title}>
+					<Text
+						style={[
+							theme == "light"
+								? { color: "black" }
+								: { color: "white" },
+							stepsStyles.titleText,
+						]}
+					>
+						Last 7 days of activity
 					</Text>
 				</View>
-			) : steps.length == 0 ? (
-				<View style={globalStyles.errorContainer}>
-					<Text style={globalStyles.errorText}>No activity yet.</Text>
-				</View>
-			) : (
-				<ScrollView style={stepsStyles.stepsContainer}>
-					<View style={stepsStyles.stepsContentContainer}>
-						{steps.reverse().map((el) => (
-							<StepItem
-								key={el._id}
-								id={el._id}
-								purpose={userState?.purpose}
-								stepsCount={el.stepsCount}
-								date={el.date}
-								theme={theme}
-							/>
-						))}
+				{error ? (
+					<View style={globalStyles.errorContainer}>
+						<Text style={globalStyles.errorText}>
+							Server is not responding! Please try again later.
+						</Text>
 					</View>
-				</ScrollView>
-			)}
-		</View>
+				) : steps.length == 0 ? (
+					<View style={globalStyles.errorContainer}>
+						<Text style={globalStyles.errorText}>
+							No activity yet.
+						</Text>
+					</View>
+				) : (
+					<ScrollView style={stepsStyles.stepsContainer}>
+						<View style={stepsStyles.stepsContentContainer}>
+							{steps.reverse().map((el) => (
+								<StepItem
+									key={el._id}
+									id={el._id}
+									purpose={userState?.purpose}
+									stepsCount={el.stepsCount}
+									date={el.date}
+									theme={theme}
+								/>
+							))}
+						</View>
+					</ScrollView>
+				)}
+			</View>
+		</>
 	);
 }
