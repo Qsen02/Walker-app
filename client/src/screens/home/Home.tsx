@@ -45,7 +45,7 @@ export default function HomeScreen() {
 			)}
 			{loading && !error ? (
 				<ActivityIndicator
-					size="large"
+					size={60}
 					color="rgba(6,173,0,1)"
 					style={globalStyles.spinner}
 				/>

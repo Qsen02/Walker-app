@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
-import { getActiveDays, getUserById, login, register } from "../api/userService";
+import {
+	getActiveDays,
+	getUserById,
+	login,
+	register,
+} from "../api/userService";
 import { User } from "../types/user";
 import { useLoadingError } from "./useLoadingError";
-import {  incrementSteps } from "../api/stepsService";
+import { incrementSteps } from "../api/stepsService";
 import { registrateBackgoundTask } from "../utils/checkMidnight";
 import { Accelerometer } from "expo-sensors";
 import { Steps } from "../types/steps";
@@ -37,7 +42,6 @@ export function useGetOneUser(initialValues: null, userId: string | undefined) {
 		const rawAccel = Math.sqrt(x * x + y * y + z * z);
 		const gravity = 1.0;
 		const netAccel = Math.abs(rawAccel - gravity);
-
 		if (netAccel > 0.2 && netAccel < 2.0) {
 			await incrementSteps(
 				user?.activeDays[user?.activeDays.length - 1]._id
@@ -80,21 +84,18 @@ export function useGetOneUser(initialValues: null, userId: string | undefined) {
 	};
 }
 
-export function useGetLastSteps(
-	initialValues: [],
-	userId: string
-) {
-	const [steps,setSteps]=useState<Steps[]>(initialValues);
+export function useGetLastSteps(initialValues: [], userId: string) {
+	const [steps, setSteps] = useState<Steps[]>(initialValues);
 	const { loading, setLoading, error, setError } = useLoadingError(
 		false,
 		false
 	);
 
-		useEffect(() => {
+	useEffect(() => {
 		(async () => {
 			try {
 				setLoading(true);
-				const curSteps=await getActiveDays(userId);
+				const curSteps = await getActiveDays(userId);
 				setSteps(curSteps);
 				setLoading(false);
 			} catch (err) {
@@ -105,6 +106,8 @@ export function useGetLastSteps(
 	}, []);
 
 	return {
-		steps,loading,error
-	}
+		steps,
+		loading,
+		error,
+	};
 }
