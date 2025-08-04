@@ -48,15 +48,5 @@ export const homeStyles = StyleSheet.create({
 	},
 	contenteItemText:{
 		fontSize:20
-	},
-	sliderContainer:{
-		width:"95%",
-		height:30,
-		borderRadius:20,
-		overflow:"hidden"
-	},
-	slider:{
-		backgroundColor:"rgba(6, 173, 0, 1)",
-		height:"100%"
 	}
 });

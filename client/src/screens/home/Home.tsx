@@ -135,12 +135,12 @@ export default function HomeScreen() {
 											theme == "light"
 												? globalStyles.whiteThemeDark
 												: globalStyles.darkThemeLight,
-											homeStyles.sliderContainer,
+											globalStyles.sliderContainer,
 										]}
 									>
 										<View
 											style={[
-												homeStyles.slider,
+												globalStyles.slider,
 												{
 													width: `${
 														(steps /

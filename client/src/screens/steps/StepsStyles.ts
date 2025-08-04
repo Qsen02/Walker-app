@@ -7,12 +7,14 @@ export const stepsStyles = StyleSheet.create({
 		display: "flex",
 		flexDirection: "column",
 		gap: 20,
+        alignItems:"center"
 	},
 	arrowButton: {
 		paddingLeft: 30,
 		display: "flex",
 		flexDirection: "row",
 		justifyContent: "flex-start",
+        alignSelf:"flex-start"
 	},
 	title: {
 		display: "flex",
@@ -29,6 +31,7 @@ export const stepsStyles = StyleSheet.create({
 		height: "80%",
 	},
 	stepsContentContainer: {
+        width:"100%",
 		display: "flex",
 		flexDirection: "column",
 		gap: 20,

@@ -76,7 +76,7 @@ export default function Steps() {
 			) : (
 				<ScrollView style={stepsStyles.stepsContainer}>
 					<View style={stepsStyles.stepsContentContainer}>
-						{steps.map((el) => (
+						{steps.reverse().map((el) => (
 							<StepItem
 								key={el._id}
 								id={el._id}

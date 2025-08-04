@@ -94,23 +94,33 @@ export const globalStyles = StyleSheet.create({
 		gap: 30,
 		justifyContent: "center",
 	},
-	spinner:{
-		zIndex:1000,
-		position:"absolute",
-		top:"50%",
-		left:"50%",
-		transform:"translate(-50%)",
+	spinner: {
+		zIndex: 1000,
+		position: "absolute",
+		top: "50%",
+		left: "50%",
+		transform: "translate(-50%)",
 	},
-	errorContainer:{
-		marginLeft:"auto",
-		marginRight:"auto",
-		marginTop:"85%",
-		width:"95%",
-		padding:20,
-		borderRadius:15
+	errorContainer: {
+		marginLeft: "auto",
+		marginRight: "auto",
+		marginTop: "85%",
+		width: "95%",
+		padding: 20,
+		borderRadius: 15,
 	},
-	errorText:{
-		textAlign:"center",
-		fontSize:20
-	}
+	errorText: {
+		textAlign: "center",
+		fontSize: 20,
+	},
+	sliderContainer: {
+		width: "95%",
+		height: 30,
+		borderRadius: 20,
+		overflow: "hidden",
+	},
+	slider: {
+		backgroundColor: "rgba(6, 173, 0, 1)",
+		height: "100%",
+	},
 });
