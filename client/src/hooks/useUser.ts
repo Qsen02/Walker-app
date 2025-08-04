@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
 	getActiveDays,
 	getUserById,
@@ -37,14 +37,23 @@ export function useGetOneUser(initialValues: null, userId: string | undefined) {
 		false
 	);
 	const [steps, setSteps] = useState(0);
+	const userRef = useRef<null | User>(initialValues);
 
+	useEffect(() => {
+		if (user) {
+			userRef.current = user;
+		}
+	}, [user]);
+	
 	async function checkMovement({ x, y, z }: AccelerometerProps) {
 		const rawAccel = Math.sqrt(x * x + y * y + z * z);
 		const gravity = 1.0;
 		const netAccel = Math.abs(rawAccel - gravity);
 		if (netAccel > 0.2 && netAccel < 2.0) {
 			await incrementSteps(
-				user?.activeDays[user?.activeDays.length - 1]._id
+				userRef.current?.activeDays[
+					userRef.current?.activeDays.length - 1
+				]._id
 			);
 			setSteps((value: number) => value + 1);
 		}
@@ -54,7 +63,6 @@ export function useGetOneUser(initialValues: null, userId: string | undefined) {
 		(async () => {
 			try {
 				setLoading(true);
-				const subscription = Accelerometer.addListener(checkMovement);
 				if (userId) {
 					const user = await getUserById(userId);
 					setUser(user);
@@ -64,6 +72,7 @@ export function useGetOneUser(initialValues: null, userId: string | undefined) {
 				} else {
 					return;
 				}
+				const subscription = Accelerometer.addListener(checkMovement);
 				await registrateBackgoundTask(setSteps);
 				setLoading(false);
 				return () => {

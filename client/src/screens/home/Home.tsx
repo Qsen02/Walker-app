@@ -11,10 +11,10 @@ import Logout from "./logout/Logout";
 
 export default function HomeScreen() {
 	const { userState, removeUser, theme, changeTheme } = useUserThemeContext();
-	const { user, loading, error,steps } = useGetOneUser(null, userState?._id);
+	const { user, loading, error, steps } = useGetOneUser(null, userState?._id);
 	const navigation = useNavigation<NavigationProp<Routes>>();
 	const [isLogoutActive, setIsLogoutActive] = useState(false);
-	
+
 	function openLogout() {
 		setIsLogoutActive(true);
 	}
@@ -25,9 +25,9 @@ export default function HomeScreen() {
 		}
 	}
 
-	function onNavigateToSteps(){
-		if(userState){
-			navigation.navigate("Steps",{userId:userState._id})
+	function onNavigateToSteps() {
+		if (userState) {
+			navigation.navigate("Steps", { userId: userState._id });
 		}
 	}
 
@@ -110,7 +110,10 @@ export default function HomeScreen() {
 						Walker app
 					</Text>
 					<View style={homeStyles.contentContainer}>
-						<TouchableOpacity style={homeStyles.contentItemWrapper} onPress={onNavigateToSteps}>
+						<TouchableOpacity
+							style={homeStyles.contentItemWrapper}
+							onPress={onNavigateToSteps}
+						>
 							<View
 								style={[
 									theme == "light"
@@ -129,7 +132,8 @@ export default function HomeScreen() {
 								>
 									Steps
 								</Text>
-								{user && steps? (
+								{user &&
+								(steps !== null || steps !== undefined) ? (
 									<View
 										style={[
 											theme == "light"
@@ -152,7 +156,15 @@ export default function HomeScreen() {
 										></View>
 									</View>
 								) : (
-									<Text>Error! No user yet</Text>
+									<Text
+										style={
+											theme == "light"
+												? { color: "black" }
+												: { color: "white" }
+										}
+									>
+										Error! No user yet
+									</Text>
 								)}
 								<Text
 									style={[
