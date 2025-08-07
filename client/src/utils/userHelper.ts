@@ -68,3 +68,31 @@ export function setThemeData(data: "light" | "dark") {
 		}
 	}
 }
+
+export function getLanguageData(){
+		try {
+		const data = ExpoStore.getItem("language");
+		if (data) {
+			return JSON.parse(data) as "bulgarian" | "english";
+		}
+		return null;
+	} catch (err) {
+		if (err instanceof Error) {
+			throw new Error(err.message);
+		} else {
+			throw new Error("Error occurd!");
+		}
+	}
+}
+
+export function setLanguageData(data: "bulgarian" | "english") {
+	try {
+		ExpoStore.setItem("language", JSON.stringify(data));
+	} catch (err) {
+		if (err instanceof Error) {
+			throw new Error(err.message);
+		} else {
+			throw new Error("Error occurd!");
+		}
+	}
+}

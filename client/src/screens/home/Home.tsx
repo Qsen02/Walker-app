@@ -19,12 +19,6 @@ export default function HomeScreen() {
 		setIsLogoutActive(true);
 	}
 
-	function onChangeTheme() {
-		if (changeTheme) {
-			changeTheme();
-		}
-	}
-
 	function onNavigateToSteps() {
 		if (userState) {
 			navigation.navigate("Steps", { userId: userState._id });
@@ -95,10 +89,9 @@ export default function HomeScreen() {
 							/>
 						</TouchableOpacity>
 						<Icon
-							name="circle-half-stroke"
+							name="gear"
 							color={theme == "light" ? "black" : "white"}
 							size={24}
-							onPress={onChangeTheme}
 						/>
 						<TouchableOpacity
 							onPress={openLogout}

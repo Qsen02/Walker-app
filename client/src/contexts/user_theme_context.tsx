@@ -5,6 +5,7 @@ import { usePresistedThemeState } from "../hooks/presistedThemeState";
 import { UserForAuth } from "../types/user";
 import { removeData, setUserData } from "../utils/userHelper";
 import { logout } from "../api/userService";
+import { usePresistedLanguageState } from "../hooks/presistedLanguageState";
 
 const UserThemeContext = createContext<UserThemeContextType | null>(null);
 
@@ -13,9 +14,14 @@ export default function UserThemeContextProvider(props: {
 }) {
 	const { curUser, setUserState } = usePresistedUserState(null);
 	const { theme, changeTheme } = usePresistedThemeState("light");
+	const {language,changeLanguage}=usePresistedLanguageState("english");
 
 	function changeCurTheme() {
 		changeTheme();
+	}
+
+	function changeCurLanguage(){
+		changeLanguage();
 	}
 
 	function setUser(user: UserForAuth | null) {
@@ -34,6 +40,8 @@ export default function UserThemeContextProvider(props: {
 			value={{
 				theme: theme,
 				changeTheme: changeCurTheme,
+				language,
+				changeLanguage:changeCurLanguage,
 				userState: curUser,
 				setUser: setUser,
 				removeUser: removeUser,
@@ -50,6 +58,8 @@ export function useUserThemeContext() {
 	return {
 		theme: context?.theme,
 		changeTheme: context?.changeTheme,
+		language:context?.language,
+		changeLanguage:context?.changeLanguage,
 		userState:context?.userState,
 		setUser:context?.setUser,
 		removeUser:context?.removeUser,
