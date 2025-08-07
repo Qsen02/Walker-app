@@ -5,6 +5,7 @@ import Icon from "react-native-vector-icons/FontAwesome6";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { Routes } from "../../types/RoutingTable";
 import { useState } from "react";
+import { settingsStyles } from "./SettingsStyles";
 
 export default function Settings() {
 	const { theme, changeTheme, language, changeLanguage } =
@@ -51,21 +52,23 @@ export default function Settings() {
 					size={25}
 				/>
 			</TouchableOpacity>
-			<View>
+			<View style={settingsStyles.wrapper}>
 				<Text
 					style={[
 						theme == "light"
 							? { color: "black" }
 							: { color: "white" },
+						settingsStyles.title,
 					]}
 				>
-					{language == "english" ? "Settigs" : "Настройки"}
+					{language == "english" ? "Settings" : "Настройки"}
 				</Text>
 				<View
 					style={[
 						theme == "light"
 							? globalStyles.whiteThemeNormal
 							: globalStyles.darkThemeNormal,
+						settingsStyles.themeWrapper,
 					]}
 				>
 					<Text
@@ -73,6 +76,7 @@ export default function Settings() {
 							theme == "light"
 								? { color: "black" }
 								: { color: "white" },
+							settingsStyles.text,
 						]}
 					>
 						{language == "english" ? "Dark theme" : "Тъмна тема"}
@@ -87,52 +91,70 @@ export default function Settings() {
 						onValueChange={onChangeEnabled}
 					/>
 				</View>
-				<View>
+				<View
+					style={[
+						theme == "light"
+							? globalStyles.whiteThemeNormal
+							: globalStyles.darkThemeNormal,
+						settingsStyles.languageWapper,
+					]}
+				>
 					<Text
 						style={[
 							theme == "light"
 								? { color: "black" }
 								: { color: "white" },
+							settingsStyles.title,
 						]}
 					>
 						{language == "english" ? "Language" : "Език"}
 					</Text>
-					<TouchableOpacity
-						style={
-							language == "bulgarian"
-								? { backgroundColor: "grey" }
-								: ""
-						}
-						onPress={setBulgarian}
-					>
-						<Text
+					<View style={settingsStyles.languageButtonsWrapper}>
+						<TouchableOpacity
 							style={[
-								theme == "light"
-									? { color: "black" }
-									: { color: "white" },
+								language == "bulgarian"
+									? { backgroundColor: "grey" }
+									: "",
+                                    settingsStyles.languageButton
 							]}
+							onPress={setBulgarian}
 						>
-							{language == "english" ? "Bulgarian" : "Български"}
-						</Text>
-					</TouchableOpacity>
-					<TouchableOpacity
-						style={
-							language == "english"
-								? { backgroundColor: "grey" }
-								: ""
-						}
-						onPress={setEnglish}
-					>
-						<Text
+							<Text
+								style={[
+									theme == "light"
+										? { color: "black" }
+										: { color: "white" },
+									settingsStyles.text,
+								]}
+							>
+								{language == "english"
+									? "Bulgarian"
+									: "Български"}
+							</Text>
+						</TouchableOpacity>
+						<TouchableOpacity
 							style={[
-								theme == "light"
-									? { color: "black" }
-									: { color: "white" },
+								language == "english"
+									? { backgroundColor: "grey" }
+									: "",
+                                    settingsStyles.languageButton
 							]}
+							onPress={setEnglish}
 						>
-							{language == "english" ? "English" : "Английски"}
-						</Text>
-					</TouchableOpacity>
+							<Text
+								style={[
+									theme == "light"
+										? { color: "black" }
+										: { color: "white" },
+									settingsStyles.text,
+								]}
+							>
+								{language == "english"
+									? "English"
+									: "Английски"}
+							</Text>
+						</TouchableOpacity>
+					</View>
 				</View>
 			</View>
 		</>
