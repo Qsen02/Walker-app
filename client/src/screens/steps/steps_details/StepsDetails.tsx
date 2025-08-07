@@ -15,7 +15,7 @@ import { stepsDetailsStyles } from "./StepsDetailsStyles";
 export default function StepsDetails() {
 	const route = useRoute<RouteProp<Routes, "StepsDetails">>();
 	const { stepsId } = route.params;
-	const { theme, userState } = useUserThemeContext();
+	const { theme, userState, language } = useUserThemeContext();
 	const { curSteps, loading, error } = useGetOneSteps(null, stepsId);
 	const navigation = useNavigation<NavigationProp<Routes>>();
 
@@ -40,108 +40,143 @@ export default function StepsDetails() {
 					size={25}
 				/>
 			</TouchableOpacity>
-			<View
-				style={[
-					theme == "light"
-						? globalStyles.whiteThemeNormal
-						: globalStyles.darkThemeNormal,
-					stepsDetailsStyles.wrapper,
-				]}
-			>
-				<View style={stepsDetailsStyles.titleWrapper}>
+			{error ? (
+				<View
+					style={[
+						globalStyles.errorContainer,
+						theme == "light"
+							? globalStyles.whiteThemeNormal
+							: globalStyles.darkThemeNormal,
+					]}
+				>
 					<Text
 						style={[
+							globalStyles.errorText,
 							theme == "light"
 								? { color: "black" }
 								: { color: "white" },
-							stepsDetailsStyles.titleText,
 						]}
 					>
-						Details for activity at
-					</Text>
-					<Text
-						style={[
-							theme == "light"
-								? { color: "black" }
-								: { color: "white" },
-							stepsDetailsStyles.titleText,
-						]}
-					>
-						Date: {curSteps?.date}
+						{language == "english"
+							? "Server is not responding, please try again later!"
+							: "Сървърът не отговаря, моля опитайте по късно!"}
 					</Text>
 				</View>
+			) : (
 				<View
 					style={[
 						theme == "light"
-							? globalStyles.whiteThemeDark
-							: globalStyles.darkThemeLight,
-
-						globalStyles.sliderContainer,
+							? globalStyles.whiteThemeNormal
+							: globalStyles.darkThemeNormal,
+						stepsDetailsStyles.wrapper,
 					]}
 				>
-					{userState?.purpose && curSteps ? (
-						<View
+					<View style={stepsDetailsStyles.titleWrapper}>
+						<Text
 							style={[
-								globalStyles.slider,
-								{
-									width: `${
-										(curSteps?.stepsCount /
-											userState.purpose) *
-										100
-									}%`,
-								},
+								theme == "light"
+									? { color: "black" }
+									: { color: "white" },
+								stepsDetailsStyles.titleText,
 							]}
-						></View>
-					) : (
-						""
-					)}
-				</View>
-				<View>
-					<Text
+						>
+							{language == "english"
+								? "Details for activity at"
+								: "Детайли за активността на"}
+						</Text>
+						<Text
+							style={[
+								theme == "light"
+									? { color: "black" }
+									: { color: "white" },
+								stepsDetailsStyles.titleText,
+							]}
+						>
+							{language == "english" ? "Date:" : "Дата:"}{" "}
+							{curSteps?.date}
+						</Text>
+					</View>
+					<View
 						style={[
 							theme == "light"
-								? { color: "black" }
-								: { color: "white" },
-							stepsDetailsStyles.titleText,
+								? globalStyles.whiteThemeDark
+								: globalStyles.darkThemeLight,
+
+							globalStyles.sliderContainer,
 						]}
 					>
-						{curSteps?.stepsCount}/{userState?.purpose}
-					</Text>
-				</View>
-				<View>
-					{userState && curSteps? (
-						curSteps.isPurposeCompleted ||
-						curSteps.stepsCount >= userState.purpose ? (
-							<Text
+						{userState?.purpose && curSteps ? (
+							<View
 								style={[
-									theme == "light"
-										? { color: "black" }
-										: { color: "white" },
-									stepsDetailsStyles.titleText,
+									globalStyles.slider,
+									{
+										width: `${
+											(curSteps?.stepsCount /
+												userState.purpose) *
+											100
+										}%`,
+									},
 								]}
-							>
-								Well done! You successfully achieved its goal
-								for {userState.purpose} steps!
-							</Text>
-						) :(
-							<Text
-								style={[
-									theme == "light"
-										? { color: "black" }
-										: { color: "white" },
-									stepsDetailsStyles.titleText,
-								]}
-							>
-								{userState?.purpose - curSteps?.stepsCount}{" "}
-								steps didn't have enough to achieve your goal,
-								you need to try harder.
-							</Text>
-						)
-					) : (
-						<Text>No user or steps yet.</Text>
-					)}
+							></View>
+						) : (
+							""
+						)}
+					</View>
+					<View>
+						<Text
+							style={[
+								theme == "light"
+									? { color: "black" }
+									: { color: "white" },
+								stepsDetailsStyles.titleText,
+							]}
+						>
+							{curSteps?.stepsCount}/{userState?.purpose}
+						</Text>
+					</View>
+					<View>
+						{userState && curSteps ? (
+							curSteps.isPurposeCompleted ||
+							curSteps.stepsCount >= userState.purpose ? (
+								<Text
+									style={[
+										theme == "light"
+											? { color: "black" }
+											: { color: "white" },
+										stepsDetailsStyles.titleText,
+									]}
+								>
+									{language == "english"
+										? `Well done! You successfully achieved its
+									goal for ${userState.purpose} steps!`
+										: `Браво! Ти успешно постигна целта си за ${userState.purpose} крачки!`}
+								</Text>
+							) : (
+								<Text
+									style={[
+										theme == "light"
+											? { color: "black" }
+											: { color: "white" },
+										stepsDetailsStyles.titleText,
+									]}
+								>
+									{language == "english"
+										? `${
+												userState?.purpose -
+												curSteps?.stepsCount
+										  } steps didn't have enough to achieve your goal, you need to try harder.`
+										: `${
+												userState?.purpose -
+												curSteps?.stepsCount
+										  } крачки не достигат за постигането на вашата цел, трябва да се постараете повече.`}
+								</Text>
+							)
+						) : (
+							<Text>{language=="english"?"No user or steps yet.":"Няма потребител или крачки все още."}</Text>
+						)}
+					</View>
 				</View>
-			</View>
+			)}
 		</>
 	);
 }

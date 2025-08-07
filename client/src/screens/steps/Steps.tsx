@@ -20,7 +20,7 @@ import { useGetLastSteps } from "../../hooks/useUser";
 import StepItem from "../../commons/step_item/StepItem";
 
 export default function Steps() {
-	const { theme, userState } = useUserThemeContext();
+	const { theme, userState, language } = useUserThemeContext();
 	const route = useRoute<RouteProp<Routes, "Steps">>();
 	const { userId } = route.params;
 	const navigation = useNavigation<NavigationProp<Routes>>();
@@ -64,19 +64,21 @@ export default function Steps() {
 							stepsStyles.titleText,
 						]}
 					>
-						Last 7 days of activity
+						{language=="english"?"Last 7 days of activity":"Последни 7 дни активност"}
 					</Text>
 				</View>
 				{error ? (
 					<View style={globalStyles.errorContainer}>
 						<Text style={globalStyles.errorText}>
-							Server is not responding! Please try again later.
+							{language == "english"
+							? "Server is not responding, please try again later!"
+							: "Сървърът не отговаря, моля опитайте по късно!"}
 						</Text>
 					</View>
 				) : steps.length == 0 ? (
 					<View style={globalStyles.errorContainer}>
 						<Text style={globalStyles.errorText}>
-							No activity yet.
+							{language=="english"?"No activity yet.":"Няма активности все още."}
 						</Text>
 					</View>
 				) : (
@@ -93,6 +95,7 @@ export default function Steps() {
 									stepsCount={el.stepsCount}
 									date={el.date}
 									theme={theme}
+									language={language}
 								/>
 							))}
 						</View>

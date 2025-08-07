@@ -10,6 +10,7 @@ interface StepItemProps {
 	purpose: number | undefined;
 	date: string;
 	theme: "light" | "dark" | undefined;
+	language: "bulgarian" | "english" | undefined;
 }
 
 export default function StepItem({
@@ -18,6 +19,7 @@ export default function StepItem({
 	purpose,
 	date,
 	theme,
+	language
 }: StepItemProps) {
 	const navigation=useNavigation<NavigationProp<Routes>>()
 	return (
@@ -71,7 +73,7 @@ export default function StepItem({
 						stepItemStyles.stepsCount,
 					]}
 				>
-					Date: {date}
+					{language=="english"?"Date:":"Дата:"} {date}
 				</Text>
 			</View>
 		</TouchableOpacity>
