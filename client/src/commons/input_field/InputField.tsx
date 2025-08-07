@@ -8,6 +8,7 @@ interface InputFieldProps {
 	placeholder?: string;
 	keyboardType?: KeyboardTypeOptions;
 	theme: "light" | "dark" | undefined;
+	language: "bulgarian" | "english" | undefined;
 }
 
 export default function InputField({
@@ -17,6 +18,7 @@ export default function InputField({
 	placeholder,
 	keyboardType,
 	theme,
+	language,
 }: InputFieldProps) {
 	return (
 		<View style={globalStyles.inputWrapper}>
@@ -39,7 +41,10 @@ export default function InputField({
 				placeholder={placeholder}
 				keyboardType={keyboardType}
 				secureTextEntry={
-					title == "Password" || title == "Repeat password"
+					title == "Password" ||
+					title == "Repeat password" ||
+					title == "Парола" ||
+					title == "Повтори паролата"
 						? true
 						: false
 				}

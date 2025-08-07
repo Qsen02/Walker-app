@@ -7,7 +7,7 @@ import { useState } from "react";
 import Login from "../login/Login";
 
 export default function RegistrationWrapper() {
-	const { theme } = useUserThemeContext();
+	const { theme, language } = useUserThemeContext();
 	const [activeScreen, setActiveScreen] = useState<"Login" | "Register">(
 		"Register"
 	);
@@ -42,7 +42,7 @@ export default function RegistrationWrapper() {
 								: { color: "white" },
 						]}
 					>
-						Login
+						{language == "english" ? "Login" : "Вход"}
 					</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
@@ -65,7 +65,7 @@ export default function RegistrationWrapper() {
 								: { color: "white" },
 						]}
 					>
-						Register
+						{language == "english" ? "Register" : "Регистрация"}
 					</Text>
 				</TouchableOpacity>
 			</View>

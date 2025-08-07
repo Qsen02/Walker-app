@@ -10,7 +10,7 @@ import { Routes } from "../../types/RoutingTable";
 import ErrorModal from "../../commons/error_modal/ErrorModal";
 
 export default function Register() {
-	const { theme, setUser } = useUserThemeContext();
+	const { theme, setUser, language } = useUserThemeContext();
 	const [formValues, setFormValues] = useState({
 		username: "",
 		email: "",
@@ -30,18 +30,36 @@ export default function Register() {
 			const repass = formValues.repass;
 			const errors: string[] = [];
 			if (username.length < 2) {
-				errors.push("Username must be at least 2 letters long!");
+				if (language == "english") {
+					errors.push("Username must be at least 2 letters long!");
+				} else {
+					errors.push("Името трябва да бъде поне 2 букви дълго!");
+				}
 			}
 			if (!/^[a-z0-9]+@[a-z0-9]+\.[a-z0-9]+$/.test(email)) {
-				errors.push("Email must be valid email!");
+				if (language == "english") {
+					errors.push("Email must be valid email!");
+				} else {
+					errors.push("Имейла трябва да бъде валиден имейл!");
+				}
 			}
 			if (!/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/.test(password)) {
-				errors.push(
-					"Password must be at least 6 symbols and must contain digits, letters and at least one capital letter and special symbol!"
-				);
+				if (language == "english") {
+					errors.push(
+						"Password must be at least 6 symbols and must contain digits, letters and at least one capital letter and special symbol!"
+					);
+				} else {
+					errors.push(
+						"Паролата трябва да бъде поне 6 символа и да съдържа цифри, букви поне една главна буква и специален символ!"
+					);
+				}
 			}
 			if (password != repass) {
-				errors.push("Repeat password must match!");
+				if (language == "english") {
+					errors.push("Repeat password must match!");
+				} else {
+					errors.push("Паролата трябва да съвпада!");
+				}
 			}
 			if (errors.length > 0) {
 				setErrMessage(errors.join("\n"));
@@ -63,14 +81,18 @@ export default function Register() {
 				password: "",
 				repass: "",
 			});
-			navigation.navigate("AuthGate",{
-				screen:"Home"
+			navigation.navigate("AuthGate", {
+				screen: "Home",
 			});
 		} catch (err) {
 			if (err instanceof Error) {
 				setErrMessage(err.message);
 			} else {
-				setErrMessage("Error occurd!");
+				if (language == "english") {
+					setErrMessage("Error occurd!");
+				} else {
+					setErrMessage("Възникна грешка!");
+				}
 			}
 			return;
 		}
@@ -98,42 +120,54 @@ export default function Register() {
 				]}
 			>
 				<InputField
-					title="Username"
+					title={`${
+						language == "english" ? "Username" : "Потребителско име"
+					}`}
 					changeHanlder={(e: string) =>
 						setFormValues({ ...formValues, username: e })
 					}
 					value={formValues.username}
 					theme={theme}
+					language={language}
 				/>
 				<InputField
-					title="Email"
+					title={`${language == "english" ? "Email" : "Имейл"}`}
 					changeHanlder={(e: string) =>
 						setFormValues({ ...formValues, email: e })
 					}
 					value={formValues.email}
 					theme={theme}
+					language={language}
 				/>
 				<InputField
-					title="Password"
+					title={`${language == "english" ? "Password" : "Парола"}`}
 					changeHanlder={(e: string) =>
 						setFormValues({ ...formValues, password: e })
 					}
 					value={formValues.password}
 					theme={theme}
+					language={language}
 				/>
 				<InputField
-					title="Repeat password"
+					title={`${
+						language == "english"
+							? "Repeat password"
+							: "Повтори паролата"
+					}`}
 					changeHanlder={(e: string) =>
 						setFormValues({ ...formValues, repass: e })
 					}
 					value={formValues.repass}
 					theme={theme}
+					language={language}
 				/>
 				<TouchableOpacity
 					style={globalStyles.button}
 					onPress={onRegister}
 				>
-					<Text style={globalStyles.buttonText}>SUBMIT</Text>
+					<Text style={globalStyles.buttonText}>
+						{language == "english" ? "SUBMIT" : "ИЗПРАТИ"}
+					</Text>
 				</TouchableOpacity>
 			</SafeAreaView>
 		</>

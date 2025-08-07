@@ -10,7 +10,7 @@ import { Routes } from "../../types/RoutingTable";
 import ErrorModal from "../../commons/error_modal/ErrorModal";
 
 export default function Login() {
-	const { theme, setUser } = useUserThemeContext();
+	const { theme, setUser, language } = useUserThemeContext();
 	const [formValues, setFormValues] = useState({
 		username: "",
 		password: "",
@@ -32,7 +32,11 @@ export default function Login() {
 				isErrorsHave = true;
 			}
 			if (isErrorsHave) {
-				setErrMessage("Username or password don't match!");
+				if (language == "english") {
+					setErrMessage("Username or password don't match!");
+				} else {
+					setErrMessage("Името или паролата не съвпадат!");
+				}
 				setIsErr(true);
 				return;
 			}
@@ -47,14 +51,18 @@ export default function Login() {
 				username: "",
 				password: "",
 			});
-			navigation.navigate("AuthGate",{
-				screen:"Home"
+			navigation.navigate("AuthGate", {
+				screen: "Home",
 			});
 		} catch (err) {
 			if (err instanceof Error) {
 				setErrMessage(err.message);
 			} else {
-				setErrMessage("Error occurd!");
+				if (language == "english") {
+					setErrMessage("Error occurd!");
+				} else {
+					setErrMessage("Възникна грешка!");
+				}
 			}
 			return;
 		}
@@ -83,23 +91,29 @@ export default function Login() {
 				]}
 			>
 				<InputField
-					title="Username"
+					title={`${
+						language == "english" ? "Username" : "Потребителско име"
+					}`}
 					changeHanlder={(e: string) =>
 						setFormValues({ ...formValues, username: e })
 					}
 					value={formValues.username}
 					theme={theme}
+					language={language}
 				/>
 				<InputField
-					title="Password"
+					title={`${language == "english" ? "Password" : "Парола"}`}
 					changeHanlder={(e: string) =>
 						setFormValues({ ...formValues, password: e })
 					}
 					value={formValues.password}
 					theme={theme}
+					language={language}
 				/>
 				<TouchableOpacity style={globalStyles.button} onPress={onLogin}>
-					<Text style={globalStyles.buttonText}>SUBMIT</Text>
+					<Text style={globalStyles.buttonText}>
+						{language == "english" ? "SUBMIT" : "ИЗПРАТИ"}
+					</Text>
 				</TouchableOpacity>
 			</SafeAreaView>
 		</>
