@@ -109,33 +109,36 @@ export default function StepsDetails() {
 					</Text>
 				</View>
 				<View>
-					{curSteps?.isPurposeCompleted ? (
-						<Text
-							style={[
-								theme == "light"
-									? { color: "black" }
-									: { color: "white" },
-								stepsDetailsStyles.titleText,
-							]}
-						>
-							Well done! You successfully achieved its goal for{" "}
-							{userState?.purpose} steps!
-						</Text>
-					) : curSteps && userState ? (
-						<Text
-							style={[
-								theme == "light"
-									? { color: "black" }
-									: { color: "white" },
-								stepsDetailsStyles.titleText,
-							]}
-						>
-							{userState?.purpose - curSteps?.stepsCount} steps
-							didn't have enough to achieve your goal, you need to
-							try harder.
-						</Text>
+					{userState && curSteps? (
+						curSteps.isPurposeCompleted ||
+						curSteps.stepsCount >= userState.purpose ? (
+							<Text
+								style={[
+									theme == "light"
+										? { color: "black" }
+										: { color: "white" },
+									stepsDetailsStyles.titleText,
+								]}
+							>
+								Well done! You successfully achieved its goal
+								for {userState.purpose} steps!
+							</Text>
+						) :(
+							<Text
+								style={[
+									theme == "light"
+										? { color: "black" }
+										: { color: "white" },
+									stepsDetailsStyles.titleText,
+								]}
+							>
+								{userState?.purpose - curSteps?.stepsCount}{" "}
+								steps didn't have enough to achieve your goal,
+								you need to try harder.
+							</Text>
+						)
 					) : (
-						""
+						<Text>No user or steps yet.</Text>
 					)}
 				</View>
 			</View>

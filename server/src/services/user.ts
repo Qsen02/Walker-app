@@ -111,8 +111,8 @@ async function getUserActiveDays(userId: string) {
 
 	if (user.activeDays.length > 7) {
 		return user.activeDays.slice(
-			user.activeDays.length - 8,
-			user.activeDays.length - 1
+			user.activeDays.length - 7,
+			user.activeDays.length
 		);
 	}
 
@@ -127,8 +127,8 @@ async function getUserWaterDays(userId: string) {
 
 	if (user.waterDays.length > 7) {
 		return user.waterDays.slice(
-			user.waterDays.length - 8,
-			user.waterDays.length - 1
+			user.waterDays.length - 7,
+			user.waterDays.length
 		);
 	}
 

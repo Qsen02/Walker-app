@@ -80,7 +80,10 @@ export default function Steps() {
 						</Text>
 					</View>
 				) : (
-					<ScrollView style={stepsStyles.stepsContainer}>
+					<ScrollView
+						style={stepsStyles.stepsContainer}
+						indicatorStyle={theme == "light" ? "black" : "white"}
+					>
 						<View style={stepsStyles.stepsContentContainer}>
 							{steps.reverse().map((el) => (
 								<StepItem

@@ -34,7 +34,7 @@ async function incrementSteps(
 		{ new: true }
 	);
 
-	if (updatedSteps && updatedSteps.stepsCount! == user.purpose) {
+	if (updatedSteps && updatedSteps.stepsCount == user.purpose) {
 		updatedSteps.isPurposeCompleted = true;
 		updatedSteps.save();
 	}
