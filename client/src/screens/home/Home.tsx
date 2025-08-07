@@ -31,6 +31,14 @@ export default function HomeScreen() {
 		}
 	}
 
+	function onNavigateToWaterDetails() {
+		if (user) {
+			navigation.navigate("WaterDetails", {
+				waterId: user.waterDays[user.waterDays.length - 1]._id,
+			});
+		}
+	}
+
 	return (
 		<>
 			{isLogoutActive ? (
@@ -178,7 +186,10 @@ export default function HomeScreen() {
 								</Text>
 							</View>
 						</TouchableOpacity>
-						<TouchableOpacity style={homeStyles.contentItemWrapper}>
+						<TouchableOpacity
+							style={homeStyles.contentItemWrapper}
+							onPress={onNavigateToWaterDetails}
+						>
 							<View
 								style={[
 									theme == "light"

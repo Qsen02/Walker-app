@@ -5,6 +5,7 @@ import RegistrationWrapper from "../../screens/registration_wrapper/Registration
 import { globalStyles } from "../../../globalStyles";
 import Steps from "../../screens/steps/Steps";
 import StepsDetails from "../../screens/steps/steps_details/StepsDetails";
+import WaterDetails from "../../screens/water_details/WaterDetails";
 
 export default function AuthGate() {
 	const { userState, theme } = useUserThemeContext();
@@ -26,6 +27,7 @@ export default function AuthGate() {
 					<Stack.Screen name="Home" component={HomeScreen} />
 					<Stack.Screen name="Steps" component={Steps} />
 					<Stack.Screen name="StepsDetails" component={StepsDetails}/>
+					<Stack.Screen name="WaterDetails" component={WaterDetails}/>
 				</>
 			) : (
 				<Stack.Screen

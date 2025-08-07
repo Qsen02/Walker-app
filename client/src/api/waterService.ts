@@ -3,7 +3,7 @@ import { get, post, put } from "./requester";
 
 const endpoint = "water";
 
-export async function getWaterById(waterId:string){
+export async function getWaterById(waterId:string | undefined){
     const data = await get(`${endpoint}/${waterId}`);
     return data as Water;
 }

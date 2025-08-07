@@ -2,6 +2,7 @@ import * as TaskManager from "expo-task-manager";
 import * as BackgoundFetch from "expo-background-fetch";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { createSteps } from "../api/stepsService";
+import { createWater } from "../api/waterService";
 
 const CHECK_MIDNIGHT = "SEND_SERVER_REQUEST_AT_MIDNINGHT";
 
@@ -16,6 +17,7 @@ TaskManager.defineTask(CHECK_MIDNIGHT, async () => {
 
 		if (hour === 0 && minute === 0 && today != lastRun) {
 			await createSteps();
+			await createWater();
 			await AsyncStorage.setItem("lastMidnightRequest", today);
 			console.log("Request send successfully at midnight!");
 			return BackgoundFetch.BackgroundFetchResult.NewData;
