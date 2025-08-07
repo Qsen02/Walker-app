@@ -13,7 +13,7 @@ import { useUserThemeContext } from "../../contexts/user_theme_context";
 import { waterDetailsStyles } from "./WaterDetailsStyles";
 
 export default function WaterDetails() {
-	const { theme } = useUserThemeContext();
+	const { theme, language } = useUserThemeContext();
 	const route = useRoute<RouteProp<Routes, "WaterDetails">>();
 	const { waterId } = route.params;
 	const { water, loading, error } = useGetOneWater(null, waterId);
@@ -39,101 +39,138 @@ export default function WaterDetails() {
 					size={25}
 				/>
 			</TouchableOpacity>
-			<View
-				style={[
-					theme == "light"
-						? globalStyles.whiteThemeNormal
-						: globalStyles.darkThemeNormal,
-					waterDetailsStyles.wrapper,
-				]}
-			>
-				<View style={waterDetailsStyles.buttonWrapper}>
-					<TouchableOpacity style={globalStyles.button}>
-						<Text style={globalStyles.buttonText}>ADD WATER</Text>
-					</TouchableOpacity>
-					<TouchableOpacity style={globalStyles.button}>
-						<Text style={globalStyles.buttonText}>
-							LAST WATER DAYS
-						</Text>
-					</TouchableOpacity>
+			{error ? (
+				<View
+					style={[
+						globalStyles.errorContainer,
+						theme == "light"
+							? globalStyles.whiteThemeNormal
+							: globalStyles.darkThemeNormal,
+					]}
+				>
+					<Text
+						style={[
+							globalStyles.errorText,
+							theme == "light"
+								? { color: "black" }
+								: { color: "white" },
+						]}
+					>
+						{language == "english"
+							? "Server is not responding, please try again later!"
+							: "Сървърът не отговаря, моля опитайте по късно!"}
+					</Text>
 				</View>
-				<View style={waterDetailsStyles.contentWrapper}>
-					<Text
-						style={[
-							theme == "light"
-								? { color: "black" }
-								: { color: "white" },
-							waterDetailsStyles.text,
-						]}
-					>
-						Date: {water?.date}
-					</Text>
-					<Text
-						style={[
-							theme == "light"
-								? { color: "black" }
-								: { color: "white" },
-							waterDetailsStyles.text,
-						]}
-					>
-						Amount of water you drank today:
-					</Text>
-					<View style={waterDetailsStyles.waterContent}>
-						<Icon name="droplet" size={40} color="skyblue" />
+			) : (
+				<View
+					style={[
+						theme == "light"
+							? globalStyles.whiteThemeNormal
+							: globalStyles.darkThemeNormal,
+						waterDetailsStyles.wrapper,
+					]}
+				>
+					<View style={waterDetailsStyles.buttonWrapper}>
+						<TouchableOpacity style={globalStyles.button}>
+							<Text style={globalStyles.buttonText}>
+								{language == "english"
+									? "ADD WATER"
+									: "ДОБАВИ ВОДА"}
+							</Text>
+						</TouchableOpacity>
+						<TouchableOpacity style={globalStyles.button}>
+							<Text style={globalStyles.buttonText}>
+								{language == "english"
+									? "LAST WATER DAYS"
+									: "ПОСЛЕДНИ ДНИ"}
+							</Text>
+						</TouchableOpacity>
+					</View>
+					<View style={waterDetailsStyles.contentWrapper}>
 						<Text
 							style={[
 								theme == "light"
 									? { color: "black" }
 									: { color: "white" },
 								waterDetailsStyles.text,
-								{ fontSize: 20 },
 							]}
 						>
-							{water?.waterCount}ml
+							{language == "english" ? "Date:" : "Дата:"}{" "}
+							{water?.date}
+						</Text>
+						<Text
+							style={[
+								theme == "light"
+									? { color: "black" }
+									: { color: "white" },
+								waterDetailsStyles.text,
+							]}
+						>
+							{language == "english"
+								? "Amount of water you drank today:"
+								: "Количеството вода, което сте изпили днес:"}
+						</Text>
+						<View style={waterDetailsStyles.waterContent}>
+							<Icon name="droplet" size={40} color="skyblue" />
+							<Text
+								style={[
+									theme == "light"
+										? { color: "black" }
+										: { color: "white" },
+									waterDetailsStyles.text,
+									{ fontSize: 20 },
+								]}
+							>
+								{water?.waterCount}{" "}
+								{language == "english" ? "ml" : "мл"}
+							</Text>
+						</View>
+					</View>
+					<View style={waterDetailsStyles.contentWrapper}>
+						{water && water.waterCount >= 1500 ? (
+							<Text
+								style={[
+									theme == "light"
+										? { color: "black" }
+										: { color: "white" },
+									waterDetailsStyles.text,
+								]}
+							>
+								{language == "english"
+									? "Well done! You've drunk your required amount of water for the day."
+									: "Браво! Изпили сте необходимото количество вода за деня."}
+							</Text>
+						) : (
+							<Text
+								style={[
+									theme == "light"
+										? { color: "black" }
+										: { color: "white" },
+									waterDetailsStyles.text,
+								]}
+							>
+								{language == "english"
+									? "You need to drink at least 1500 ml of water per day."
+									: "Трябва да пиете поне 1500 мл вода на ден."}
+							</Text>
+						)}
+					</View>
+					<View style={waterDetailsStyles.contentWrapper}>
+						<Text
+							style={[
+								theme == "light"
+									? { color: "black" }
+									: { color: "white" },
+								waterDetailsStyles.text,
+							]}
+						>
+							{language == "english"
+								? "Don't forget to keep track of how much water you drink per day. Water helps maintain hydration, supports digestion, boosts energy, and keeps your skin healthy"
+								: "Не забравяйте да следите какво количество вода пиете на ден. Водата подпомага хидратацията, подпомага храносмилането, подобрява енергията и поддържа кожата ви здрава."}
 						</Text>
 					</View>
 				</View>
-				<View style={waterDetailsStyles.contentWrapper}>
-					{water && water.waterCount >= 1500 ? (
-						<Text
-							style={[
-								theme == "light"
-									? { color: "black" }
-									: { color: "white" },
-								waterDetailsStyles.text,
-							]}
-						>
-							Well done! You've drunk your required amount of
-							water for the day.
-						</Text>
-					) : (
-						<Text
-							style={[
-								theme == "light"
-									? { color: "black" }
-									: { color: "white" },
-								waterDetailsStyles.text,
-							]}
-						>
-							You need to drink at least 1500ml of water per day.
-						</Text>
-					)}
-				</View>
-				<View style={waterDetailsStyles.contentWrapper}>
-					<Text
-						style={[
-							theme == "light"
-								? { color: "black" }
-								: { color: "white" },
-							waterDetailsStyles.text,
-						]}
-					>
-						Don't forget to keep track of how much water you drink
-						per day. Water helps maintain hydration, supports
-						digestion, boosts energy, and keeps your skin healthy
-					</Text>
-				</View>
-			</View>
+			)}
 		</>
 	);
 }
