@@ -208,6 +208,11 @@ export default function HomeScreen() {
 								>
 									Water
 								</Text>
+								<Icon
+									name="droplet"
+									size={40}
+									color="skyblue"
+								/>
 								<Text
 									style={[
 										theme == "light"

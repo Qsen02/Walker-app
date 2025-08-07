@@ -1,0 +1,42 @@
+import { StyleSheet } from "react-native";
+
+export const waterDetailsStyles=StyleSheet.create({
+    wrapper:{
+        marginTop:20,
+        marginLeft:"auto",
+        marginRight:"auto",
+        padding:20,
+        borderRadius:15,
+        width:"95%",
+        display:"flex",
+        flexDirection:"column",
+        gap:20,
+        alignItems:"center"
+    },
+    buttonWrapper:{
+        width:"100%",
+        display:"flex",
+        flexDirection:"row",
+        gap:15,
+        justifyContent:"space-evenly"
+    },
+    contentWrapper:{
+        width:"100%",
+        display:"flex",
+        flexDirection:"column",
+        alignItems:"center",
+        gap:10
+    },
+    waterContent:{
+        width:"100%",
+        display:"flex",
+        flexDirection:"row",
+        gap:10,
+        justifyContent:"center",
+        alignItems:"center"
+    },
+    text:{
+        textAlign:"center",
+        fontSize:18
+    }
+})
