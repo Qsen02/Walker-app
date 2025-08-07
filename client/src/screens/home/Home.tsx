@@ -19,6 +19,10 @@ export default function HomeScreen() {
 		setIsLogoutActive(true);
 	}
 
+	function onNavigateToSettings(){
+		navigation.navigate("Settings");
+	}
+
 	function onNavigateToSteps() {
 		if (userState) {
 			navigation.navigate("Steps", { userId: userState._id });
@@ -92,6 +96,7 @@ export default function HomeScreen() {
 							name="gear"
 							color={theme == "light" ? "black" : "white"}
 							size={24}
+							onPress={onNavigateToSettings}
 						/>
 						<TouchableOpacity
 							onPress={openLogout}

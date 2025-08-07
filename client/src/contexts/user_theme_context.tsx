@@ -20,8 +20,8 @@ export default function UserThemeContextProvider(props: {
 		changeTheme();
 	}
 
-	function changeCurLanguage(){
-		changeLanguage();
+	function changeCurLanguage(value: "bulgarian" | "english"){
+		changeLanguage(value);
 	}
 
 	function setUser(user: UserForAuth | null) {

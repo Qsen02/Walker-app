@@ -10,14 +10,9 @@ export function usePresistedLanguageState(initialValues: "english") {
         return initialValues;
     });
 
-    function changeLanguage() {
-        if (language == "bulgarian") {
-            setLanguage("english");
-            setLanguageData("english");
-        } else {
-            setLanguage("bulgarian");
-            setLanguageData("bulgarian");
-        }
+    function changeLanguage(value: "bulgarian" | "english") {
+        setLanguage(value);
+        setLanguageData(value);
     }
 
     return {
