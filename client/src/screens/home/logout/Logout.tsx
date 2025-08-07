@@ -8,6 +8,7 @@ interface LogoutProps {
 	visibleHanlder: React.Dispatch<React.SetStateAction<boolean>>;
 	theme: "light" | "dark" | undefined;
 	removeUserHandler: (() => Promise<void>) | undefined;
+	language: "bulgarian" | "english" | undefined;
 }
 
 export default function Logout({
@@ -15,6 +16,7 @@ export default function Logout({
 	visibleHanlder,
 	theme,
 	removeUserHandler,
+	language,
 }: LogoutProps) {
 	const navigation = useNavigation<NavigationProp<Routes>>();
 	function onClose() {
@@ -49,20 +51,26 @@ export default function Logout({
 								: { color: "white" },
 						]}
 					>
-						Are you sure you want to logout ?
+						{language == "english"
+							? "Are you sure you want to logout?"
+							: "Сигурни ли сте че искате да излезете?"}
 					</Text>
 					<View style={globalStyles.confirmModalButtons}>
 						<TouchableOpacity
 							style={globalStyles.button}
 							onPress={onLogout}
 						>
-							<Text style={globalStyles.buttonText}>Yes</Text>
+							<Text style={globalStyles.buttonText}>
+								{language == "english" ? "Yes" : "Да"}
+							</Text>
 						</TouchableOpacity>
 						<TouchableOpacity
 							style={globalStyles.button}
 							onPress={onClose}
 						>
-							<Text style={globalStyles.buttonText}>No</Text>
+							<Text style={globalStyles.buttonText}>
+								{language == "english" ? "No" : "Не"}
+							</Text>
 						</TouchableOpacity>
 					</View>
 				</View>

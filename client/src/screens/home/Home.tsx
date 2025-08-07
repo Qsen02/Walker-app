@@ -10,7 +10,7 @@ import { useState } from "react";
 import Logout from "./logout/Logout";
 
 export default function HomeScreen() {
-	const { userState, removeUser, theme, changeTheme } = useUserThemeContext();
+	const { userState, removeUser, theme, language } = useUserThemeContext();
 	const { user, loading, error, steps } = useGetOneUser(null, userState?._id);
 	const navigation = useNavigation<NavigationProp<Routes>>();
 	const [isLogoutActive, setIsLogoutActive] = useState(false);
@@ -19,7 +19,7 @@ export default function HomeScreen() {
 		setIsLogoutActive(true);
 	}
 
-	function onNavigateToSettings(){
+	function onNavigateToSettings() {
 		navigation.navigate("Settings");
 	}
 
@@ -45,6 +45,7 @@ export default function HomeScreen() {
 					visibleHanlder={setIsLogoutActive}
 					theme={theme}
 					removeUserHandler={removeUser}
+					language={language}
 				/>
 			) : (
 				""
@@ -72,7 +73,9 @@ export default function HomeScreen() {
 								: { color: "white" },
 						]}
 					>
-						Server is not responding, please try again later!
+						{language == "english"
+							? "Server is not responding, please try again later!"
+							: "Сървърът не отговаря, моля опитайте по късно!"}
 					</Text>
 				</View>
 			) : (
@@ -102,7 +105,9 @@ export default function HomeScreen() {
 							onPress={openLogout}
 							style={globalStyles.button}
 						>
-							<Text style={globalStyles.buttonText}>LOGOUT</Text>
+							<Text style={globalStyles.buttonText}>
+								{language == "english" ? "LOGOUT" : "ИЗХОД"}
+							</Text>
 						</TouchableOpacity>
 					</View>
 					<Text
@@ -136,7 +141,7 @@ export default function HomeScreen() {
 										homeStyles.contenteItemText,
 									]}
 								>
-									Steps
+									{language == "english" ? "Steps" : "Стъпки"}
 								</Text>
 								{user &&
 								(steps !== null || steps !== undefined) ? (
@@ -169,7 +174,9 @@ export default function HomeScreen() {
 												: { color: "white" }
 										}
 									>
-										Error! No user yet
+										{language == "english"
+											? "Error! No user yet"
+											: "Грешка! Няма потребител все още"}
 									</Text>
 								)}
 								<Text
@@ -204,7 +211,7 @@ export default function HomeScreen() {
 										homeStyles.contenteItemText,
 									]}
 								>
-									Water
+									{language == "english" ? "Water" : "Вода"}
 								</Text>
 								<Icon
 									name="droplet"
@@ -224,7 +231,7 @@ export default function HomeScreen() {
 											user.waterDays.length - 1
 										].waterCount
 									}{" "}
-									ml
+									{language == "english" ? "ml" : "мл"}
 								</Text>
 							</View>
 						</TouchableOpacity>
