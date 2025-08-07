@@ -2,19 +2,12 @@ import { StyleSheet } from "react-native";
 
 export const stepsStyles = StyleSheet.create({
 	wrapper: {
-		marginTop: 50,
+		marginTop: 20,
 		width: "100%",
 		display: "flex",
 		flexDirection: "column",
 		gap: 20,
         alignItems:"center"
-	},
-	arrowButton: {
-		paddingLeft: 30,
-		display: "flex",
-		flexDirection: "row",
-		justifyContent: "flex-start",
-        alignSelf:"flex-start"
 	},
 	title: {
 		display: "flex",

@@ -1,10 +1,6 @@
 import { StyleSheet } from "react-native";
 
 export const stepsDetailsStyles=StyleSheet.create({
-    arrow:{
-        marginTop:50,
-        marginLeft:30,
-    },
     wrapper:{
         marginTop:30,
         marginLeft:"auto",

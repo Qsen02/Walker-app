@@ -32,7 +32,7 @@ export default function StepsDetails() {
 			)}
 			<TouchableOpacity
 				onPress={() => navigation.goBack()}
-				style={stepsDetailsStyles.arrow}
+				style={globalStyles.arrowButton}
 			>
 				<Icon
 					name="arrow-left"

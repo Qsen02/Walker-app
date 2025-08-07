@@ -37,6 +37,16 @@ export default function Steps() {
 			) : (
 				""
 			)}
+			<TouchableOpacity
+				style={globalStyles.arrowButton}
+				onPress={() => navigation.goBack()}
+			>
+				<Icon
+					name="arrow-left"
+					color={theme == "light" ? "black" : "white"}
+					size={25}
+				/>
+			</TouchableOpacity>
 			<View
 				style={[
 					theme == "light"
@@ -45,16 +55,6 @@ export default function Steps() {
 					stepsStyles.wrapper,
 				]}
 			>
-				<TouchableOpacity
-					style={stepsStyles.arrowButton}
-					onPress={() => navigation.goBack()}
-				>
-					<Icon
-						name="arrow-left"
-						color={theme == "light" ? "black" : "white"}
-						size={25}
-					/>
-				</TouchableOpacity>
 				<View style={stepsStyles.title}>
 					<Text
 						style={[

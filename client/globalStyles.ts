@@ -123,4 +123,12 @@ export const globalStyles = StyleSheet.create({
 		backgroundColor: "rgba(6, 173, 0, 1)",
 		height: "100%",
 	},
+	arrowButton: {
+		marginTop:50,
+        marginLeft:30,
+		display: "flex",
+		flexDirection: "row",
+		justifyContent: "flex-start",
+		alignSelf: "flex-start",
+	},
 });
