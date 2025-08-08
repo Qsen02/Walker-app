@@ -99,7 +99,6 @@ export default function Login() {
 					}
 					value={formValues.username}
 					theme={theme}
-					language={language}
 				/>
 				<InputField
 					title={`${language == "english" ? "Password" : "Парола"}`}
@@ -108,7 +107,6 @@ export default function Login() {
 					}
 					value={formValues.password}
 					theme={theme}
-					language={language}
 				/>
 				<TouchableOpacity style={globalStyles.button} onPress={onLogin}>
 					<Text style={globalStyles.buttonText}>

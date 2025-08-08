@@ -8,7 +8,6 @@ interface InputFieldProps {
 	placeholder?: string;
 	keyboardType?: KeyboardTypeOptions;
 	theme: "light" | "dark" | undefined;
-	language: "bulgarian" | "english" | undefined;
 }
 
 export default function InputField({
@@ -18,14 +17,14 @@ export default function InputField({
 	placeholder,
 	keyboardType,
 	theme,
-	language,
 }: InputFieldProps) {
 	return (
 		<View style={globalStyles.inputWrapper}>
 			<Text
-				style={
-					theme == "light" ? { color: "black" } : { color: "white" }
-				}
+				style={[
+					theme == "light" ? { color: "black" } : { color: "white" },
+					{fontSize:18}
+				]}
 			>
 				{title}
 			</Text>

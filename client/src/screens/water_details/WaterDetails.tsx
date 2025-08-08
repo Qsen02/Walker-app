@@ -11,6 +11,8 @@ import { globalStyles } from "../../../globalStyles";
 import Icon from "react-native-vector-icons/FontAwesome6";
 import { useUserThemeContext } from "../../contexts/user_theme_context";
 import { waterDetailsStyles } from "./WaterDetailsStyles";
+import { useState } from "react";
+import AddWater from "./add_water/AddWater";
 
 export default function WaterDetails() {
 	const { theme, language } = useUserThemeContext();
@@ -18,6 +20,12 @@ export default function WaterDetails() {
 	const { waterId } = route.params;
 	const { water, loading, error } = useGetOneWater(null, waterId);
 	const navigation = useNavigation<NavigationProp<Routes>>();
+	const [isFormVisible, setIsFormVisible] = useState(false);
+
+	function showForm() {
+		setIsFormVisible(true);
+	}
+
 	return (
 		<>
 			{loading && !error ? (
@@ -25,6 +33,16 @@ export default function WaterDetails() {
 					size={60}
 					color="rgba(6,173,0,1)"
 					style={globalStyles.spinner}
+				/>
+			) : (
+				""
+			)}
+			{isFormVisible ? (
+				<AddWater
+					visible={isFormVisible}
+					visibleHanlder={setIsFormVisible}
+					theme={theme}
+					language={language}
 				/>
 			) : (
 				""
@@ -71,7 +89,10 @@ export default function WaterDetails() {
 					]}
 				>
 					<View style={waterDetailsStyles.buttonWrapper}>
-						<TouchableOpacity style={globalStyles.button}>
+						<TouchableOpacity
+							style={globalStyles.button}
+							onPress={showForm}
+						>
 							<Text style={globalStyles.buttonText}>
 								{language == "english"
 									? "ADD WATER"

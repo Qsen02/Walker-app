@@ -128,7 +128,6 @@ export default function Register() {
 					}
 					value={formValues.username}
 					theme={theme}
-					language={language}
 				/>
 				<InputField
 					title={`${language == "english" ? "Email" : "Имейл"}`}
@@ -137,7 +136,6 @@ export default function Register() {
 					}
 					value={formValues.email}
 					theme={theme}
-					language={language}
 				/>
 				<InputField
 					title={`${language == "english" ? "Password" : "Парола"}`}
@@ -146,7 +144,6 @@ export default function Register() {
 					}
 					value={formValues.password}
 					theme={theme}
-					language={language}
 				/>
 				<InputField
 					title={`${
@@ -159,7 +156,6 @@ export default function Register() {
 					}
 					value={formValues.repass}
 					theme={theme}
-					language={language}
 				/>
 				<TouchableOpacity
 					style={globalStyles.button}
