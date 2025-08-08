@@ -18,7 +18,7 @@ export default function WaterDetails() {
 	const { theme, language } = useUserThemeContext();
 	const route = useRoute<RouteProp<Routes, "WaterDetails">>();
 	const { waterId } = route.params;
-	const { water, loading, error } = useGetOneWater(null, waterId);
+	const { water,setWater, loading, error } = useGetOneWater(null, waterId);
 	const navigation = useNavigation<NavigationProp<Routes>>();
 	const [isFormVisible, setIsFormVisible] = useState(false);
 
@@ -43,13 +43,15 @@ export default function WaterDetails() {
 					visibleHanlder={setIsFormVisible}
 					theme={theme}
 					language={language}
+					waterId={waterId}
+					setWaterHanlder={setWater}
 				/>
 			) : (
 				""
 			)}
 			<TouchableOpacity
 				style={globalStyles.arrowButton}
-				onPress={() => navigation.goBack()}
+				onPress={() => navigation.navigate("Home")}
 			>
 				<Icon
 					name="arrow-left"

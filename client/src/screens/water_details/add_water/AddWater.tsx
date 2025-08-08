@@ -9,12 +9,16 @@ import { globalStyles } from "../../../../globalStyles";
 import { useState } from "react";
 import InputField from "../../../commons/input_field/InputField";
 import { addWaterStyles } from "./AddWaterStyles";
+import { useAddWater } from "../../../hooks/useWater";
+import { Water } from "../../../types/water";
 
 interface ErrorModalProps {
 	visible: boolean;
 	visibleHanlder: React.Dispatch<React.SetStateAction<boolean>>;
 	theme: "light" | "dark" | undefined;
 	language: "bulgarian" | "english" | undefined;
+	waterId: string;
+	setWaterHanlder: React.Dispatch<React.SetStateAction<Water | null>>;
 }
 
 export default function AddWater({
@@ -22,13 +26,44 @@ export default function AddWater({
 	visibleHanlder,
 	theme,
 	language,
+	waterId,
+	setWaterHanlder,
 }: ErrorModalProps) {
 	const [formValues, setFormValues] = useState({
 		waterCount: "",
 	});
+	const addWater = useAddWater();
+	const [isErr, setIsErr] = useState(false);
+	const [errMessage, setErrMessage] = useState("");
 
 	function close() {
 		visibleHanlder(false);
+	}
+
+	async function onAdd() {
+		try {
+			const waterCount = Number(formValues.waterCount);
+			if (waterCount < 1) {
+				throw new Error(
+					`${
+						language == "english"
+							? "Water amount must be minimum 1 ml!"
+							: "Количеството на водата трябва да бъде поне 1 мл"
+					}`
+				);
+			}
+			const updatedWater = await addWater(waterId, { waterCount });
+			setWaterHanlder(updatedWater);
+			visibleHanlder(false);
+		} catch (err) {
+			setIsErr(true);
+			if (err instanceof Error) {
+				setErrMessage(err.message);
+			} else {
+				setErrMessage("Error occurd!");
+			}
+			return;
+		}
 	}
 
 	return (
@@ -42,6 +77,13 @@ export default function AddWater({
 						globalStyles.modalContainer,
 					]}
 				>
+					{isErr ? (
+						<Text style={[globalStyles.errors, { color: "red" }]}>
+							{errMessage}
+						</Text>
+					) : (
+						""
+					)}
 					<InputField
 						title={`${
 							language == "english"
@@ -56,7 +98,10 @@ export default function AddWater({
 						keyboardType="numeric"
 					/>
 					<View style={addWaterStyles.buttonWrapper}>
-						<TouchableOpacity style={globalStyles.button}>
+						<TouchableOpacity
+							style={globalStyles.button}
+							onPress={onAdd}
+						>
 							<Text style={globalStyles.buttonText}>
 								{language == "english" ? "ADD" : "ДОБАВИ"}
 							</Text>

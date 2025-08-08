@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Water } from "../types/water";
 import { useLoadingError } from "./useLoadingError";
-import { getWaterById } from "../api/waterService";
+import { addWater, getWaterById } from "../api/waterService";
 
 export function useGetOneWater(
 	initialValues: null,
@@ -24,12 +24,19 @@ export function useGetOneWater(
 				setLoading(false);
 				setError(true);
 			}
-		})();
+		})(); 
 	}, []);
 
 	return {
 		water,
+		setWater,
 		loading,
 		error,
 	};
+}
+
+export function useAddWater(){
+	return async function (waterId:string,data:object){
+		return await addWater(waterId,data);
+	}
 }
