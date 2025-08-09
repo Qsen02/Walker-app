@@ -1,15 +1,23 @@
-import { RouteProp, useRoute } from "@react-navigation/native";
+import {
+	NavigationProp,
+	RouteProp,
+	useNavigation,
+	useRoute,
+} from "@react-navigation/native";
 import { Routes } from "../../types/RoutingTable";
-import { ActivityIndicator, Text, View } from "react-native";
+import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 import { useGetOnlyUser } from "../../hooks/useUser";
 import { useUserThemeContext } from "../../contexts/user_theme_context";
 import { globalStyles } from "../../../globalStyles";
+import Icon from "react-native-vector-icons/FontAwesome6";
+import { profileStyles } from "./ProfileStyles";
 
 export default function Profile() {
 	const { theme, language } = useUserThemeContext();
 	const route = useRoute<RouteProp<Routes, "Profile">>();
 	const { userId } = route.params;
 	const { user, setUser, loading, error } = useGetOnlyUser(null, userId);
+	const navigation = useNavigation<NavigationProp<Routes>>();
 
 	return (
 		<>
@@ -42,9 +50,84 @@ export default function Profile() {
 					</Text>
 				</View>
 			) : (
-				<View>
-					<Text>User id: {userId}</Text>
-				</View>
+				<>
+					<TouchableOpacity
+						style={globalStyles.arrowButton}
+						onPress={() => navigation.goBack()}
+					>
+						<Icon
+							name="arrow-left"
+							color={theme == "light" ? "black" : "white"}
+							size={25}
+						/>
+					</TouchableOpacity>
+					<View
+						style={[
+							theme == "light"
+								? globalStyles.whiteThemeNormal
+								: globalStyles.darkThemeNormal,
+							profileStyles.wrapper,
+						]}
+					>
+						<Icon
+							name="circle-user"
+							color={theme == "light" ? "black" : "white"}
+							size={50}
+						/>
+						<Text
+							style={[
+								theme == "light"
+									? { color: "black" }
+									: { color: "white" },
+								profileStyles.text,
+							]}
+						>
+							{language == "english"
+								? "Username:"
+								: "Потребителско име:"}{" "}
+							{user?.username}
+						</Text>
+						<Text
+							style={[
+								theme == "light"
+									? { color: "black" }
+									: { color: "white" },
+								profileStyles.text,
+							]}
+						>
+							{language == "english" ? "Email:" : "Имейл:"}{" "}
+							{user?.email}
+						</Text>
+						<Text
+							style={[
+								theme == "light"
+									? { color: "black" }
+									: { color: "white" },
+								profileStyles.text,
+							]}
+						>
+							{language == "english" ? "Purpose:" : "Цел:"}{" "}
+							{user?.purpose}{" "}
+							{language == "english" ? "steps" : "крачки"}
+						</Text>
+						<View style={profileStyles.buttonWrapper}>
+							<TouchableOpacity style={globalStyles.button}>
+								<Text style={globalStyles.buttonText}>
+									{language == "english"
+										? "EDIT"
+										: "РЕДАКТИРАЙ"}
+								</Text>
+							</TouchableOpacity>
+							<TouchableOpacity style={globalStyles.button}>
+								<Text style={globalStyles.buttonText}>
+									{language == "english"
+										? "PASSWORD"
+										: "ПАРОЛА"}
+								</Text>
+							</TouchableOpacity>
+						</View>
+					</View>
+				</>
 			)}
 		</>
 	);
