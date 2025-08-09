@@ -11,6 +11,8 @@ import { useUserThemeContext } from "../../contexts/user_theme_context";
 import { globalStyles } from "../../../globalStyles";
 import Icon from "react-native-vector-icons/FontAwesome6";
 import { profileStyles } from "./ProfileStyles";
+import { useState } from "react";
+import EditProfile from "./edit_profile/EditProfile";
 
 export default function Profile() {
 	const { theme, language } = useUserThemeContext();
@@ -18,9 +20,26 @@ export default function Profile() {
 	const { userId } = route.params;
 	const { user, setUser, loading, error } = useGetOnlyUser(null, userId);
 	const navigation = useNavigation<NavigationProp<Routes>>();
+	const [isEditFormOpen, setIsEditFormOpen] = useState(false);
+
+    function openEditForm(){
+        setIsEditFormOpen(true);
+    }
 
 	return (
 		<>
+			{isEditFormOpen ? (
+				<EditProfile
+					visible={isEditFormOpen}
+					visibleHandler={setIsEditFormOpen}
+                    user={user}
+                    userHandler={setUser}
+                    theme={theme}
+                    language={language}
+				/>
+			) : (
+				""
+			)}
 			{loading && !error ? (
 				<ActivityIndicator
 					size={60}
@@ -111,7 +130,7 @@ export default function Profile() {
 							{language == "english" ? "steps" : "крачки"}
 						</Text>
 						<View style={profileStyles.buttonWrapper}>
-							<TouchableOpacity style={globalStyles.button}>
+							<TouchableOpacity style={globalStyles.button} onPress={openEditForm}>
 								<Text style={globalStyles.buttonText}>
 									{language == "english"
 										? "EDIT"
