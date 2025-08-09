@@ -15,15 +15,21 @@ import { useState } from "react";
 import AddWater from "./add_water/AddWater";
 
 export default function WaterDetails() {
-	const { theme, language } = useUserThemeContext();
+	const { theme, language, userState } = useUserThemeContext();
 	const route = useRoute<RouteProp<Routes, "WaterDetails">>();
 	const { waterId } = route.params;
-	const { water,setWater, loading, error } = useGetOneWater(null, waterId);
+	const { water, setWater, loading, error } = useGetOneWater(null, waterId);
 	const navigation = useNavigation<NavigationProp<Routes>>();
 	const [isFormVisible, setIsFormVisible] = useState(false);
 
 	function showForm() {
 		setIsFormVisible(true);
+	}
+
+	function showLastWaterDays() {
+		if (userState) {
+			navigation.navigate("Water", { userId: userState?._id });
+		}
 	}
 
 	return (
@@ -101,7 +107,7 @@ export default function WaterDetails() {
 									: "ДОБАВИ ВОДА"}
 							</Text>
 						</TouchableOpacity>
-						<TouchableOpacity style={globalStyles.button}>
+						<TouchableOpacity style={globalStyles.button} onPress={showLastWaterDays}>
 							<Text style={globalStyles.buttonText}>
 								{language == "english"
 									? "LAST WATER DAYS"

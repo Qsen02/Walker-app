@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import {
 	getActiveDays,
 	getUserById,
+	getWaterDays,
 	login,
 	register,
 } from "../api/userService";
@@ -11,6 +12,7 @@ import { incrementSteps } from "../api/stepsService";
 import { registrateBackgoundTask } from "../utils/checkMidnight";
 import { Accelerometer } from "expo-sensors";
 import { Steps } from "../types/steps";
+import { Water } from "../types/water";
 
 interface AccelerometerProps {
 	x: number;
@@ -129,6 +131,41 @@ export function useGetLastSteps(initialValues: [], userId: string) {
 
 	return {
 		steps,
+		loading,
+		error,
+	};
+}
+
+export function useGetLastWater(initialValues: [], userId: string) {
+	const [waterDays, setWaterDays] = useState<Water[]>(initialValues);
+	const { loading, setLoading, error, setError } = useLoadingError(
+		false,
+		false
+	);
+
+	useEffect(() => {
+		(async () => {
+			const controller = new AbortController();
+			const { signal } = controller;
+			try {
+				setLoading(true);
+				if (!signal.aborted) {
+					const curWaterDays = await getWaterDays(userId);
+					setWaterDays(curWaterDays);
+				}
+				setLoading(false);
+			} catch (err) {
+				setLoading(false);
+				setError(true);
+			}
+			return () => {
+				controller.abort();
+			};
+		})();
+	}, []);
+
+	return {
+		waterDays,
 		loading,
 		error,
 	};
