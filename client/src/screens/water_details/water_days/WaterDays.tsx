@@ -4,13 +4,20 @@ import {
 	useNavigation,
 	useRoute,
 } from "@react-navigation/native";
-import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
+import {
+	ActivityIndicator,
+	Text,
+	TouchableOpacity,
+	View,
+	ScrollView,
+} from "react-native";
 import { Routes } from "../../../types/RoutingTable";
 import { globalStyles } from "../../../../globalStyles";
 import { useUserThemeContext } from "../../../contexts/user_theme_context";
 import Icon from "react-native-vector-icons/FontAwesome6";
 import { useGetLastWater } from "../../../hooks/useUser";
 import { waterDaysStyles } from "./WaterDaysStyles";
+import WaterItem from "../../../commons/water_item/WaterItem";
 
 export default function WaterDays() {
 	const { theme, userState, language } = useUserThemeContext();
@@ -76,6 +83,36 @@ export default function WaterDays() {
 							? "The last 7 days you drank water"
 							: "Последните 7 дни в които сте пили вода"}
 					</Text>
+					{waterDays.length == 0 ? (
+						<View style={globalStyles.errorContainer}>
+							<Text
+								style={[
+									globalStyles.errorText,
+									theme == "light"
+										? { color: "black" }
+										: { color: "white" },
+								]}
+							>
+								{language == "english"
+									? "No water days yet"
+									: "Няма дни за водата все още"}
+							</Text>
+						</View>
+					) : (
+						<ScrollView>
+							<View>
+								{waterDays.map((el) => (
+									<WaterItem
+										key={el._id}
+										waterCount={el.waterCount}
+										date={el.date}
+										theme={theme}
+										language={language}
+									/>
+								))}
+							</View>
+						</ScrollView>
+					)}
 				</View>
 			)}
 		</>
