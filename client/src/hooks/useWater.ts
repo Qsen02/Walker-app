@@ -15,16 +15,23 @@ export function useGetOneWater(
 
 	useEffect(() => {
 		(async () => {
+			const controller = new AbortController();
+			const { signal } = controller;
 			try {
 				setLoading(true);
-				const curWater = await getWaterById(waterId);
-				setWater(curWater);
+				if (!signal.aborted) {
+					const curWater = await getWaterById(waterId);
+					setWater(curWater);
+				}
 				setLoading(false);
 			} catch (err) {
 				setLoading(false);
 				setError(true);
 			}
-		})(); 
+			return () => {
+				controller.abort();
+			};
+		})();
 	}, []);
 
 	return {
@@ -35,8 +42,8 @@ export function useGetOneWater(
 	};
 }
 
-export function useAddWater(){
-	return async function (waterId:string,data:object){
-		return await addWater(waterId,data);
-	}
+export function useAddWater() {
+	return async function (waterId: string, data: object) {
+		return await addWater(waterId, data);
+	};
 }

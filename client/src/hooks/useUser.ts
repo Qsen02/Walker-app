@@ -44,7 +44,7 @@ export function useGetOneUser(initialValues: null, userId: string | undefined) {
 			userRef.current = user;
 		}
 	}, [user]);
-	
+
 	async function checkMovement({ x, y, z }: AccelerometerProps) {
 		const rawAccel = Math.sqrt(x * x + y * y + z * z);
 		const gravity = 1.0;
@@ -61,27 +61,33 @@ export function useGetOneUser(initialValues: null, userId: string | undefined) {
 
 	useEffect(() => {
 		(async () => {
+			const controller = new AbortController();
+			const { signal } = controller;
+			const subscription = Accelerometer.addListener(checkMovement);
 			try {
 				setLoading(true);
-				if (userId) {
-					const user = await getUserById(userId);
-					setUser(user);
-					setSteps(
-						user.activeDays[user.activeDays.length - 1].stepsCount
-					);
-				} else {
-					return;
+				if (!signal.aborted) {
+					if (userId) {
+						const user = await getUserById(userId);
+						setUser(user);
+						setSteps(
+							user.activeDays[user.activeDays.length - 1]
+								.stepsCount
+						);
+					} else {
+						return;
+					}
+					await registrateBackgoundTask(setSteps);
 				}
-				const subscription = Accelerometer.addListener(checkMovement);
-				await registrateBackgoundTask(setSteps);
 				setLoading(false);
-				return () => {
-					subscription.remove();
-				};
 			} catch (err) {
 				setLoading(false);
 				setError(true);
 			}
+			return () => {
+				subscription.remove();
+				controller.abort();
+			};
 		})();
 	}, []);
 
@@ -102,15 +108,22 @@ export function useGetLastSteps(initialValues: [], userId: string) {
 
 	useEffect(() => {
 		(async () => {
+			const controller = new AbortController();
+			const { signal } = controller;
 			try {
 				setLoading(true);
-				const curSteps = await getActiveDays(userId);
-				setSteps(curSteps);
+				if (!signal.aborted) {
+					const curSteps = await getActiveDays(userId);
+					setSteps(curSteps);
+				}
 				setLoading(false);
 			} catch (err) {
 				setLoading(false);
 				setError(true);
 			}
+			return () => {
+				controller.abort();
+			};
 		})();
 	}, []);
 

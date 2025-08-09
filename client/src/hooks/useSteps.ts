@@ -15,14 +15,21 @@ export function useGetOneSteps(
 
 	useEffect(() => {
 		(async () => {
+			const controller = new AbortController();
+			const { signal } = controller;
 			try {
 				setLoading(true);
-				const steps = await getStepsById(stepsId);
-				setCurSteps(steps);
+				if (!signal.aborted) {
+					const steps = await getStepsById(stepsId);
+					setCurSteps(steps);
+				}
 				setLoading(false);
 			} catch (err) {
 				setLoading(false);
 				setError(true);
+			}
+			return ()=>{
+				controller.abort();
 			}
 		})();
 	}, []);
