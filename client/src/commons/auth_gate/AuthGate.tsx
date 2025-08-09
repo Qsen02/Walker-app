@@ -8,6 +8,7 @@ import StepsDetails from "../../screens/steps/steps_details/StepsDetails";
 import WaterDetails from "../../screens/water_details/WaterDetails";
 import Settings from "../../screens/settings/Settings";
 import WaterDays from "../../screens/water_details/water_days/WaterDays";
+import Profile from "../../screens/profile/Profile";
 
 export default function AuthGate() {
 	const { userState, theme } = useUserThemeContext();
@@ -32,6 +33,7 @@ export default function AuthGate() {
 					<Stack.Screen name="WaterDetails" component={WaterDetails}/>
 					<Stack.Screen name="Settings" component={Settings}/>
 					<Stack.Screen name="Water" component={WaterDays}/>
+					<Stack.Screen name="Profile" component={Profile}/>
 				</>
 			) : (
 				<Stack.Screen

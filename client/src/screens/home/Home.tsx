@@ -25,6 +25,12 @@ export default function HomeScreen() {
 		navigation.navigate("Settings");
 	}
 
+	function onNavigateToProfile() {
+		if (userState) {
+			navigation.navigate("Profile", { userId: userState?._id });
+		}
+	}
+
 	return (
 		<>
 			{isLogoutActive ? (
@@ -76,7 +82,7 @@ export default function HomeScreen() {
 					]}
 				>
 					<View style={homeStyles.buttonsContainer}>
-						<TouchableOpacity>
+						<TouchableOpacity onPress={onNavigateToProfile}>
 							<Icon
 								name="circle-user"
 								color={theme == "light" ? "black" : "white"}

@@ -170,3 +170,41 @@ export function useGetLastWater(initialValues: [], userId: string) {
 		error,
 	};
 }
+
+export function useGetOnlyUser(initialValues: null, userId: string) {
+	const [user, setUser] = useState<User | null>(initialValues);
+	const { loading, setLoading, error, setError } = useLoadingError(
+		false,
+		false
+	);
+
+	useEffect(() => {
+		(async () => {
+			const controller = new AbortController();
+			const { signal } = controller;
+			try {
+				setLoading(true);
+				if (!signal.aborted) {
+					const curUser = await getUserById(userId);
+					setUser(curUser);
+				}
+				setLoading(false);
+			} catch (err) {
+				setLoading(false);
+				setError(true);
+			}
+			return () => {
+				controller.abort();
+			};
+		})();
+	}, []);
+
+	return {
+		user,
+		setUser,
+		loading,
+		error,
+	};
+}
+
+
