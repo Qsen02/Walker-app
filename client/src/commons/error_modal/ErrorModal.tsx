@@ -1,12 +1,13 @@
 import { Modal, View, Text, TouchableOpacity } from "react-native";
 import { globalStyles } from "../../../globalStyles";
+import { Theme } from "../../types/UserAndTheme";
 
 interface ErrorModalProps {
 	message: string;
 	visible: boolean;
 	visibleHanlder: React.Dispatch<React.SetStateAction<boolean>>;
 	messageHandler: React.Dispatch<React.SetStateAction<string>>;
-	theme: "light" | "dark" | undefined;
+	theme: Theme | undefined;
 }
 
 export default function ErrorModal({

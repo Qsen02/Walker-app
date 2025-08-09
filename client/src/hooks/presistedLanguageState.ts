@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { getLanguageData, setLanguageData } from "../utils/userHelper";
+import { Language } from "../types/UserAndTheme";
 
 export function usePresistedLanguageState(initialValues: "english") {
-    const [language, setLanguage] = useState<"bulgarian" | "english">(() => {
+    const [language, setLanguage] = useState<Language>(() => {
         const language = getLanguageData();
         if (language) {
             return language;
@@ -10,7 +11,7 @@ export function usePresistedLanguageState(initialValues: "english") {
         return initialValues;
     });
 
-    function changeLanguage(value: "bulgarian" | "english") {
+    function changeLanguage(value: Language) {
         setLanguage(value);
         setLanguageData(value);
     }

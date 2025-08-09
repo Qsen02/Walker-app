@@ -3,14 +3,15 @@ import { globalStyles } from "../../../globalStyles";
 import { stepItemStyles } from "./StepItemStyles";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { Routes } from "../../types/RoutingTable";
+import { Language, Theme } from "../../types/UserAndTheme";
 
 interface StepItemProps {
 	id: string;
 	stepsCount: number;
 	purpose: number | undefined;
 	date: string;
-	theme: "light" | "dark" | undefined;
-	language: "bulgarian" | "english" | undefined;
+	theme: Theme | undefined;
+	language: Language | undefined;
 }
 
 export default function StepItem({

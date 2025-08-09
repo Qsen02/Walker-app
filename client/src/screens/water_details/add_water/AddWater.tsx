@@ -11,12 +11,13 @@ import InputField from "../../../commons/input_field/InputField";
 import { addWaterStyles } from "./AddWaterStyles";
 import { useAddWater } from "../../../hooks/useWater";
 import { Water } from "../../../types/water";
+import { Language, Theme } from "../../../types/UserAndTheme";
 
 interface ErrorModalProps {
 	visible: boolean;
 	visibleHanlder: React.Dispatch<React.SetStateAction<boolean>>;
-	theme: "light" | "dark" | undefined;
-	language: "bulgarian" | "english" | undefined;
+	theme: Theme | undefined;
+	language: Language | undefined;
 	waterId: string;
 	setWaterHanlder: React.Dispatch<React.SetStateAction<Water | null>>;
 }

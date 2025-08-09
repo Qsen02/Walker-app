@@ -1,5 +1,6 @@
 import { KeyboardTypeOptions, View, Text, TextInput } from "react-native";
 import { globalStyles } from "../../../globalStyles";
+import { Theme } from "../../types/UserAndTheme";
 
 interface InputFieldProps {
 	title: string;
@@ -7,7 +8,7 @@ interface InputFieldProps {
 	value: string;
 	placeholder?: string;
 	keyboardType?: KeyboardTypeOptions;
-	theme: "light" | "dark" | undefined;
+	theme: Theme | undefined;
 }
 
 export default function InputField({

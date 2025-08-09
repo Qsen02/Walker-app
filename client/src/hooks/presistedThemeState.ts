@@ -1,8 +1,9 @@
 import { useState } from "react";
 import { getThemeData, setThemeData } from "../utils/userHelper";
+import { Theme } from "../types/UserAndTheme";
 
 export function usePresistedThemeState(initialValues: "light") {
-	const [theme, setTheme] = useState<"light" | "dark">(() => {
+	const [theme, setTheme] = useState<Theme>(() => {
 		const theme = getThemeData();
 		if (theme) {
 			return theme;

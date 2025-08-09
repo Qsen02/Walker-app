@@ -2,13 +2,14 @@ import { Modal, View, Text, TouchableOpacity } from "react-native";
 import { globalStyles } from "../../../../globalStyles";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { Routes } from "../../../types/RoutingTable";
+import { Language, Theme } from "../../../types/UserAndTheme";
 
 interface LogoutProps {
 	visible: boolean;
 	visibleHanlder: React.Dispatch<React.SetStateAction<boolean>>;
-	theme: "light" | "dark" | undefined;
+	theme: Theme | undefined;
 	removeUserHandler: (() => Promise<void>) | undefined;
-	language: "bulgarian" | "english" | undefined;
+	language: Language | undefined;
 }
 
 export default function Logout({

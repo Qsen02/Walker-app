@@ -5,12 +5,13 @@ import { globalStyles } from "../../../../globalStyles";
 import { NavigationProp } from "@react-navigation/native";
 import { Routes } from "../../../types/RoutingTable";
 import { User } from "../../../types/user";
+import { Language, Theme } from "../../../types/UserAndTheme";
 
 interface HomeWaterProps {
 	user: User | null;
 	navigation: NavigationProp<Routes>;
-	theme: "light" | "dark" | undefined;
-	language: "bulgarian" | "english" | undefined;
+	theme: Theme | undefined;
+	language: Language | undefined;
 }
 
 export default function HomeWater({

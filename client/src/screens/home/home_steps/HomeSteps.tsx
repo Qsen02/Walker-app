@@ -4,14 +4,15 @@ import { globalStyles } from "../../../../globalStyles";
 import { User, UserForAuth } from "../../../types/user";
 import { NavigationProp } from "@react-navigation/native";
 import { Routes } from "../../../types/RoutingTable";
+import { Language, Theme } from "../../../types/UserAndTheme";
 
 interface HomeStepsProps {
 	user: User | null;
 	steps: number;
 	navigation: NavigationProp<Routes>;
 	userState: UserForAuth | null | undefined;
-	theme: "light" | "dark" | undefined;
-	language: "bulgarian" | "english" | undefined;
+	theme: Theme | undefined;
+	language: Language | undefined;
 }
 
 export default function HomeSteps({
