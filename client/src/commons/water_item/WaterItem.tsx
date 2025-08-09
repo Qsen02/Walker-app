@@ -2,6 +2,7 @@ import { Text, View } from "react-native";
 import { Language, Theme } from "../../types/UserAndTheme";
 import Icon from "react-native-vector-icons/FontAwesome6";
 import { globalStyles } from "../../../globalStyles";
+import { waterItemStyles } from "./WaterItemStyles";
 
 interface WaterItemProps {
 	waterCount: number;
@@ -18,28 +19,31 @@ export default function WaterItem({
 }: WaterItemProps) {
 	return (
 		<View
-			style={
+			style={[
 				theme == "light"
 					? globalStyles.whiteThemeNormal
-					: globalStyles.darkThemeNormal
-			}
+					: globalStyles.darkThemeNormal,
+				waterItemStyles.wrapper,
+			]}
 		>
-			<View>
-				<Icon name="droplet" size={40} color="skyblue" />
+			<View style={waterItemStyles.waterWrapper}>
+				<Icon name="droplet" size={30} color="skyblue" />
 				<Text
-					style={
+					style={[
 						theme == "light"
 							? { color: "black" }
-							: { color: "white" }
-					}
+							: { color: "white" },
+						waterItemStyles.text,
+					]}
 				>
 					{waterCount} {language == "english" ? "ml" : "мл"}
 				</Text>
 			</View>
 			<Text
-				style={
-					theme == "light" ? { color: "black" } : { color: "white" }
-				}
+				style={[
+					theme == "light" ? { color: "black" } : { color: "white" },
+					waterItemStyles.text,
+				]}
 			>
 				{language == "english" ? "Date:" : "Дата:"} {date}
 			</Text>

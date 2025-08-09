@@ -99,9 +99,9 @@ export default function WaterDays() {
 							</Text>
 						</View>
 					) : (
-						<ScrollView>
-							<View>
-								{waterDays.map((el) => (
+						<ScrollView style={waterDaysStyles.scrollWrapper}>
+							<View style={waterDaysStyles.scrollWrapperContent}>
+								{waterDays.reverse().map((el) => (
 									<WaterItem
 										key={el._id}
 										waterCount={el.waterCount}
