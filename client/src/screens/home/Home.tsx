@@ -8,6 +8,8 @@ import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { Routes } from "../../types/RoutingTable";
 import { useState } from "react";
 import Logout from "./logout/Logout";
+import HomeSteps from "./home_steps/HomeSteps";
+import HomeWater from "./home_water/HomeWater";
 
 export default function HomeScreen() {
 	const { userState, removeUser, theme, language } = useUserThemeContext();
@@ -21,20 +23,6 @@ export default function HomeScreen() {
 
 	function onNavigateToSettings() {
 		navigation.navigate("Settings");
-	}
-
-	function onNavigateToSteps() {
-		if (userState) {
-			navigation.navigate("Steps", { userId: userState._id });
-		}
-	}
-
-	function onNavigateToWaterDetails() {
-		if (user) {
-			navigation.navigate("WaterDetails", {
-				waterId: user.waterDays[user.waterDays.length - 1]._id,
-			});
-		}
 	}
 
 	return (
@@ -121,120 +109,20 @@ export default function HomeScreen() {
 						Walker app
 					</Text>
 					<View style={homeStyles.contentContainer}>
-						<TouchableOpacity
-							style={homeStyles.contentItemWrapper}
-							onPress={onNavigateToSteps}
-						>
-							<View
-								style={[
-									theme == "light"
-										? globalStyles.whiteThemeNormal
-										: globalStyles.darkThemeNormal,
-									homeStyles.contentItems,
-								]}
-							>
-								<Text
-									style={[
-										theme == "light"
-											? { color: "black" }
-											: { color: "white" },
-										homeStyles.contenteItemText,
-									]}
-								>
-									{language == "english" ? "Steps" : "Стъпки"}
-								</Text>
-								{user &&
-								(steps !== null || steps !== undefined) ? (
-									<View
-										style={[
-											theme == "light"
-												? globalStyles.whiteThemeDark
-												: globalStyles.darkThemeLight,
-											globalStyles.sliderContainer,
-										]}
-									>
-										<View
-											style={[
-												globalStyles.slider,
-												{
-													width: `${
-														(steps /
-															user?.purpose) *
-														100
-													}%`,
-												},
-											]}
-										></View>
-									</View>
-								) : (
-									<Text
-										style={
-											theme == "light"
-												? { color: "black" }
-												: { color: "white" }
-										}
-									>
-										{language == "english"
-											? "Error! No user yet"
-											: "Грешка! Няма потребител все още"}
-									</Text>
-								)}
-								<Text
-									style={[
-										theme == "light"
-											? { color: "black" }
-											: { color: "white" },
-										homeStyles.contenteItemText,
-									]}
-								>
-									{steps}/{user?.purpose}
-								</Text>
-							</View>
-						</TouchableOpacity>
-						<TouchableOpacity
-							style={homeStyles.contentItemWrapper}
-							onPress={onNavigateToWaterDetails}
-						>
-							<View
-								style={[
-									theme == "light"
-										? globalStyles.whiteThemeNormal
-										: globalStyles.darkThemeNormal,
-									homeStyles.contentItems,
-								]}
-							>
-								<Text
-									style={[
-										theme == "light"
-											? { color: "black" }
-											: { color: "white" },
-										homeStyles.contenteItemText,
-									]}
-								>
-									{language == "english" ? "Water" : "Вода"}
-								</Text>
-								<Icon
-									name="droplet"
-									size={40}
-									color="skyblue"
-								/>
-								<Text
-									style={[
-										theme == "light"
-											? { color: "black" }
-											: { color: "white" },
-										homeStyles.contenteItemText,
-									]}
-								>
-									{
-										user?.waterDays[
-											user.waterDays.length - 1
-										].waterCount
-									}{" "}
-									{language == "english" ? "ml" : "мл"}
-								</Text>
-							</View>
-						</TouchableOpacity>
+						<HomeSteps
+							user={user}
+							steps={steps}
+							userState={userState}
+							navigation={navigation}
+							theme={theme}
+							language={language}
+						/>
+						<HomeWater
+							user={user}
+							navigation={navigation}
+							theme={theme}
+							language={language}
+						/>
 					</View>
 				</View>
 			)}
