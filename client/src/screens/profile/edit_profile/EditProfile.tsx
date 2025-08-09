@@ -11,6 +11,7 @@ import { Language, Theme } from "../../../types/UserAndTheme";
 import { useState } from "react";
 import InputField from "../../../commons/input_field/InputField";
 import { editProfileStyles } from "./EditProfileStyles";
+import { useEditUser } from "../../../hooks/useUser";
 
 interface EditProfileProps {
 	visible: boolean;
@@ -34,8 +35,75 @@ export default function EditProfile({
 		email: user?.email || "",
 		purpose: String(user?.purpose || ""),
 	});
+	const editUser = useEditUser();
+	const [isErr, setIsErr] = useState(false);
+	const [errMessage, setErrMessage] = useState({
+		username: "",
+		email: "",
+		purpose: "",
+	});
+
 	function close() {
 		visibleHandler(false);
+	}
+
+	async function onEdit() {
+		try {
+			const messages = {
+				username: "",
+				email: "",
+				purpose: "",
+			};
+			const username = formValues.username;
+			const email = formValues.email;
+			const purpose = Number(formValues.purpose);
+			if (username.length < 2) {
+				if (language == "english") {
+					messages.username =
+						"Username must be at least 2 letters long!";
+				} else {
+					messages.username =
+						"Името трябва да бъде поне 2 букви дълго!";
+				}
+			}
+			if (!/^[a-z0-9]+@[a-z0-9]+\.[a-z0-9]+$/.test(email)) {
+				if (language == "english") {
+					messages.email = "Email must be valid email!";
+				} else {
+					messages.email = "Имейла трябва да бъде валиден имейл!";
+				}
+			}
+			if (purpose < 1000) {
+				if (language == "english") {
+					messages.purpose = "Purpose must be at least 1000 steps!";
+				} else {
+					messages.purpose = "Целта трябва да е поне 1000 стъпки!";
+				}
+			}
+			if (messages.email || messages.purpose || messages.username) {
+				setIsErr(true);
+				setErrMessage(messages);
+				return;
+			}
+			const updatedUser = await editUser(user?._id, {
+				username:username,
+				email:email,
+				purpose:purpose,
+			});
+			userHandler(updatedUser);
+			visibleHandler(false);
+		} catch (err) {
+			if (err instanceof Error) {
+				console.log(err.message);
+			}
+			setIsErr(true);
+			setErrMessage({
+				username: "Error occurd!",
+				email: "Error occurd!",
+				purpose: "Error occurd!",
+			});
+			return;
+		}
 	}
 
 	return (
@@ -73,6 +141,13 @@ export default function EditProfile({
 						value={formValues.username}
 						theme={theme}
 					/>
+					{isErr ? (
+						<Text style={editProfileStyles.error}>
+							{errMessage.username}
+						</Text>
+					) : (
+						""
+					)}
 					<InputField
 						title={`${language == "english" ? "Email" : "Имейл"}`}
 						changeHanlder={(e: string) =>
@@ -81,6 +156,13 @@ export default function EditProfile({
 						value={formValues.email}
 						theme={theme}
 					/>
+					{isErr ? (
+						<Text style={editProfileStyles.error}>
+							{errMessage.email}
+						</Text>
+					) : (
+						""
+					)}
 					<InputField
 						title={`${language == "english" ? "Purpose" : "Цел"}`}
 						changeHanlder={(e: string) =>
@@ -89,8 +171,18 @@ export default function EditProfile({
 						value={formValues.purpose}
 						theme={theme}
 					/>
+					{isErr ? (
+						<Text style={editProfileStyles.error}>
+							{errMessage.purpose}
+						</Text>
+					) : (
+						""
+					)}
 					<View style={editProfileStyles.buttonWrapper}>
-						<TouchableOpacity style={globalStyles.button}>
+						<TouchableOpacity
+							style={globalStyles.button}
+							onPress={onEdit}
+						>
 							<Text style={globalStyles.buttonText}>
 								{language == "english" ? "SAVE" : "ЗАПАЗИ"}
 							</Text>

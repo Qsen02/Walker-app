@@ -72,7 +72,7 @@ export default function Profile() {
 				<>
 					<TouchableOpacity
 						style={globalStyles.arrowButton}
-						onPress={() => navigation.goBack()}
+						onPress={() => navigation.navigate("Home")}
 					>
 						<Icon
 							name="arrow-left"

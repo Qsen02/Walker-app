@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import {
+	editUser,
 	getActiveDays,
 	getUserById,
 	getWaterDays,
@@ -205,6 +206,12 @@ export function useGetOnlyUser(initialValues: null, userId: string) {
 		loading,
 		error,
 	};
+}
+
+export function useEditUser(){
+	return async function (userId:string | undefined,data:object){
+		return await editUser(userId,data);
+	}
 }
 
 

@@ -34,7 +34,7 @@ export async function login(data:object){
 	return newData as UserForAuth;
 }
 
-export async function editUser(userId:string,data:object){
+export async function editUser(userId:string | undefined,data:object){
     const updatedData = await put(`${endpoint}/${userId}/edit`,data);
     return updatedData as User;
 }

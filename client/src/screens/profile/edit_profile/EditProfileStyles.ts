@@ -11,5 +11,12 @@ export const editProfileStyles=StyleSheet.create({
         flexDirection:"row",
         justifyContent:"center",
         gap:30
+    },
+    error:{
+        color:"red",
+        fontSize:16,
+        textAlign:"center",
+        marginTop:-10,
+        marginBottom:-10
     }
 })
