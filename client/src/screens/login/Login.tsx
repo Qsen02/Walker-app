@@ -55,8 +55,13 @@ export default function Login() {
 				screen: "Home",
 			});
 		} catch (err) {
+			setIsErr(true);
 			if (err instanceof Error) {
-				setErrMessage(err.message);
+				if (language == "english") {
+					setErrMessage(err.message);
+				} else {
+					setErrMessage("Името или паролата не съвпадат!");
+				}
 			} else {
 				if (language == "english") {
 					setErrMessage("Error occurd!");

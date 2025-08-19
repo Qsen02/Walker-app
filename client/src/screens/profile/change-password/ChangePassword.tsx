@@ -11,6 +11,8 @@ import {
 import { globalStyles } from "../../../../globalStyles";
 import InputField from "../../../commons/input_field/InputField";
 import { editProfileStyles } from "../edit_profile/EditProfileStyles";
+import { parseSync } from "@babel/core";
+import { useChangePassword } from "../../../hooks/useUser";
 
 interface ChangePasswordProps {
 	visible: boolean;
@@ -34,14 +36,61 @@ export default function ChangePassword({
 	const [errMessage, setErrMessage] = useState({
 		password: "",
 	});
+	const changePassword = useChangePassword();
 
 	function close() {
 		visibleHandler(false);
 	}
 
-    async function onChangePassword(){
-        console.log(userId);
-    }
+	async function onChangePassword() {
+		try {
+			const messages = {
+				password: "",
+			};
+			const password = formValues.password;
+			if (!/^(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).{6,}$/.test(password)) {
+				if (language == "english") {
+					messages.password =
+						"Password must be at least 6 symbols ant must contain digits, letters and at least one capital letter and special symbol!";
+				} else {
+					messages.password =
+						"Паролата трябва да е с дължина поне 6 символа и трябва да съдържа числа, букви и поне една главна буква и специален символ!";
+				}
+			}
+			if (messages.password) {
+				setIsErr(true);
+				setErrMessage(messages);
+				return;
+			}
+			await changePassword(userId, { password: password });
+			visibleHandler(false);
+		} catch (err) {
+			if (err instanceof Error) {
+				setIsErr(true);
+				if (language == "english") {
+					setErrMessage({
+						password: err.message,
+					});
+				} else {
+					setErrMessage({
+						password: "Старата парола не може да бъде нова!",
+					});
+				}
+			} else {
+				setIsErr(true);
+				if (language == "english") {
+					setErrMessage({
+						password: "Error occurd!",
+					});
+				} else {
+					setErrMessage({
+						password: "Появи се грешка!",
+					});
+				}
+			}
+			return;
+		}
+	}
 
 	return (
 		<Modal transparent={true} visible={visible} animationType="fade">
@@ -85,7 +134,10 @@ export default function ChangePassword({
 					)}
 
 					<View style={editProfileStyles.buttonWrapper}>
-						<TouchableOpacity style={globalStyles.button}>
+						<TouchableOpacity
+							style={globalStyles.button}
+							onPress={onChangePassword}
+						>
 							<Text style={globalStyles.buttonText}>
 								{language == "english" ? "CHANGE" : "ПРОМЕНИ"}
 							</Text>

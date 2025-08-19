@@ -85,6 +85,7 @@ export default function Register() {
 				screen: "Home",
 			});
 		} catch (err) {
+			setIsErr(true);
 			if (err instanceof Error) {
 				setErrMessage(err.message);
 			} else {
