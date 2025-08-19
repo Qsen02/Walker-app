@@ -11,7 +11,6 @@ import {
 import { globalStyles } from "../../../../globalStyles";
 import InputField from "../../../commons/input_field/InputField";
 import { editProfileStyles } from "../edit_profile/EditProfileStyles";
-import { parseSync } from "@babel/core";
 import { useChangePassword } from "../../../hooks/useUser";
 
 interface ChangePasswordProps {
@@ -20,6 +19,7 @@ interface ChangePasswordProps {
 	userId: string;
 	theme: Theme | undefined;
 	language: Language | undefined;
+    changeSuccessfullHandler:React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export default function ChangePassword({
@@ -28,6 +28,7 @@ export default function ChangePassword({
 	userId,
 	theme,
 	language,
+    changeSuccessfullHandler
 }: ChangePasswordProps) {
 	const [formValues, setFormValues] = useState({
 		password: "",
@@ -64,6 +65,7 @@ export default function ChangePassword({
 			}
 			await changePassword(userId, { password: password });
 			visibleHandler(false);
+            changeSuccessfullHandler(true);
 		} catch (err) {
 			if (err instanceof Error) {
 				setIsErr(true);

@@ -14,6 +14,7 @@ import { profileStyles } from "./ProfileStyles";
 import { useState } from "react";
 import EditProfile from "./edit_profile/EditProfile";
 import ChangePassword from "./change-password/ChangePassword";
+import ChangeSuccessfull from "./change-successfull/ChangeSuccessfull";
 
 export default function Profile() {
 	const { theme, language } = useUserThemeContext();
@@ -23,6 +24,7 @@ export default function Profile() {
 	const navigation = useNavigation<NavigationProp<Routes>>();
 	const [isEditFormOpen, setIsEditFormOpen] = useState(false);
 	const [isChangePasswordOpen, setIsChangePassowrdOpen] = useState(false);
+	const [isChangedSuccessfullOpen,setIsChangeSuccessfullOpen]=useState(false);
 
 	function openEditForm() {
 		setIsEditFormOpen(true);
@@ -46,6 +48,16 @@ export default function Profile() {
 			) : (
 				""
 			)}
+				{isChangedSuccessfullOpen ? (
+				<ChangeSuccessfull
+					visible={isChangedSuccessfullOpen}
+					visibleHandler={setIsChangeSuccessfullOpen}
+					theme={theme}
+					language={language}
+				/>
+			) : (
+				""
+			)}
 			{isChangePasswordOpen ? (
 				<ChangePassword
 					visible={isChangePasswordOpen}
@@ -53,6 +65,7 @@ export default function Profile() {
 					userId={userId}
 					theme={theme}
 					language={language}
+					changeSuccessfullHandler={setIsChangeSuccessfullOpen}
 				/>
 			) : (
 				""
