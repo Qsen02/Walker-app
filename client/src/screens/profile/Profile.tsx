@@ -13,6 +13,7 @@ import Icon from "react-native-vector-icons/FontAwesome6";
 import { profileStyles } from "./ProfileStyles";
 import { useState } from "react";
 import EditProfile from "./edit_profile/EditProfile";
+import ChangePassword from "./change-password/ChangePassword";
 
 export default function Profile() {
 	const { theme, language } = useUserThemeContext();
@@ -21,10 +22,15 @@ export default function Profile() {
 	const { user, setUser, loading, error } = useGetOnlyUser(null, userId);
 	const navigation = useNavigation<NavigationProp<Routes>>();
 	const [isEditFormOpen, setIsEditFormOpen] = useState(false);
+	const [isChangePasswordOpen, setIsChangePassowrdOpen] = useState(false);
 
-    function openEditForm(){
-        setIsEditFormOpen(true);
-    }
+	function openEditForm() {
+		setIsEditFormOpen(true);
+	}
+
+	function openChangePasswordForm() {
+		setIsChangePassowrdOpen(true);
+	}
 
 	return (
 		<>
@@ -32,10 +38,21 @@ export default function Profile() {
 				<EditProfile
 					visible={isEditFormOpen}
 					visibleHandler={setIsEditFormOpen}
-                    user={user}
-                    userHandler={setUser}
-                    theme={theme}
-                    language={language}
+					user={user}
+					userHandler={setUser}
+					theme={theme}
+					language={language}
+				/>
+			) : (
+				""
+			)}
+			{isChangePasswordOpen ? (
+				<ChangePassword
+					visible={isChangePasswordOpen}
+					visibleHandler={setIsChangePassowrdOpen}
+					userId={userId}
+					theme={theme}
+					language={language}
 				/>
 			) : (
 				""
@@ -130,14 +147,20 @@ export default function Profile() {
 							{language == "english" ? "steps" : "крачки"}
 						</Text>
 						<View style={profileStyles.buttonWrapper}>
-							<TouchableOpacity style={globalStyles.button} onPress={openEditForm}>
+							<TouchableOpacity
+								style={globalStyles.button}
+								onPress={openEditForm}
+							>
 								<Text style={globalStyles.buttonText}>
 									{language == "english"
 										? "EDIT"
 										: "РЕДАКТИРАЙ"}
 								</Text>
 							</TouchableOpacity>
-							<TouchableOpacity style={globalStyles.button}>
+							<TouchableOpacity
+								style={globalStyles.button}
+								onPress={openChangePasswordForm}
+							>
 								<Text style={globalStyles.buttonText}>
 									{language == "english"
 										? "PASSWORD"

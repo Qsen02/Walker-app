@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import {
+	changePassword,
 	editUser,
 	getActiveDays,
 	getUserById,
@@ -214,4 +215,9 @@ export function useEditUser(){
 	}
 }
 
+export function useChangePassword(){
+	return async function (userId:string,data:object) {
+		return await changePassword(userId,data);
+	}
+}
 
