@@ -21,7 +21,8 @@
         "backgroundColor": "#ffffff"
       },
       "edgeToEdgeEnabled": true,
-      "package": "com.anonymous.client"
+      "package": "com.anonymous.client",
+      "permissions": ["ACTIVITY_RECOGNITION"]
     },
     "web": {
       "favicon": "./assets/favicon.png"

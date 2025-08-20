@@ -14,9 +14,9 @@ export function useGetOneWater(
 	);
 
 	useEffect(() => {
+		const controller = new AbortController();
+		const { signal } = controller;
 		(async () => {
-			const controller = new AbortController();
-			const { signal } = controller;
 			try {
 				setLoading(true);
 				if (!signal.aborted) {
@@ -28,10 +28,10 @@ export function useGetOneWater(
 				setLoading(false);
 				setError(true);
 			}
-			return () => {
-				controller.abort();
-			};
 		})();
+		return () => {
+			controller.abort();
+		};
 	}, []);
 
 	return {

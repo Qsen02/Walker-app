@@ -12,7 +12,7 @@ import { User } from "../types/user";
 import { useLoadingError } from "./useLoadingError";
 import { incrementSteps } from "../api/stepsService";
 import { registrateBackgoundTask } from "../utils/checkMidnight";
-import { Accelerometer } from "expo-sensors";
+import { Accelerometer, Pedometer } from "expo-sensors";
 import { Steps } from "../types/steps";
 import { Water } from "../types/water";
 
@@ -64,10 +64,11 @@ export function useGetOneUser(initialValues: null, userId: string | undefined) {
 	}
 
 	useEffect(() => {
+		const controller = new AbortController();
+		const { signal } = controller;
+		let subscription: any;
 		(async () => {
-			const controller = new AbortController();
-			const { signal } = controller;
-			const subscription = Accelerometer.addListener(checkMovement);
+			subscription = Accelerometer.addListener(checkMovement);
 			try {
 				setLoading(true);
 				if (!signal.aborted) {
@@ -88,11 +89,12 @@ export function useGetOneUser(initialValues: null, userId: string | undefined) {
 				setLoading(false);
 				setError(true);
 			}
-			return () => {
-				subscription.remove();
-				controller.abort();
-			};
 		})();
+
+		return () => {
+			subscription?.remove();
+			controller.abort();
+		};
 	}, []);
 
 	return {
@@ -111,9 +113,10 @@ export function useGetLastSteps(initialValues: [], userId: string) {
 	);
 
 	useEffect(() => {
+		const controller = new AbortController();
+		const { signal } = controller;
+
 		(async () => {
-			const controller = new AbortController();
-			const { signal } = controller;
 			try {
 				setLoading(true);
 				if (!signal.aborted) {
@@ -125,10 +128,11 @@ export function useGetLastSteps(initialValues: [], userId: string) {
 				setLoading(false);
 				setError(true);
 			}
-			return () => {
-				controller.abort();
-			};
 		})();
+
+		return () => {
+			controller.abort();
+		};
 	}, []);
 
 	return {
@@ -146,9 +150,9 @@ export function useGetLastWater(initialValues: [], userId: string) {
 	);
 
 	useEffect(() => {
+		const controller = new AbortController();
+		const { signal } = controller;
 		(async () => {
-			const controller = new AbortController();
-			const { signal } = controller;
 			try {
 				setLoading(true);
 				if (!signal.aborted) {
@@ -160,10 +164,10 @@ export function useGetLastWater(initialValues: [], userId: string) {
 				setLoading(false);
 				setError(true);
 			}
-			return () => {
-				controller.abort();
-			};
 		})();
+		return () => {
+			controller.abort();
+		};
 	}, []);
 
 	return {
@@ -181,9 +185,9 @@ export function useGetOnlyUser(initialValues: null, userId: string) {
 	);
 
 	useEffect(() => {
+		const controller = new AbortController();
+		const { signal } = controller;
 		(async () => {
-			const controller = new AbortController();
-			const { signal } = controller;
 			try {
 				setLoading(true);
 				if (!signal.aborted) {
@@ -195,10 +199,10 @@ export function useGetOnlyUser(initialValues: null, userId: string) {
 				setLoading(false);
 				setError(true);
 			}
-			return () => {
-				controller.abort();
-			};
 		})();
+		return () => {
+			controller.abort();
+		};
 	}, []);
 
 	return {
@@ -209,15 +213,14 @@ export function useGetOnlyUser(initialValues: null, userId: string) {
 	};
 }
 
-export function useEditUser(){
-	return async function (userId:string | undefined,data:object){
-		return await editUser(userId,data);
-	}
+export function useEditUser() {
+	return async function (userId: string | undefined, data: object) {
+		return await editUser(userId, data);
+	};
 }
 
-export function useChangePassword(){
-	return async function (userId:string,data:object) {
-		return await changePassword(userId,data);
-	}
+export function useChangePassword() {
+	return async function (userId: string, data: object) {
+		return await changePassword(userId, data);
+	};
 }
-
