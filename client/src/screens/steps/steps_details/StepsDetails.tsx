@@ -147,8 +147,7 @@ export default function StepsDetails() {
 									]}
 								>
 									{language == "english"
-										? `Well done! You successfully achieved its
-									goal for ${userState.purpose} steps!`
+										? `Well done! You successfully achieved its goal for ${userState.purpose} steps!`
 										: `Браво! Ти успешно постигна целта си за ${userState.purpose} крачки!`}
 								</Text>
 							) : (
