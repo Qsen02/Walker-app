@@ -8,7 +8,7 @@ import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 import { Routes } from "../../types/RoutingTable";
 import { useGetOneWater } from "../../hooks/useWater";
 import { globalStyles } from "../../../globalStyles";
-import Icon from "react-native-vector-icons/FontAwesome6";
+import { FontAwesome6 as Icon } from "@expo/vector-icons";
 import { useUserThemeContext } from "../../contexts/user_theme_context";
 import { waterDetailsStyles } from "./WaterDetailsStyles";
 import { useState } from "react";

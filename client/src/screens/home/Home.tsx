@@ -2,7 +2,7 @@ import { View, Text, TouchableOpacity, ActivityIndicator } from "react-native";
 import { homeStyles } from "./HomeStyles";
 import { useUserThemeContext } from "../../contexts/user_theme_context";
 import { globalStyles } from "../../../globalStyles";
-import Icon from "react-native-vector-icons/FontAwesome6";
+import { FontAwesome6 as Icon } from "@expo/vector-icons";
 import { useGetOneUser } from "../../hooks/useUser";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { Routes } from "../../types/RoutingTable";

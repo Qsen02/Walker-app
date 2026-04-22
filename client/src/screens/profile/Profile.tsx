@@ -9,7 +9,7 @@ import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 import { useGetOnlyUser } from "../../hooks/useUser";
 import { useUserThemeContext } from "../../contexts/user_theme_context";
 import { globalStyles } from "../../../globalStyles";
-import Icon from "react-native-vector-icons/FontAwesome6";
+import { FontAwesome6 as Icon } from "@expo/vector-icons";
 import { profileStyles } from "./ProfileStyles";
 import { useState } from "react";
 import EditProfile from "./edit_profile/EditProfile";

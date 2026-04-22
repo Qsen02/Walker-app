@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, Switch } from "react-native";
 import { useUserThemeContext } from "../../contexts/user_theme_context";
 import { globalStyles } from "../../../globalStyles";
-import Icon from "react-native-vector-icons/FontAwesome6";
+import { FontAwesome6 as Icon } from "@expo/vector-icons";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { Routes } from "../../types/RoutingTable";
 import { useState } from "react";

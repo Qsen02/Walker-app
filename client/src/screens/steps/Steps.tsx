@@ -15,7 +15,7 @@ import { Routes } from "../../types/RoutingTable";
 import { useUserThemeContext } from "../../contexts/user_theme_context";
 import { globalStyles } from "../../../globalStyles";
 import { stepsStyles } from "./StepsStyles";
-import Icon from "react-native-vector-icons/FontAwesome6";
+import { FontAwesome6 as Icon } from "@expo/vector-icons";
 import { useGetLastSteps } from "../../hooks/useUser";
 import StepItem from "../../commons/step_item/StepItem";
 

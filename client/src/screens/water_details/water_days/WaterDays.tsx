@@ -14,7 +14,7 @@ import {
 import { Routes } from "../../../types/RoutingTable";
 import { globalStyles } from "../../../../globalStyles";
 import { useUserThemeContext } from "../../../contexts/user_theme_context";
-import Icon from "react-native-vector-icons/FontAwesome6";
+import { FontAwesome6 as Icon } from "@expo/vector-icons";
 import { useGetLastWater } from "../../../hooks/useUser";
 import { waterDaysStyles } from "./WaterDaysStyles";
 import WaterItem from "../../../commons/water_item/WaterItem";

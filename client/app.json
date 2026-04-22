@@ -22,10 +22,15 @@
       },
       "edgeToEdgeEnabled": true,
       "package": "com.anonymous.client",
-      "permissions": ["ACTIVITY_RECOGNITION"]
+      "permissions": [
+        "ACTIVITY_RECOGNITION"
+      ]
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    }
+    },
+    "plugins": [
+      "expo-asset"
+    ]
   }
 }
