@@ -27,7 +27,7 @@ export async function paginatePulses(page: number) {
 	const skipCount = limit * page;
 	const pulses = await PulseModel.find().skip(skipCount).limit(limit).lean();
 	const documents = await PulseModel.countDocuments();
-    const maxPage = Math.ceil(documents / page);
+    const maxPage = Math.ceil(documents / limit);
     
 	return {
 		pulses,
