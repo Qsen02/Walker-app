@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { isUser } from "../middlewares/guard";
 import {
 	checkStepsId,
 	createSteps,
@@ -10,7 +9,7 @@ import { MyRequest } from "../types/express";
 
 const stepsRouter = Router();
 
-stepsRouter.get("/:stepsId", isUser(), async (req, res) => {
+stepsRouter.get("/:stepsId", async (req, res) => {
 	try {
 		const stepsId = req.params.stepsId;
 		const steps = await getStepsById(stepsId);
@@ -25,7 +24,7 @@ stepsRouter.get("/:stepsId", isUser(), async (req, res) => {
 	}
 });
 
-stepsRouter.post("/", isUser(), async (req: MyRequest, res) => {
+stepsRouter.post("/", async (req: MyRequest, res) => {
 	const user = req.user;
 	try {
 		const newSteps = await createSteps(user);
@@ -40,7 +39,7 @@ stepsRouter.post("/", isUser(), async (req: MyRequest, res) => {
 	}
 });
 
-stepsRouter.put("/:stepsId", isUser(), async (req: MyRequest, res) => {
+stepsRouter.put("/:stepsId", async (req: MyRequest, res) => {
 	const user = req.user;
 	const stepsId = req.params.stepsId;
 	const isValid = await checkStepsId(stepsId);

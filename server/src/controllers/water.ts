@@ -1,5 +1,4 @@
 import { Router } from "express";
-import { isUser } from "../middlewares/guard";
 import { createWater, getWaterById, updateWater } from "../services/water";
 import { MyRequest } from "../types/express";
 import { body, validationResult } from "express-validator";
@@ -7,7 +6,7 @@ import { errorParser } from "../utils/errorParser";
 
 const waterRouter = Router();
 
-waterRouter.get("/:waterId", isUser(), async (req, res) => {
+waterRouter.get("/:waterId", async (req, res) => {
 	try {
 		const waterId = req.params.waterId;
 		const steps = await getWaterById(waterId);
@@ -22,7 +21,7 @@ waterRouter.get("/:waterId", isUser(), async (req, res) => {
 	}
 });
 
-waterRouter.post("/", isUser(), async (req: MyRequest, res) => {
+waterRouter.post("/", async (req: MyRequest, res) => {
 	const user = req.user;
 	try {
 		const newWater = await createWater(user);
@@ -42,9 +41,8 @@ waterRouter.put(
 	body("waterCount")
 		.isInt({ min: 1 })
 		.withMessage("Water must be at least 1ml."),
-	isUser(),
 	async (req, res) => {
-		const waterId = req.params.waterId;
+		const waterId = req?.params?.waterId;
 		const waterCount = Number(req.body.waterCount);
 		try {
             const results=validationResult(req);
