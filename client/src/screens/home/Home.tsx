@@ -10,6 +10,7 @@ import { useState } from "react";
 import Logout from "./logout/Logout";
 import HomeSteps from "./home_steps/HomeSteps";
 import HomeWater from "./home_water/HomeWater";
+import HomePulse from "./home_pulse/HomePulse";
 
 export default function HomeScreen() {
 	const { userState, removeUser, theme, language } = useUserThemeContext();
@@ -128,6 +129,12 @@ export default function HomeScreen() {
 							navigation={navigation}
 							theme={theme}
 							language={language}
+						/>
+						<HomePulse
+							language={language}
+							theme={theme}
+							navigation={navigation}
+							user={user}
 						/>
 					</View>
 				</View>

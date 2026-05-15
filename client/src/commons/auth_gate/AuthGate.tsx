@@ -9,6 +9,7 @@ import WaterDetails from "../../screens/water_details/WaterDetails";
 import Settings from "../../screens/settings/Settings";
 import WaterDays from "../../screens/water_details/water_days/WaterDays";
 import Profile from "../../screens/profile/Profile";
+import PulseMeasure from "../../screens/pulse/PulseMeasure";
 
 export default function AuthGate() {
 	const { userState, theme } = useUserThemeContext();
@@ -29,11 +30,18 @@ export default function AuthGate() {
 				<>
 					<Stack.Screen name="Home" component={HomeScreen} />
 					<Stack.Screen name="Steps" component={Steps} />
-					<Stack.Screen name="StepsDetails" component={StepsDetails}/>
-					<Stack.Screen name="WaterDetails" component={WaterDetails}/>
-					<Stack.Screen name="Settings" component={Settings}/>
-					<Stack.Screen name="Water" component={WaterDays}/>
-					<Stack.Screen name="Profile" component={Profile}/>
+					<Stack.Screen
+						name="StepsDetails"
+						component={StepsDetails}
+					/>
+					<Stack.Screen
+						name="WaterDetails"
+						component={WaterDetails}
+					/>
+					<Stack.Screen name="Settings" component={Settings} />
+					<Stack.Screen name="Water" component={WaterDays} />
+					<Stack.Screen name="Profile" component={Profile} />
+					<Stack.Screen name="Pulse" component={PulseMeasure} />
 				</>
 			) : (
 				<Stack.Screen
