@@ -1,5 +1,7 @@
 import { PulseModel } from "../models/pulses";
+import { Users } from "../models/users";
 import { Pulse } from "../types/pulse";
+import { User } from "../types/user";
 
 export async function getAllPulses() {
 	const pulses = await PulseModel.find().lean();
@@ -35,10 +37,12 @@ export async function paginatePulses(page: number) {
 	};
 }
 
-export async function createPulse(data: Pulse) { 
+export async function createPulse(userId:string,data: Pulse) { 
     const newPusle = await PulseModel.create({
-        value: data.value
+		value: data.value,
     });
+
+	await Users.findByIdAndUpdate(userId, { $push: { newPusle } });
 
     return newPusle;
 }

@@ -1,16 +1,16 @@
-import { Step } from "./steps";
-import { Water } from "./water";
+import { Types } from "mongoose";
 
-export interface User{
-    _id:string;
-    username:string;
-    email:string;
-    password:string;
-    activeDays:Step[];
-    waterDays:Water[];
-    purpose:number;
-    created_at:string;
-    updated_at:string;
+export interface User {
+	_id: string;
+	username: string;
+	email: string;
+	password: string;
+	activeDays: Types.ObjectId[];
+	waterDays: Types.ObjectId[];
+	pulses: Types.ObjectId[];
+	purpose: number;
+	created_at: string;
+	updated_at: string;
 }
 
 export interface UserAttributes{

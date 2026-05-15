@@ -20,7 +20,7 @@ export async function getPulseById(pulseId: string) {
 	return pulse as Pulse;
 }
 
-export async function createPulse(data: object) {
-    const newPulse = await post(endpoint,data);
+export async function createPulse(userId:string,data: object) {
+    const newPulse = await post(`${endpoint}/in/${userId}`,data);
 	return newPulse as Pulse;
 }
