@@ -1,19 +1,53 @@
 import { Text, TouchableOpacity, View } from "react-native";
 import { globalStyles } from "../../../globalStyles";
-import Icon from "react-native-vector-icons/FontAwesome6";
 import { useUserThemeContext } from "../../contexts/user_theme_context";
-import { NavigationProp, RouteProp, useNavigation, useRoute } from "@react-navigation/native";
+import {
+	NavigationProp,
+	RouteProp,
+	useNavigation,
+	useRoute,
+} from "@react-navigation/native";
 import { Routes } from "../../types/RoutingTable";
 import { pulseMeasureStyles } from "./PulseMeasureStyles";
+import { useEffect, useState } from "react";
+import {
+	Camera,
+	useCameraDevice,
+	useCameraPermission,
+} from "react-native-vision-camera";
 
 export default function PulseMeasure() {
 	const { theme, language } = useUserThemeContext();
-    const navigation = useNavigation<NavigationProp<Routes>>();
-    const route = useRoute<RouteProp<Routes, "Pulse">>();
-    const { userId } = route.params;
+	const navigation = useNavigation<NavigationProp<Routes>>();
+	const route = useRoute<RouteProp<Routes, "Pulse">>();
+	const [isActive, setIsActive] = useState(false);
+	const device = useCameraDevice("back");
+	const { userId } = route.params;
+	const { hasPermission, requestPermission } = useCameraPermission();
+
+	function openCamera() {
+		setIsActive(true);
+
+		setTimeout(() => {
+			setIsActive(false);
+		}, 10000);
+	}
+
+	useEffect(() => {
+		(async () => {
+			await requestPermission();
+		})();
+	}, []);
 
 	return (
 		<>
+			{device && hasPermission && (
+				<Camera
+					device={device}
+					isActive={isActive}
+					torchMode={isActive ? "on" : "off"}
+				/>
+			)}
 			<TouchableOpacity
 				style={globalStyles.arrowButton}
 				onPress={() => navigation.navigate("Home")}
@@ -40,7 +74,10 @@ export default function PulseMeasure() {
 								: "Measurements"}
 						</Text>
 					</TouchableOpacity>
-					<TouchableOpacity style={globalStyles.button}>
+					<TouchableOpacity
+						style={globalStyles.button}
+						onPress={openCamera}
+					>
 						<Text style={globalStyles.buttonText}>
 							{language === "bulgarian"
 								? "Измери пулс"

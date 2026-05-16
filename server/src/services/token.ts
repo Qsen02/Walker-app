@@ -1,30 +1,9 @@
-import { UserAttributes } from "../types/user";
+import { User, UserAttributes } from "../types/user";
 import jwt from "jsonwebtoken";
 import dotenv from "dotenv";
-import { Document, Types } from "mongoose";
 dotenv.config();
 
-function setToken(
-	user: Document<
-		unknown,
-		{},
-		{
-			activeDays: Types.ObjectId[];
-			waterDays: Types.ObjectId[];
-			purpose: number;
-			username?: string | null | undefined;
-			email?: string | null | undefined;
-			password?: string | null | undefined;
-		}
-	> & {
-		activeDays: Types.ObjectId[];
-		waterDays: Types.ObjectId[];
-		purpose: number;
-		username?: string | null | undefined;
-		email?: string | null | undefined;
-		password?: string | null | undefined;
-	} | undefined
-) {
+function setToken(user: User | undefined) {
 	const payload = {
 		_id: user?._id,
 		username: user?.username,
@@ -47,7 +26,7 @@ function verifyToken(token: string) {
 	if (process.env.JWT_SECRET) {
 		const isValid = jwt.verify(
 			token,
-			process.env.JWT_SECRET
+			process.env.JWT_SECRET,
 		) as UserAttributes;
 
 		return isValid;

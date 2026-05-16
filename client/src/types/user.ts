@@ -1,3 +1,4 @@
+import { Pulse } from "./pulse";
 import { Steps } from "./steps";
 import { Water } from "./water";
 
@@ -9,6 +10,7 @@ export interface User {
 	purpose: number;
 	activeDays: Steps[];
 	waterDays: Water[];
+	pulses: Pulse[];
 	created_at: string;
 	updated_at: string;
 }
@@ -18,5 +20,5 @@ export interface UserForAuth {
 	username: string;
 	email: string;
 	purpose: number;
-	accessToken:string;
+	accessToken: string;
 }

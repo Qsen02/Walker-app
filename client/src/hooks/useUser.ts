@@ -12,7 +12,7 @@ import { User } from "../types/user";
 import { useLoadingError } from "./useLoadingError";
 import { incrementSteps } from "../api/stepsService";
 import { registrateBackgoundTask } from "../utils/checkMidnight";
-import { Accelerometer, Pedometer } from "expo-sensors";
+import { Accelerometer } from "expo-sensors";
 import { Steps } from "../types/steps";
 import { Water } from "../types/water";
 
