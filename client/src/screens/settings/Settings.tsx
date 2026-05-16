@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, Switch } from "react-native";
 import { useUserThemeContext } from "../../contexts/user_theme_context";
 import { globalStyles } from "../../../globalStyles";
-import { FontAwesome6 as Icon } from "@expo/vector-icons";
+import { FontAwesome6 } from "@expo/vector-icons";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { Routes } from "../../types/RoutingTable";
 import { useState } from "react";
@@ -46,7 +46,7 @@ export default function Settings() {
 				style={globalStyles.arrowButton}
 				onPress={() => navigation.goBack()}
 			>
-				<Icon
+				<FontAwesome6
 					name="arrow-left"
 					color={theme == "light" ? "black" : "white"}
 					size={25}
@@ -115,7 +115,7 @@ export default function Settings() {
 								language == "bulgarian"
 									? { backgroundColor: "grey" }
 									: "",
-                                    settingsStyles.languageButton
+								settingsStyles.languageButton,
 							]}
 							onPress={setBulgarian}
 						>
@@ -137,7 +137,7 @@ export default function Settings() {
 								language == "english"
 									? { backgroundColor: "grey" }
 									: "",
-                                    settingsStyles.languageButton
+								settingsStyles.languageButton,
 							]}
 							onPress={setEnglish}
 						>

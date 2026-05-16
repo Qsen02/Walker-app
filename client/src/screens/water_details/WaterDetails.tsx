@@ -8,7 +8,7 @@ import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 import { Routes } from "../../types/RoutingTable";
 import { useGetOneWater } from "../../hooks/useWater";
 import { globalStyles } from "../../../globalStyles";
-import { FontAwesome6 as Icon } from "@expo/vector-icons";
+import {  FontAwesome6 } from "@expo/vector-icons";
 import { useUserThemeContext } from "../../contexts/user_theme_context";
 import { waterDetailsStyles } from "./WaterDetailsStyles";
 import { useState } from "react";
@@ -59,7 +59,7 @@ export default function WaterDetails() {
 				style={globalStyles.arrowButton}
 				onPress={() => navigation.navigate("Home")}
 			>
-				<Icon
+				<FontAwesome6
 					name="arrow-left"
 					color={theme == "light" ? "black" : "white"}
 					size={25}
@@ -140,7 +140,7 @@ export default function WaterDetails() {
 								: "Количеството вода, което сте изпили днес:"}
 						</Text>
 						<View style={waterDetailsStyles.waterContent}>
-							<Icon name="droplet" size={40} color="skyblue" />
+							<FontAwesome6 name="droplet" size={40} color="skyblue" />
 							<Text
 								style={[
 									theme == "light"

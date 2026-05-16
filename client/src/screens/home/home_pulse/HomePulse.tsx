@@ -1,11 +1,11 @@
 import { Text, TouchableOpacity, View } from "react-native";
 import { Language, Theme } from "../../../types/UserAndTheme";
-import Icon from "react-native-vector-icons/FontAwesome6";
 import { homeStyles } from "../HomeStyles";
 import { globalStyles } from "../../../../globalStyles";
 import { NavigationProp } from "@react-navigation/native";
 import { Routes } from "../../../types/RoutingTable";
 import { User } from "../../../types/user";
+import {  FontAwesome6 } from "@expo/vector-icons";
 
 interface HomePulseProps {
 	language: Language | undefined;
@@ -53,7 +53,7 @@ export default function HomePulse({
 						? "Измерване на пулс"
 						: "Heart rate measurement"}
 				</Text>
-				<Icon name="heart-pulse" size={40} color="red" />
+				<FontAwesome6 name="heart-pulse" size={40} color="red" />
 			</View>
 		</TouchableOpacity>
 	);

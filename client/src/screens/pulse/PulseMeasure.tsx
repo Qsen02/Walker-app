@@ -15,6 +15,7 @@ import {
 	useCameraDevice,
 	useCameraPermission,
 } from "react-native-vision-camera";
+import {  FontAwesome6 } from "@expo/vector-icons";
 
 export default function PulseMeasure() {
 	const { theme, language } = useUserThemeContext();
@@ -52,7 +53,7 @@ export default function PulseMeasure() {
 				style={globalStyles.arrowButton}
 				onPress={() => navigation.navigate("Home")}
 			>
-				<Icon
+				<FontAwesome6
 					name="arrow-left"
 					color={theme == "light" ? "black" : "white"}
 					size={25}
@@ -98,7 +99,7 @@ export default function PulseMeasure() {
 							? "Измерете пулса си тук..."
 							: "Measure your pulse here..."}
 					</Text>
-					<Icon name="heart-pulse" size={70} color="red" />
+					<FontAwesome6 name="heart-pulse" size={70} color="red" />
 				</View>
 			</View>
 		</>

@@ -1,8 +1,8 @@
 import { Text, View } from "react-native";
 import { Language, Theme } from "../../types/UserAndTheme";
-import Icon from "react-native-vector-icons/FontAwesome6";
 import { globalStyles } from "../../../globalStyles";
 import { waterItemStyles } from "./WaterItemStyles";
+import {  FontAwesome6 } from "@expo/vector-icons";
 
 interface WaterItemProps {
 	waterCount: number;
@@ -27,7 +27,7 @@ export default function WaterItem({
 			]}
 		>
 			<View style={waterItemStyles.waterWrapper}>
-				<Icon name="droplet" size={30} color="skyblue" />
+				<FontAwesome6 name="droplet" size={30} color="skyblue" />
 				<Text
 					style={[
 						theme == "light"

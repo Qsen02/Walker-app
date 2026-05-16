@@ -9,7 +9,7 @@ import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 import { useUserThemeContext } from "../../../contexts/user_theme_context";
 import { globalStyles } from "../../../../globalStyles";
 import { useGetOneSteps } from "../../../hooks/useSteps";
-import { FontAwesome6 as Icon } from "@expo/vector-icons";
+import { FontAwesome } from "@expo/vector-icons";
 import { stepsDetailsStyles } from "./StepsDetailsStyles";
 
 export default function StepsDetails() {
@@ -34,7 +34,7 @@ export default function StepsDetails() {
 				onPress={() => navigation.goBack()}
 				style={globalStyles.arrowButton}
 			>
-				<Icon
+				<FontAwesome
 					name="arrow-left"
 					color={theme == "light" ? "black" : "white"}
 					size={25}
@@ -163,15 +163,19 @@ export default function StepsDetails() {
 										? `${
 												userState?.purpose -
 												curSteps?.stepsCount
-										  } steps didn't have enough to achieve your goal, you need to try harder.`
+											} steps didn't have enough to achieve your goal, you need to try harder.`
 										: `${
 												userState?.purpose -
 												curSteps?.stepsCount
-										  } крачки не достигат за постигането на вашата цел, трябва да се постараете повече.`}
+											} крачки не достигат за постигането на вашата цел, трябва да се постараете повече.`}
 								</Text>
 							)
 						) : (
-							<Text>{language=="english"?"No user or steps yet.":"Няма потребител или крачки все още."}</Text>
+							<Text>
+								{language == "english"
+									? "No user or steps yet."
+									: "Няма потребител или крачки все още."}
+							</Text>
 						)}
 					</View>
 				</View>

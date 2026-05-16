@@ -1,11 +1,11 @@
 import { TouchableOpacity, View, Text } from "react-native";
 import { homeStyles } from "../HomeStyles";
-import Icon from "react-native-vector-icons/FontAwesome6";
 import { globalStyles } from "../../../../globalStyles";
 import { NavigationProp } from "@react-navigation/native";
 import { Routes } from "../../../types/RoutingTable";
 import { User } from "../../../types/user";
 import { Language, Theme } from "../../../types/UserAndTheme";
+import {  FontAwesome6 } from "@expo/vector-icons";
 
 interface HomeWaterProps {
 	user: User | null;
@@ -51,7 +51,7 @@ export default function HomeWater({
 				>
 					{language == "english" ? "Water" : "Вода"}
 				</Text>
-				<Icon name="droplet" size={40} color="skyblue" />
+				<FontAwesome6 name="droplet" size={40} color="skyblue" />
 				<Text
 					style={[
 						theme == "light"
