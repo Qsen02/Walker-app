@@ -14,8 +14,9 @@ import {
 	Camera,
 	useCameraDevice,
 	useCameraPermission,
+	useFrameOutput,
 } from "react-native-vision-camera";
-import {  FontAwesome6 } from "@expo/vector-icons";
+import { FontAwesome6 } from "@expo/vector-icons";
 
 export default function PulseMeasure() {
 	const { theme, language } = useUserThemeContext();
@@ -25,6 +26,16 @@ export default function PulseMeasure() {
 	const device = useCameraDevice("back");
 	const { userId } = route.params;
 	const { hasPermission, requestPermission } = useCameraPermission();
+	const signalBuffer: number[] = [];
+
+	const frameOutput = useFrameOutput({
+		onFrame(frame) {
+			"worklet";
+			// const brightness = averageRedChannel(frame);
+			// signalBuffer.push(brightness);
+			frame.dispose();
+		},
+	});
 
 	function openCamera() {
 		setIsActive(true);
@@ -42,11 +53,20 @@ export default function PulseMeasure() {
 
 	return (
 		<>
-			{device && hasPermission && (
+			{device && isActive && (
 				<Camera
+					style={{
+						position: "absolute",
+						top: 0,
+						left: 0,
+						right: 0,
+						bottom: 0,
+						zIndex: 1000,
+					}}
 					device={device}
-					isActive={isActive}
-					torchMode={isActive ? "on" : "off"}
+					isActive={true}
+					torchMode="on"
+					outputs={[frameOutput]}
 				/>
 			)}
 			<TouchableOpacity

@@ -1,5 +1,5 @@
 {
-  "name": "new-folder",
+  "name": "walker-app",
   "version": "1.0.0",
   "main": "index.ts",
   "scripts": {
@@ -25,7 +25,8 @@
     "react-native-safe-area-context": "~5.6.2",
     "react-native-screens": "~4.23.0",
     "react-native-vector-icons": "^10.3.0",
-    "react-native-vision-camera": "^5.0.9"
+    "react-native-vision-camera": "^5.0.9",
+    "react-native-vision-camera-worklets": "^5.0.9"
   },
   "devDependencies": {
     "@types/react": "~19.2.2",

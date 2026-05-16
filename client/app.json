@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "new-folder",
-    "slug": "new-folder",
+    "name": "walker-app",
+    "slug": "walker-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -12,8 +12,11 @@
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
-    },
+		"supportsTablet": true,
+		"infoPlist": {
+			"NSCameraUsageDescription": "$(PRODUCT_NAME) needs access to your Camera to capture photos and videos."
+		}
+	},
     "android": {
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
@@ -21,7 +24,7 @@
         "backgroundImage": "./assets/android-icon-background.png",
         "monochromeImage": "./assets/android-icon-monochrome.png"
       },
-      "permissions": ["CAMERA"],
+      "permissions": ["android.permission.CAMERA"],
       "predictiveBackGestureEnabled": false,
       "package": "com.anonymous.newfolder"
     },
