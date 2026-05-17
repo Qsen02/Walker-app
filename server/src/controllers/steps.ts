@@ -6,6 +6,8 @@ import {
 	incrementSteps,
 } from "../services/steps";
 import { MyRequest } from "../types/express";
+import { body, validationResult } from "express-validator";
+import { errorParser } from "../utils/errorParser";
 
 const stepsRouter = Router();
 
@@ -39,25 +41,40 @@ stepsRouter.post("/", async (req: MyRequest, res) => {
 	}
 });
 
-stepsRouter.put("/:stepsId", async (req: MyRequest, res) => {
-	const user = req.user;
-	const stepsId = req.params.stepsId;
-	const isValid = await checkStepsId(stepsId);
-	if (!isValid) {
-		res.status(404).json({ message: "Resource not found!" });
-		return;
-	}
-	try {
-		const updatedSteps = await incrementSteps(stepsId, user);
-		res.json(updatedSteps);
-	} catch (err) {
-		if (err instanceof Error) {
-			res.status(400).json({ message: err.message });
-		} else {
-			res.status(400).json({ message: "Error occurd!" });
+stepsRouter.put(
+	"/:stepsId",
+	body("steps")
+		.isInt({ min: 0 })
+		.withMessage("Стъпките трябва да бъдат цяло положително число!"),
+	async (req: MyRequest, res) => {
+		const user = req.user;
+		const stepsId = req.params.stepsId;
+		const isValid = await checkStepsId(stepsId);
+		if (!isValid) {
+			res.status(404).json({ message: "Resource not found!" });
+			return;
 		}
-		return;
-	}
-});
+		try {
+			const results = validationResult(req);
+			if (!results.isEmpty()) {
+				throw new Error(errorParser(results));
+			}
+			const fields = req.body;
+			const updatedSteps = await incrementSteps(
+				stepsId,
+				user,
+				fields.steps,
+			);
+			res.json(updatedSteps);
+		} catch (err) {
+			if (err instanceof Error) {
+				res.status(400).json({ message: err.message });
+			} else {
+				res.status(400).json({ message: "Error occurd!" });
+			}
+			return;
+		}
+	},
+);
 
 export { stepsRouter };

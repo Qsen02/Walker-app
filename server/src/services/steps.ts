@@ -23,14 +23,15 @@ async function checkStepsId(stepsId: string) {
 
 async function incrementSteps(
 	stepsId: string,
-	user: UserAttributes | null | undefined
+	user: UserAttributes | null | undefined,
+	steps:number
 ) {
 	if (!user) {
 		throw new Error("Resource not found!");
 	}
 	const updatedSteps = await Steps.findByIdAndUpdate(
 		stepsId,
-		{ $inc: { stepsCount: 1 } },
+		{ $set: { stepsCount: steps } },
 		{ new: true }
 	);
 

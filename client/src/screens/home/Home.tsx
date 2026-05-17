@@ -14,7 +14,7 @@ import HomePulse from "./home_pulse/HomePulse";
 
 export default function HomeScreen() {
 	const { userState, removeUser, theme, language } = useUserThemeContext();
-	const { user, loading, error, steps } = useGetOneUser(null, userState?._id);
+	const { user, loading, error, displaySteps } = useGetOneUser(null, userState?._id);
 	const navigation = useNavigation<NavigationProp<Routes>>();
 	const [isLogoutActive, setIsLogoutActive] = useState(false);
 
@@ -118,7 +118,7 @@ export default function HomeScreen() {
 					<View style={homeStyles.contentContainer}>
 						<HomeSteps
 							user={user}
-							steps={steps}
+							steps={displaySteps}
 							userState={userState}
 							navigation={navigation}
 							theme={theme}

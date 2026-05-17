@@ -8,45 +8,39 @@ const CHECK_MIDNIGHT = "SEND_SERVER_REQUEST_AT_MIDNINGHT";
 
 TaskManager.defineTask(CHECK_MIDNIGHT, async () => {
 	try {
-		const now = new Date();
-		const hour = now.getHours();
-		const minute = now.getMinutes();
-		const today = now.toDateString();
-
+		const today = new Date().toDateString();
 		const lastRun = await AsyncStorage.getItem("lastMidnightRequest");
 
-		if (hour === 0 && minute === 0 && today != lastRun) {
-			await createSteps();
-			await createWater();
-			await AsyncStorage.setItem("lastMidnightRequest", today);
-			console.log("Request send successfully at midnight!");
-			return BackgoundFetch.BackgroundFetchResult.NewData;
+		if (lastRun === today) {
+			return BackgoundFetch.BackgroundFetchResult.NoData;
 		}
 
-		return BackgoundFetch.BackgroundFetchResult.NoData;
+		await createSteps();
+		await createWater();
+
+		await AsyncStorage.setItem("lastMidnightRequest", today);
+
+		return BackgoundFetch.BackgroundFetchResult.NewData;
 	} catch (err) {
-		console.log("Error in backgound task!");
 		return BackgoundFetch.BackgroundFetchResult.Failed;
 	}
 });
 
-export async function registrateBackgoundTask(setStepsHanlder:React.Dispatch<React.SetStateAction<number>>) {
+export async function registerBackgroundTask() {
 	try {
-		const isRegitrated = await TaskManager.isTaskRegisteredAsync(
-			CHECK_MIDNIGHT
-		);
+		const isRegistered =
+			await TaskManager.isTaskRegisteredAsync(CHECK_MIDNIGHT);
 
-		if (isRegitrated) {
+		if (!isRegistered) {
 			await BackgoundFetch.registerTaskAsync(CHECK_MIDNIGHT, {
 				minimumInterval: 60 * 15,
 				stopOnTerminate: false,
 				startOnBoot: true,
 			});
-			setStepsHanlder(0);
-			console.log("Task was registrated successfull!");
+
+			console.log("Background task registered");
 		}
 	} catch (err) {
-		console.log("Task was not regitrated successfully");
-		return;
+		console.log("Failed to register task", err);
 	}
 }

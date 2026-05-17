@@ -1,6 +1,6 @@
 import { getUserData, removeData } from "../utils/userHelper";
 
-const host = "https://aa89-213-91-248-149.ngrok-free.app";
+const host = "https://8aa3-213-91-248-149.ngrok-free.app";
 
 export async function request(method: string, url: string, data?: object) {
 	const headers: Record<string, string> = {
@@ -10,17 +10,13 @@ export async function request(method: string, url: string, data?: object) {
 		method: method,
 		headers: headers,
 	};
-
 	const user = getUserData();
-
 	if (user) {
 		headers["X-Authorization"] = user.accessToken;
 	}
-
 	if (data) {
 		options.body = JSON.stringify(data);
 	}
-
 	try {
 		const res = await fetch(url, options);
 		if (!res.ok) {
@@ -41,18 +37,18 @@ export async function request(method: string, url: string, data?: object) {
 	}
 }
 
-export async function get(url:string){
-    return await request("get",`${host}/${url}`);
+export async function get(url: string) {
+	return await request("get", `${host}/${url}`);
 }
 
-export async function post(url:string,data:object){
-    return await request("post",`${host}/${url}`,data);
+export async function post(url: string, data: object) {
+	return await request("post", `${host}/${url}`, data);
 }
 
-export async function del(url:string){
-    return await request("delete",`${host}/${url}`);
+export async function del(url: string) {
+	return await request("delete", `${host}/${url}`);
 }
 
-export async function put(url:string,data:object){
-    return await request("put",`${host}/${url}`,data);
+export async function put(url: string, data: object) {
+	return await request("put", `${host}/${url}`, data);
 }

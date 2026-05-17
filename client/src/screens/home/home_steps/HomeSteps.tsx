@@ -1,4 +1,4 @@
-import { TouchableOpacity, View, Text } from "react-native";
+import { TouchableOpacity, View, Text, Animated } from "react-native";
 import { homeStyles } from "../HomeStyles";
 import { globalStyles } from "../../../../globalStyles";
 import { User, UserForAuth } from "../../../types/user";
