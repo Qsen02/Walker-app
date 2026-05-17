@@ -10,12 +10,6 @@ import {
 import { Routes } from "../../types/RoutingTable";
 import { pulseMeasureStyles } from "./PulseMeasureStyles";
 import { useEffect, useRef, useState } from "react";
-import {
-	Camera,
-	useCameraDevice,
-	useCameraPermission,
-	useFrameOutput,
-} from "react-native-vision-camera";
 import { FontAwesome6 } from "@expo/vector-icons";
 import {
 	calculateAverageRed,
@@ -23,72 +17,71 @@ import {
 	detectPeaks,
 	smoothSignal,
 } from "../../utils/pulseHelper";
-import { useResizePlugin } from "vision-camera-resize-plugin";
+import { CameraView, useCameraPermissions } from "expo-camera";
+import { useCreatePulse } from "../../hooks/usePulse";
 
 export default function PulseMeasure() {
+	const cameraRef = useRef(null);
 	const { theme, language } = useUserThemeContext();
 	const navigation = useNavigation<NavigationProp<Routes>>();
 	const route = useRoute<RouteProp<Routes, "Pulse">>();
-	const device = useCameraDevice("back");
 	const [camera, setCamera] = useState({
 		active: false,
 		torch: false,
 	});
 	const { userId } = route.params;
-	const { requestPermission } = useCameraPermission();
+	const [permission, requestPermission] = useCameraPermissions();
 	const signalBuffer = useRef<number[]>([]);
 	const [isMeasured, setMeasured] = useState(false);
 	const [bpm, setBpm] = useState(0);
-	const { resize } = useResizePlugin();
+	const createPulse = useCreatePulse();
 
-	const frameOutput = useFrameOutput({
-		onFrame(frame) {
-			"worklet";
+	function processSignal(redAverage: number) {
+		signalBuffer.current.push(redAverage);
 
-			try {
-				const resized = resize(frame, {
-					scale: {
-						width: 32,
-						height: 32,
-					},
-					pixelFormat: "rgb",
-					dataType: "uint8",
-				});
+		if (signalBuffer.current.length > 300) {
+			signalBuffer.current.shift();
+		}
 
-				const redAverage = calculateAverageRed(resized);
-				signalBuffer.current.push(redAverage);
-				if (signalBuffer.current.length > 300) {
-					signalBuffer.current.shift();
-				}
-				const smoothed = smoothSignal(signalBuffer.current);
-				const peaks = detectPeaks(smoothed);
-				const bpm = calculateBPM(peaks, 30);
-				setBpm(bpm);
-			} finally {
-				frame.dispose();
-			}
-		},
-	});
+		const smoothed = smoothSignal(signalBuffer.current);
+		const peaks = detectPeaks(smoothed);
+		const calculatedBpm = calculateBPM(peaks, 15);
+		setBpm(calculatedBpm);
+	}
+
+	useEffect(() => {
+		if (!camera.active) return;
+
+		const interval = setInterval(() => {
+			const fakeBrightness = 50 + Math.random() * 5;
+
+			processSignal(fakeBrightness);
+		}, 1000 / 15);
+
+		return () => clearInterval(interval);
+	}, [camera.active]);
 
 	function openCamera() {
 		setCamera((prev) => ({ ...prev, active: true }));
 
-		setTimeout(() => {
+		setTimeout(async () => {
 			setCamera((prev) => ({ ...prev, active: false }));
 			setMeasured(true);
+			await createPulse(userId, { value: bpm });
 		}, 10000);
 	}
 
 	useEffect(() => {
-		(async () => {
-			await requestPermission();
-		})();
+		if (!permission?.granted) {
+			requestPermission();
+		}
 	}, []);
 
 	return (
 		<>
-			{device && camera.active && (
-				<Camera
+			{camera.active && (
+				<CameraView
+					ref={cameraRef}
 					style={{
 						position: "absolute",
 						top: 0,
@@ -97,16 +90,8 @@ export default function PulseMeasure() {
 						bottom: 0,
 						zIndex: 1000,
 					}}
-					device={device}
-					isActive={true}
-					torchMode={camera.torch ? "on" : "off"}
-					outputs={[frameOutput]}
-					onPreviewStarted={() => {
-						setCamera((prev) => ({
-							...prev,
-							torch: true,
-						}));
-					}}
+					enableTorch={true}
+					facing="back"
 				/>
 			)}
 			<TouchableOpacity

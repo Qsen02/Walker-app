@@ -1,7 +1,7 @@
 import { Pulse } from "../types/pulse";
 import { get, post } from "./requester";
 
-const endpoint = "/pulse";
+const endpoint = "pulse";
 
 export async function getAllPulses() {
 	const pulses = await get(endpoint);

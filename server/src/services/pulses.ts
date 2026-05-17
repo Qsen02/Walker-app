@@ -29,20 +29,20 @@ export async function paginatePulses(page: number) {
 	const skipCount = limit * page;
 	const pulses = await PulseModel.find().skip(skipCount).limit(limit).lean();
 	const documents = await PulseModel.countDocuments();
-    const maxPage = Math.ceil(documents / limit);
-    
+	const maxPage = Math.ceil(documents / limit);
+
 	return {
 		pulses,
 		maxPage,
 	};
 }
 
-export async function createPulse(userId:string,data: Pulse) { 
-    const newPusle = await PulseModel.create({
+export async function createPulse(userId: string, data: Pulse) {
+	const newPusle = await PulseModel.create({
 		value: data.value,
-    });
+	});
 
-	await Users.findByIdAndUpdate(userId, { $push: { newPusle } });
+	await Users.findByIdAndUpdate(userId, { $push: { pulses: newPusle } });
 
-    return newPusle;
+	return newPusle;
 }
