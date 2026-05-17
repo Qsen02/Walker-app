@@ -9,7 +9,7 @@ import {
 } from "@react-navigation/native";
 import { Routes } from "../../types/RoutingTable";
 import { pulseMeasureStyles } from "./PulseMeasureStyles";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
 	Camera,
 	useCameraDevice,
@@ -17,31 +17,65 @@ import {
 	useFrameOutput,
 } from "react-native-vision-camera";
 import { FontAwesome6 } from "@expo/vector-icons";
+import {
+	calculateAverageRed,
+	calculateBPM,
+	detectPeaks,
+	smoothSignal,
+} from "../../utils/pulseHelper";
+import { useResizePlugin } from "vision-camera-resize-plugin";
 
 export default function PulseMeasure() {
 	const { theme, language } = useUserThemeContext();
 	const navigation = useNavigation<NavigationProp<Routes>>();
 	const route = useRoute<RouteProp<Routes, "Pulse">>();
-	const [isActive, setIsActive] = useState(false);
 	const device = useCameraDevice("back");
+	const [camera, setCamera] = useState({
+		active: false,
+		torch: false,
+	});
 	const { userId } = route.params;
-	const { hasPermission, requestPermission } = useCameraPermission();
-	const signalBuffer: number[] = [];
+	const { requestPermission } = useCameraPermission();
+	const signalBuffer = useRef<number[]>([]);
+	const [isMeasured, setMeasured] = useState(false);
+	const [bpm, setBpm] = useState(0);
+	const { resize } = useResizePlugin();
 
 	const frameOutput = useFrameOutput({
 		onFrame(frame) {
 			"worklet";
-			// const brightness = averageRedChannel(frame);
-			// signalBuffer.push(brightness);
-			frame.dispose();
+
+			try {
+				const resized = resize(frame, {
+					scale: {
+						width: 32,
+						height: 32,
+					},
+					pixelFormat: "rgb",
+					dataType: "uint8",
+				});
+
+				const redAverage = calculateAverageRed(resized);
+				signalBuffer.current.push(redAverage);
+				if (signalBuffer.current.length > 300) {
+					signalBuffer.current.shift();
+				}
+				const smoothed = smoothSignal(signalBuffer.current);
+				const peaks = detectPeaks(smoothed);
+				const bpm = calculateBPM(peaks, 30);
+				setBpm(bpm);
+			} finally {
+				frame.dispose();
+			}
 		},
 	});
 
 	function openCamera() {
-		setIsActive(true);
+		setCamera((prev) => ({ ...prev, active: true }));
 
 		setTimeout(() => {
-			setIsActive(false);
+			setCamera((prev) => ({ ...prev, active: false }));
+			setMeasured(true);
 		}, 10000);
 	}
 
@@ -53,7 +87,7 @@ export default function PulseMeasure() {
 
 	return (
 		<>
-			{device && isActive && (
+			{device && camera.active && (
 				<Camera
 					style={{
 						position: "absolute",
@@ -65,8 +99,14 @@ export default function PulseMeasure() {
 					}}
 					device={device}
 					isActive={true}
-					torchMode="on"
+					torchMode={camera.torch ? "on" : "off"}
 					outputs={[frameOutput]}
+					onPreviewStarted={() => {
+						setCamera((prev) => ({
+							...prev,
+							torch: true,
+						}));
+					}}
 				/>
 			)}
 			<TouchableOpacity
@@ -107,19 +147,46 @@ export default function PulseMeasure() {
 					</TouchableOpacity>
 				</View>
 				<View style={pulseMeasureStyles.measureWrapper}>
-					<Text
-						style={[
-							theme === "dark"
-								? { color: "white" }
-								: { color: "black" },
-							pulseMeasureStyles.measureWrapperText,
-						]}
-					>
-						{language === "bulgarian"
-							? "Измерете пулса си тук..."
-							: "Measure your pulse here..."}
-					</Text>
+					{!isMeasured ? (
+						<Text
+							style={[
+								theme === "dark"
+									? { color: "white" }
+									: { color: "black" },
+								pulseMeasureStyles.measureWrapperText,
+							]}
+						>
+							{language === "bulgarian"
+								? "Измерете пулса си тук..."
+								: "Measure your pulse here..."}
+						</Text>
+					) : (
+						<Text
+							style={[
+								theme === "dark"
+									? { color: "white" }
+									: { color: "black" },
+								pulseMeasureStyles.measureWrapperText,
+							]}
+						>
+							{language === "bulgarian"
+								? "Резултат от измерването:"
+								: "Measurement result:"}
+						</Text>
+					)}
 					<FontAwesome6 name="heart-pulse" size={70} color="red" />
+					{isMeasured && (
+						<Text
+							style={[
+								theme === "dark"
+									? { color: "white" }
+									: { color: "black" },
+								pulseMeasureStyles.measureWrapperText,
+							]}
+						>
+							{bpm} BPM
+						</Text>
+					)}
 				</View>
 			</View>
 		</>
