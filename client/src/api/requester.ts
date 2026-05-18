@@ -1,6 +1,6 @@
 import { getUserData, removeData } from "../utils/userHelper";
 
-const host = "https://8aa3-213-91-248-149.ngrok-free.app";
+const host = process.env.EXPO_PUBLIC_API_URL;
 
 export async function request(method: string, url: string, data?: object) {
 	const headers: Record<string, string> = {
