@@ -12,7 +12,7 @@ export function calculateAverageRed(data: Uint8Array) {
 	return redSum / pixelCount;
 }
 
-export function smoothSignal(signal: number[], windowSize = 5) {
+export function smoothSignal(signal: number[], windowSize = 3) {
 	const smoothed = [];
 
 	for (let i = 0; i < signal.length; i++) {
@@ -32,12 +32,20 @@ export function smoothSignal(signal: number[], windowSize = 5) {
 	return smoothed;
 }
 
-export function detectPeaks(signal: number[]) {
+export function detectPeaks(signal: number[], minDistance = 4) {
 	const peaks = [];
+	let lastPeak = -Infinity;
 
 	for (let i = 1; i < signal.length - 1; i++) {
-		if (signal[i] > signal[i - 1] && signal[i] > signal[i + 1]) {
+		const prev = signal[i - 1];
+		const curr = signal[i];
+		const next = signal[i + 1];
+
+		const isPeak = curr > prev && curr > next;
+
+		if (isPeak && i - lastPeak >= minDistance) {
 			peaks.push(i);
+			lastPeak = i;
 		}
 	}
 

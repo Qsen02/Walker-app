@@ -18,7 +18,7 @@ import {
 	smoothSignal,
 } from "../../utils/pulseHelper";
 import { CameraView, useCameraPermissions } from "expo-camera";
-import { useCreatePulse } from "../../hooks/usePulse";
+import { useCreatePulse, useMeasurePulse } from "../../hooks/usePulse";
 
 export default function PulseMeasure() {
 	const cameraRef = useRef(null);
@@ -31,37 +31,9 @@ export default function PulseMeasure() {
 	});
 	const { userId } = route.params;
 	const [permission, requestPermission] = useCameraPermissions();
-	const signalBuffer = useRef<number[]>([]);
 	const [isMeasured, setMeasured] = useState(false);
-	const [bpm, setBpm] = useState(0);
-	const bpmRef = useRef(0);
+	const { bpm, bpmRef } = useMeasurePulse(camera.active);
 	const createPulse = useCreatePulse();
-
-	function processSignal(redAverage: number) {
-		signalBuffer.current.push(redAverage);
-
-		if (signalBuffer.current.length > 300) {
-			signalBuffer.current.shift();
-		}
-
-		const smoothed = smoothSignal(signalBuffer.current);
-		const peaks = detectPeaks(smoothed);
-		const calculatedBpm = calculateBPM(peaks, 15);
-		setBpm(calculatedBpm);
-		bpmRef.current = calculatedBpm;
-	}
-
-	useEffect(() => {
-		if (!camera.active) return;
-
-		const interval = setInterval(() => {
-			const fakeBrightness = 50 + Math.random() * 5;
-
-			processSignal(fakeBrightness);
-		}, 1000 / 15);
-
-		return () => clearInterval(interval);
-	}, [camera.active]);
 
 	async function openCamera() {
 		setCamera((prev) => ({ ...prev, active: true }));
