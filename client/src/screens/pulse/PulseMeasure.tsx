@@ -34,6 +34,7 @@ export default function PulseMeasure() {
 	const signalBuffer = useRef<number[]>([]);
 	const [isMeasured, setMeasured] = useState(false);
 	const [bpm, setBpm] = useState(0);
+	const bpmRef = useRef(0);
 	const createPulse = useCreatePulse();
 
 	function processSignal(redAverage: number) {
@@ -47,6 +48,7 @@ export default function PulseMeasure() {
 		const peaks = detectPeaks(smoothed);
 		const calculatedBpm = calculateBPM(peaks, 15);
 		setBpm(calculatedBpm);
+		bpmRef.current = calculatedBpm;
 	}
 
 	useEffect(() => {
@@ -61,13 +63,13 @@ export default function PulseMeasure() {
 		return () => clearInterval(interval);
 	}, [camera.active]);
 
-	function openCamera() {
+	async function openCamera() {
 		setCamera((prev) => ({ ...prev, active: true }));
 
 		setTimeout(async () => {
 			setCamera((prev) => ({ ...prev, active: false }));
 			setMeasured(true);
-			await createPulse(userId, { value: bpm });
+			await createPulse(userId, { value: bpmRef.current });
 		}, 10000);
 	}
 

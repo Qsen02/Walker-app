@@ -1,35 +1,39 @@
 {
-  "expo": {
-    "name": "walker-app",
-    "slug": "walker-app",
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash-icon.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "ios": {
-		"supportsTablet": true,
-		"infoPlist": {
-			"NSCameraUsageDescription": "$(PRODUCT_NAME) needs access to your Camera to capture photos and videos."
+	"expo": {
+		"name": "walker-app",
+		"slug": "walker-app",
+		"version": "1.0.0",
+		"orientation": "portrait",
+		"icon": "./assets/icon.png",
+		"userInterfaceStyle": "light",
+		"splash": {
+			"image": "./assets/splash-icon.png",
+			"resizeMode": "contain",
+			"backgroundColor": "#ffffff"
+		},
+		"ios": {
+			"supportsTablet": true,
+			"infoPlist": {
+				"NSCameraUsageDescription": "$(PRODUCT_NAME) изисква достъп до камерата на телефона, за да може да измерва пулс.",
+				"NSMotionUsageDescription": "$(PRODUCT_NAME) изисква достъп до motion sensor за броене на крачки и физическа активност."
+			}
+		},
+		"android": {
+			"adaptiveIcon": {
+				"backgroundColor": "#E6F4FE",
+				"foregroundImage": "./assets/android-icon-foreground.png",
+				"backgroundImage": "./assets/android-icon-background.png",
+				"monochromeImage": "./assets/android-icon-monochrome.png"
+			},
+			"permissions": [
+				"android.permission.CAMERA",
+				"android.permission.ACTIVITY_RECOGNITION"
+			],
+			"predictiveBackGestureEnabled": false,
+			"package": "com.anonymous.newfolder"
+		},
+		"web": {
+			"favicon": "./assets/favicon.png"
 		}
-	},
-    "android": {
-      "adaptiveIcon": {
-        "backgroundColor": "#E6F4FE",
-        "foregroundImage": "./assets/android-icon-foreground.png",
-        "backgroundImage": "./assets/android-icon-background.png",
-        "monochromeImage": "./assets/android-icon-monochrome.png"
-      },
-      "permissions": ["android.permission.CAMERA"],
-      "predictiveBackGestureEnabled": false,
-      "package": "com.anonymous.newfolder"
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
-    }
-  }
+	}
 }

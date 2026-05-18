@@ -11,10 +11,11 @@ import {
 import { User } from "../types/user";
 import { useLoadingError } from "./useLoadingError";
 import { incrementSteps } from "../api/stepsService";
-import { Pedometer } from "expo-sensors";
+import { Accelerometer, Pedometer } from "expo-sensors";
 import { Steps } from "../types/steps";
 import { Water } from "../types/water";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { detectStep, getMagnitude, resetStepProcessing, smooth } from "../utils/stepsHelper";
 
 export function useRegister() {
 	return async function (data: object) {
@@ -34,11 +35,6 @@ export function useGetOneUser(initialValues: null, userId: string | undefined) {
 	const [error, setError] = useState(false);
 
 	const [baseSteps, setBaseSteps] = useState(0);
-	const [sessionSteps, setSessionSteps] = useState(0);
-	const [displaySteps, setDisplaySteps] = useState(0);
-	const sessionOffsetRef = useRef(0);
-	const lastSyncedStepsRef = useRef(0);
-	const [currentDay, setCurrentDay] = useState<string>("");
 
 	useEffect(() => {
 		let mounted = true;
@@ -52,17 +48,14 @@ export function useGetOneUser(initialValues: null, userId: string | undefined) {
 				const userData = await getUserById(userId);
 				if (!mounted) return;
 
-				const lastDay = userData.activeDays[userData.activeDays.length - 1];
-
-				const today = new Date().toDateString();
+				const lastDay =
+					userData.activeDays[userData.activeDays.length - 1];
 
 				setUser(userData);
 				setBaseSteps(lastDay.stepsCount);
-				setDisplaySteps(lastDay.stepsCount);
-				setCurrentDay(today);
 
 				setLoading(false);
-			} catch (err) { 
+			} catch (err) {
 				setLoading(false);
 				setError(true);
 			}
@@ -73,27 +66,38 @@ export function useGetOneUser(initialValues: null, userId: string | undefined) {
 		};
 	}, [userId]);
 
+	return {
+		user,
+		loading,
+		error,
+		baseSteps,
+	};
+}
+
+export function useStepCounter(baseSteps = 0, curUser: User | null) {
+	const [sessionSteps, setSessionSteps] = useState(0);
+	const [displaySteps, setDisplaySteps] = useState(baseSteps);
+
+	const sessionRef = useRef(0);
+
+	const lastSyncedRef = useRef(0);
+
 	useEffect(() => {
-		let subscription: any;
+		Accelerometer.setUpdateInterval(100);
 
-		(async () => {
-			const available = await Pedometer.isAvailableAsync();
-			if (!available) return;
+		const sub = Accelerometer.addListener((data) => {
+			const magnitude = getMagnitude(data);
+			const smoothed = smooth(magnitude);
 
-			subscription = Pedometer.watchStepCount((result) => {
-				if (sessionOffsetRef.current === 0) {
-					sessionOffsetRef.current = result.steps;
-				}
+			const isStep = detectStep(smoothed);
 
-				const session = result.steps - sessionOffsetRef.current;
+			if (isStep) {
+				sessionRef.current += 1;
+				setSessionSteps(sessionRef.current);
+			}
+		});
 
-				setSessionSteps(session);
-			});
-		})();
-
-		return () => {
-			subscription?.remove();
-		};
+		return () => sub.remove();
 	}, []);
 
 	useEffect(() => {
@@ -102,7 +106,7 @@ export function useGetOneUser(initialValues: null, userId: string | undefined) {
 		const interval = setInterval(() => {
 			setDisplaySteps((prev) => {
 				if (prev >= target) return target;
-				return prev + Math.max(1, Math.ceil((target - prev) / 8));
+				return prev + Math.max(1, Math.ceil((target - prev) / 10));
 			});
 		}, 16);
 
@@ -111,49 +115,30 @@ export function useGetOneUser(initialValues: null, userId: string | undefined) {
 
 	useEffect(() => {
 		const interval = setInterval(async () => {
-			if (!userId) return;
-
 			const total = baseSteps + sessionSteps;
 
-			if (total === lastSyncedStepsRef.current) return;
+			if (total === lastSyncedRef.current) return;
 
-			lastSyncedStepsRef.current = total;
+			lastSyncedRef.current = total;
+			const stepsId = curUser?.activeDays.at(-1)?._id;
 
-			await incrementSteps(user?.activeDays[user.activeDays.length - 1]._id, {
-				steps: total,
-			});
+			await incrementSteps(stepsId, { steps: total });
 		}, 15000);
 
 		return () => clearInterval(interval);
-	}, [baseSteps, sessionSteps, user]);
+	}, [baseSteps, sessionSteps]);
 
-	function resetLocalState() {
-		setBaseSteps(0);
+	function reset() {
+		sessionRef.current = 0;
 		setSessionSteps(0);
-		setDisplaySteps(0);
-		sessionOffsetRef.current = 0;
+		setDisplaySteps(baseSteps);
+		resetStepProcessing();
 	}
 
-	useEffect(() => {
-		const checkNewDay = async () => {
-			const today = new Date().toDateString();
-			const last = await AsyncStorage.getItem("lastMidnightRequest");
-
-			if (last && last !== today) {
-				resetLocalState();
-			}
-		};
-
-		const interval = setInterval(checkNewDay, 60000);
-
-		return () => clearInterval(interval);
-	}, []);
-
 	return {
-		user,
-		loading,
-		error,
+		sessionSteps,
 		displaySteps,
+		reset,
 	};
 }
 

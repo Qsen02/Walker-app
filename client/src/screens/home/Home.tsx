@@ -3,7 +3,7 @@ import { homeStyles } from "./HomeStyles";
 import { useUserThemeContext } from "../../contexts/user_theme_context";
 import { globalStyles } from "../../../globalStyles";
 import { FontAwesome6 } from "@expo/vector-icons";
-import { useGetOneUser } from "../../hooks/useUser";
+import { useGetOneUser, useStepCounter } from "../../hooks/useUser";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import { Routes } from "../../types/RoutingTable";
 import { useState } from "react";
@@ -14,7 +14,13 @@ import HomePulse from "./home_pulse/HomePulse";
 
 export default function HomeScreen() {
 	const { userState, removeUser, theme, language } = useUserThemeContext();
-	const { user, loading, error, displaySteps } = useGetOneUser(null, userState?._id);
+	const { user, loading, error, baseSteps } = useGetOneUser(
+		null,
+		userState?._id,
+	);
+	const { displaySteps } = useStepCounter(
+		baseSteps,user
+	);
 	const navigation = useNavigation<NavigationProp<Routes>>();
 	const [isLogoutActive, setIsLogoutActive] = useState(false);
 
