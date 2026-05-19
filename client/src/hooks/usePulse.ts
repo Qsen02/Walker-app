@@ -91,3 +91,7 @@ export function useMeasurePulse(isCameraActive: boolean) {
         bpm,bpmRef
     }
 }
+
+export function usePaginatePulses(initValues:[],userId:string) { 
+	
+}

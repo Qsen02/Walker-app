@@ -10,6 +10,7 @@ import Settings from "../../screens/settings/Settings";
 import WaterDays from "../../screens/water_details/water_days/WaterDays";
 import Profile from "../../screens/profile/Profile";
 import PulseMeasure from "../../screens/pulse/PulseMeasure";
+import AllPulses from "../../screens/all_pulses/AllPulses";
 
 export default function AuthGate() {
 	const { userState, theme } = useUserThemeContext();
@@ -42,6 +43,7 @@ export default function AuthGate() {
 					<Stack.Screen name="Water" component={WaterDays} />
 					<Stack.Screen name="Profile" component={Profile} />
 					<Stack.Screen name="Pulse" component={PulseMeasure} />
+					<Stack.Screen name="AllPulses" component={AllPulses} />
 				</>
 			) : (
 				<Stack.Screen

@@ -9,7 +9,7 @@ import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
 import { useUserThemeContext } from "../../../contexts/user_theme_context";
 import { globalStyles } from "../../../../globalStyles";
 import { useGetOneSteps } from "../../../hooks/useSteps";
-import { FontAwesome } from "@expo/vector-icons";
+import {  FontAwesome6 } from "@expo/vector-icons";
 import { stepsDetailsStyles } from "./StepsDetailsStyles";
 
 export default function StepsDetails() {
@@ -34,7 +34,7 @@ export default function StepsDetails() {
 				onPress={() => navigation.goBack()}
 				style={globalStyles.arrowButton}
 			>
-				<FontAwesome
+				<FontAwesome6
 					name="arrow-left"
 					color={theme == "light" ? "black" : "white"}
 					size={25}

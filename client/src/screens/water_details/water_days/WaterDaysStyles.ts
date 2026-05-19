@@ -16,6 +16,7 @@ export const waterDaysStyles = StyleSheet.create({
 	},
 	scrollWrapper: {
 		width: "100%",
+		height:"75%"
 	},
 	scrollWrapperContent: {
 		width: "100%",

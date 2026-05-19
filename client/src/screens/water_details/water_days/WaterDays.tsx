@@ -20,7 +20,7 @@ import { waterDaysStyles } from "./WaterDaysStyles";
 import WaterItem from "../../../commons/water_item/WaterItem";
 
 export default function WaterDays() {
-	const { theme, userState, language } = useUserThemeContext();
+	const { theme, language } = useUserThemeContext();
 	const route = useRoute<RouteProp<Routes, "Water">>();
 	const { userId } = route.params;
 	const navigation = useNavigation<NavigationProp<Routes>>();

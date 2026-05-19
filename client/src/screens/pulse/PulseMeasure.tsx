@@ -51,6 +51,11 @@ export default function PulseMeasure() {
 		}
 	}, []);
 
+	
+	function showAllPulses() {
+			navigation.navigate("AllPulses", { userId: userId });
+	}
+
 	return (
 		<>
 			{camera.active && (
@@ -87,7 +92,7 @@ export default function PulseMeasure() {
 				]}
 			>
 				<View style={pulseMeasureStyles.buttonWrapper}>
-					<TouchableOpacity style={globalStyles.button}>
+					<TouchableOpacity style={globalStyles.button} onPress={showAllPulses}>
 						<Text style={globalStyles.buttonText}>
 							{language === "bulgarian"
 								? "Измервания"

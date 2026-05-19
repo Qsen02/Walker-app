@@ -12,4 +12,5 @@ export interface Routes extends ParamListBase {
 	WaterDetails: { waterId: string };
 	Profile: { userId: string };
 	Pulse: { userId: string };
+	AllPulses: { userId: string };
 }
