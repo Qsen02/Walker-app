@@ -1,0 +1,147 @@
+[{
+  "_id": {
+    "$oid": "686cfdfa4b6b400fb07ecf80"
+  },
+  "username": "Qsen",
+  "email": "qsen@gmail.com",
+  "password": "$2b$10$NQsOMuzOP6ePtiyuovNCke1l3IYUnUWOK6a8G/p5H921MS40Rk81q",
+  "activeDays": [
+    {
+      "$oid": "6870cf33531e8a91aeee8688"
+    },
+    {
+      "$oid": "688de7817e5e44f793c11511"
+    },
+    {
+      "$oid": "6890bfa8e58f2e4322ab0c8a"
+    },
+    {
+      "$oid": "68945a25899f2d62550497b2"
+    },
+    {
+      "$oid": "68945a43899f2d62550497da"
+    },
+    {
+      "$oid": "68945a43899f2d62550497dd"
+    },
+    {
+      "$oid": "68945a44899f2d62550497e0"
+    },
+    {
+      "$oid": "68945a45899f2d62550497e3"
+    },
+    {
+      "$oid": "68945a46899f2d62550497e6"
+    },
+    {
+      "$oid": "68945a47899f2d62550497e9"
+    },
+    {
+      "$oid": "68964a9ccae89799858c3897"
+    },
+    {
+      "$oid": "6896fa6a46a3bb3718abb49e"
+    },
+    {
+      "$oid": "68a4d4c96dfc30e1e8fb0791"
+    },
+    {
+      "$oid": "6a0afb5375cbbe9dd99116f2"
+    },
+    {
+      "$oid": "6a0c0fac28a222a53206d0e2"
+    }
+  ],
+  "waterDays": [
+    {
+      "$oid": "6870d5ec2a1eaf88f1a36df1"
+    },
+    {
+      "$oid": "689470d6e293c25385232854"
+    },
+    {
+      "$oid": "68964aa3cae89799858c389a"
+    },
+    {
+      "$oid": "6896fa7046a3bb3718abb4a1"
+    },
+    {
+      "$oid": "68a4d4ce6dfc30e1e8fb0794"
+    },
+    {
+      "$oid": "6a0afb5375cbbe9dd99116f5"
+    },
+    {
+      "$oid": "6a0c0fac28a222a53206d0e5"
+    }
+  ],
+  "purpose": 6000,
+  "created_at": {
+    "$date": "2025-07-08T11:16:10.275Z"
+  },
+  "updated_at": {
+    "$date": "2026-05-19T09:10:31.579Z"
+  },
+  "__v": 0,
+  "pulses": [
+    {
+      "$oid": "6a0c286488793d38c67c82b4"
+    },
+    {
+      "$oid": "6a0c287788793d38c67c82bc"
+    },
+    {
+      "$oid": "6a0c28aa88793d38c67c82ca"
+    },
+    {
+      "$oid": "6a0c28c588793d38c67c82d6"
+    },
+    {
+      "$oid": "6a0c28d988793d38c67c82de"
+    },
+    {
+      "$oid": "6a0c28f188793d38c67c82ea"
+    },
+    {
+      "$oid": "6a0c290788793d38c67c82f2"
+    }
+  ]
+},
+{
+  "_id": {
+    "$oid": "686cff224b6b400fb07ecf94"
+  },
+  "username": "Pesho",
+  "email": "pesho@gmail.com",
+  "password": "$2b$10$ZNoLZemUrhpsVoGSOb7JIOkAmpaNFXJlLhZnKXkoTKlXGW9FDd.n.",
+  "activeDays": [],
+  "waterDays": [],
+  "purpose": 6000,
+  "created_at": {
+    "$date": "2025-07-08T11:21:06.935Z"
+  },
+  "updated_at": {
+    "$date": "2025-07-08T11:21:06.935Z"
+  },
+  "__v": 0,
+  "pulses": []
+},
+{
+  "_id": {
+    "$oid": "6878badf47bbd7f0c724d1c2"
+  },
+  "username": "Gosho",
+  "email": "gosho@gmail.com",
+  "password": "$2b$10$oPB/My8wmKxtB0amsuoQRe5CRFRt1Pkuppcxz24LZ6R3cbg/MOM1q",
+  "activeDays": [],
+  "waterDays": [],
+  "purpose": 6000,
+  "created_at": {
+    "$date": "2025-07-17T08:57:03.688Z"
+  },
+  "updated_at": {
+    "$date": "2025-07-17T08:57:03.688Z"
+  },
+  "__v": 0,
+  "pulses": []
+}]

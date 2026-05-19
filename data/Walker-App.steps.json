@@ -1,0 +1,162 @@
+[{
+  "_id": {
+    "$oid": "6870cf33531e8a91aeee8688"
+  },
+  "stepsCount": 15,
+  "date": "11-07-2025",
+  "isPurposeCompleted": false,
+  "userId": {
+    "$oid": "686cfdfa4b6b400fb07ecf80"
+  },
+  "created_at": {
+    "$date": "2025-07-11T08:45:39.128Z"
+  },
+  "updated_at": {
+    "$date": "2025-07-11T08:46:08.332Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "688de7817e5e44f793c11511"
+  },
+  "stepsCount": 2902,
+  "date": "02-08-2025",
+  "isPurposeCompleted": false,
+  "userId": {
+    "$oid": "686cfdfa4b6b400fb07ecf80"
+  },
+  "created_at": {
+    "$date": "2025-08-02T10:25:05.190Z"
+  },
+  "updated_at": {
+    "$date": "2025-08-04T07:25:16.841Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6890bfa8e58f2e4322ab0c8a"
+  },
+  "stepsCount": 6047,
+  "date": "04-08-2025",
+  "isPurposeCompleted": true,
+  "userId": {
+    "$oid": "686cfdfa4b6b400fb07ecf80"
+  },
+  "created_at": {
+    "$date": "2025-08-04T14:11:52.781Z"
+  },
+  "updated_at": {
+    "$date": "2025-08-07T07:47:58.689Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68945a25899f2d62550497b2"
+  },
+  "stepsCount": 1255,
+  "date": "07-08-2025",
+  "isPurposeCompleted": false,
+  "userId": {
+    "$oid": "686cfdfa4b6b400fb07ecf80"
+  },
+  "created_at": {
+    "$date": "2025-08-07T07:47:49.542Z"
+  },
+  "updated_at": {
+    "$date": "2025-08-07T15:27:46.335Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68964a9ccae89799858c3897"
+  },
+  "stepsCount": 325,
+  "date": "08-08-2025",
+  "isPurposeCompleted": false,
+  "userId": {
+    "$oid": "686cfdfa4b6b400fb07ecf80"
+  },
+  "created_at": {
+    "$date": "2025-08-08T19:06:04.749Z"
+  },
+  "updated_at": {
+    "$date": "2025-08-08T20:21:50.979Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6896fa6a46a3bb3718abb49e"
+  },
+  "stepsCount": 8371,
+  "date": "09-08-2025",
+  "isPurposeCompleted": true,
+  "userId": {
+    "$oid": "686cfdfa4b6b400fb07ecf80"
+  },
+  "created_at": {
+    "$date": "2025-08-09T07:36:10.835Z"
+  },
+  "updated_at": {
+    "$date": "2025-08-19T19:47:29.806Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "68a4d4c96dfc30e1e8fb0791"
+  },
+  "stepsCount": 3007,
+  "date": "19-08-2025",
+  "isPurposeCompleted": false,
+  "userId": {
+    "$oid": "686cfdfa4b6b400fb07ecf80"
+  },
+  "created_at": {
+    "$date": "2025-08-19T19:47:21.149Z"
+  },
+  "updated_at": {
+    "$date": "2026-05-18T11:38:24.374Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a0afb5375cbbe9dd99116f2"
+  },
+  "stepsCount": 138,
+  "date": "18-05-2026",
+  "isPurposeCompleted": false,
+  "userId": {
+    "$oid": "686cfdfa4b6b400fb07ecf80"
+  },
+  "created_at": {
+    "$date": "2026-05-18T11:43:15.599Z"
+  },
+  "updated_at": {
+    "$date": "2026-05-19T07:25:57.246Z"
+  },
+  "__v": 0
+},
+{
+  "_id": {
+    "$oid": "6a0c0fac28a222a53206d0e2"
+  },
+  "stepsCount": 64,
+  "date": "19-05-2026",
+  "isPurposeCompleted": false,
+  "userId": {
+    "$oid": "686cfdfa4b6b400fb07ecf80"
+  },
+  "created_at": {
+    "$date": "2026-05-19T07:22:20.836Z"
+  },
+  "updated_at": {
+    "$date": "2026-05-19T09:13:22.637Z"
+  },
+  "__v": 0
+}]
