@@ -11,14 +11,9 @@ import { Routes } from "../../types/RoutingTable";
 import { pulseMeasureStyles } from "./PulseMeasureStyles";
 import { useEffect, useRef, useState } from "react";
 import { FontAwesome6 } from "@expo/vector-icons";
-import {
-	calculateAverageRed,
-	calculateBPM,
-	detectPeaks,
-	smoothSignal,
-} from "../../utils/pulseHelper";
 import { CameraView, useCameraPermissions } from "expo-camera";
 import { useCreatePulse, useMeasurePulse } from "../../hooks/usePulse";
+import { getPulseStatus } from "../../utils/pulseHelper";
 
 export default function PulseMeasure() {
 	const cameraRef = useRef(null);
@@ -32,10 +27,12 @@ export default function PulseMeasure() {
 	const { userId } = route.params;
 	const [permission, requestPermission] = useCameraPermissions();
 	const [isMeasured, setMeasured] = useState(false);
-	const { bpm, bpmRef } = useMeasurePulse(camera.active);
+	const { bpm, bpmRef, resetPulse } = useMeasurePulse(camera.active);
 	const createPulse = useCreatePulse();
 
 	async function openCamera() {
+		resetPulse();
+		setMeasured(false);
 		setCamera((prev) => ({ ...prev, active: true }));
 
 		setTimeout(async () => {
@@ -51,9 +48,8 @@ export default function PulseMeasure() {
 		}
 	}, []);
 
-	
 	function showAllPulses() {
-			navigation.navigate("AllPulses", { userId: userId });
+		navigation.navigate("AllPulses", { userId: userId });
 	}
 
 	return (
@@ -92,7 +88,10 @@ export default function PulseMeasure() {
 				]}
 			>
 				<View style={pulseMeasureStyles.buttonWrapper}>
-					<TouchableOpacity style={globalStyles.button} onPress={showAllPulses}>
+					<TouchableOpacity
+						style={globalStyles.button}
+						onPress={showAllPulses}
+					>
 						<Text style={globalStyles.buttonText}>
 							{language === "bulgarian"
 								? "Измервания"
@@ -140,16 +139,38 @@ export default function PulseMeasure() {
 					)}
 					<FontAwesome6 name="heart-pulse" size={70} color="red" />
 					{isMeasured && (
-						<Text
-							style={[
-								theme === "dark"
-									? { color: "white" }
-									: { color: "black" },
-								pulseMeasureStyles.measureWrapperText,
-							]}
-						>
-							{bpm} BPM
-						</Text>
+						<>
+							<Text
+								style={[
+									theme === "dark"
+										? { color: "white" }
+										: { color: "black" },
+									pulseMeasureStyles.measureWrapperText,
+								]}
+							>
+								{bpm} BPM
+							</Text>
+							<Text
+								style={[
+									theme === "dark"
+										? { color: "white" }
+										: { color: "black" },
+									pulseMeasureStyles.measureWrapperText,
+								]}
+							>
+								{getPulseStatus(bpm, language).text}
+							</Text>
+							<Text
+								style={[
+									theme === "dark"
+										? { color: "white" }
+										: { color: "black" },
+									pulseMeasureStyles.measureWrapperText,
+								]}
+							>
+								{getPulseStatus(bpm, language).description}
+							</Text>
+						</>
 					)}
 				</View>
 			</View>

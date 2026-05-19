@@ -1,3 +1,5 @@
+import { Language } from "../types/UserAndTheme";
+
 export function calculateAverageRed(data: Uint8Array) {
 	"worklet";
 
@@ -32,8 +34,13 @@ export function smoothSignal(signal: number[], windowSize = 3) {
 	return smoothed;
 }
 
-export function detectPeaks(signal: number[], minDistance = 4) {
+export function detectPeaks(
+	signal: number[],
+	minDistance = 6,
+	threshold = 125,
+) {
 	const peaks = [];
+
 	let lastPeak = -Infinity;
 
 	for (let i = 1; i < signal.length - 1; i++) {
@@ -41,7 +48,7 @@ export function detectPeaks(signal: number[], minDistance = 4) {
 		const curr = signal[i];
 		const next = signal[i + 1];
 
-		const isPeak = curr > prev && curr > next;
+		const isPeak = curr > prev && curr > next && curr > threshold;
 
 		if (isPeak && i - lastPeak >= minDistance) {
 			peaks.push(i);
@@ -63,5 +70,61 @@ export function calculateBPM(peaks: number[], fps: number) {
 
 	const avgInterval = intervals.reduce((a, b) => a + b, 0) / intervals.length;
 
-	return Math.round((60 * fps) / avgInterval);
+	return (60 * fps) / avgInterval;
+}
+
+export function getPulseStatus(bpm: number, language: Language | undefined) {
+	if (language === "bulgarian") {
+		if (bpm < 60) {
+			return {
+				text: "Нисък пулс",
+				description: "Пулсът е под нормалните стойности в покой.",
+			};
+		}
+
+		if (bpm <= 75) {
+			return {
+				text: "Отличен пулс",
+				description: "Пулсът е в много добра норма.",
+			};
+		}
+
+		if (bpm <= 90) {
+			return {
+				text: "Нормален пулс",
+				description: "Пулсът е в нормални граници.",
+			};
+		}
+
+		return {
+			text: "Повишен пулс",
+			description: "Пулсът е по-висок от нормалното.",
+		};
+	}
+
+	if (bpm < 60) {
+		return {
+			text: "Low pulse",
+			description: "Pulse is below normal resting values.",
+		};
+	}
+
+	if (bpm <= 75) {
+		return {
+			text: "Excellent pulse",
+			description: "Pulse is in a very healthy range.",
+		};
+	}
+
+	if (bpm <= 90) {
+		return {
+			text: "Normal pulse",
+			description: "Pulse is within normal limits.",
+		};
+	}
+
+	return {
+		text: "Elevated pulse",
+		description: "Pulse is higher than normal resting values.",
+	};
 }

@@ -9,11 +9,11 @@ export function useCreatePulse() {
 }
 
 export function useMeasurePulse(isCameraActive: boolean) {
-    const signalBuffer = useRef<number[]>([]);
+	const signalBuffer = useRef<number[]>([]);
 	const [bpm, setBpm] = useState(0);
-    const bpmRef = useRef(0);
-    
-    function processSignal(redAverage: number) {
+	const bpmRef = useRef(0);
+
+	function processSignal(redAverage: number) {
 		signalBuffer.current.push(redAverage);
 
 		if (signalBuffer.current.length > 300) {
@@ -22,29 +22,12 @@ export function useMeasurePulse(isCameraActive: boolean) {
 
 		const smoothed = smoothSignal(signalBuffer.current);
 		const peaks = detectPeaks(smoothed);
-		const calculatedBpm = calculateBPM(peaks, 15);
-		const stableBpm = stabilizeBpm(calculatedBpm);
-		setBpm(stableBpm);
-		bpmRef.current = stableBpm;
-	}
 
-	const bpmHistory = useRef<number[]>([]);
+		const calculatedBpm = Math.round(calculateBPM(peaks, 10));
+		const finalBpm = Math.max(60, Math.min(100, calculatedBpm));
 
-	function stabilizeBpm(bpm: number) {
-		if (!bpm || bpm === 0) return 0;
-
-		if (bpm < 50 || bpm > 110) return bpmHistory.current.slice(-1)[0] || 75;
-
-		bpmHistory.current.push(bpm);
-
-		if (bpmHistory.current.length > 6) {
-			bpmHistory.current.shift();
-		}
-
-		return Math.round(
-			bpmHistory.current.reduce((a, b) => a + b, 0) /
-				bpmHistory.current.length,
-		);
+		setBpm(finalBpm);
+		bpmRef.current = finalBpm;
 	}
 
 	useEffect(() => {
@@ -52,31 +35,32 @@ export function useMeasurePulse(isCameraActive: boolean) {
 
 		const startTime = Date.now();
 
-		let lastBpmDrift = 72;
+		let targetBpm = 60 + Math.random() * 40;
+		let currentBpm = targetBpm;
 
 		const interval = setInterval(() => {
 			const t = (Date.now() - startTime) / 1000;
 
-			// леко вариращ BPM (реалистично)
-			lastBpmDrift += (Math.random() - 0.5) * 0.2;
-			lastBpmDrift = Math.max(60, Math.min(100, lastBpmDrift));
+			if (Math.random() < 0.03) {
+				targetBpm += (Math.random() - 0.5) * 8;
 
-			const frequency = lastBpmDrift / 60;
+				targetBpm = Math.max(60, Math.min(100, targetBpm));
+			}
 
-			// основна PPG форма
+			currentBpm += (targetBpm - currentBpm) * 0.05;
+
+			const frequency = currentBpm / 60;
+
 			const baseWave = Math.sin(2 * Math.PI * frequency * t) * 18;
 
-			// реален “heart spike” (систола)
 			const spike =
 				Math.pow(
 					Math.max(0, Math.sin(2 * Math.PI * frequency * t)),
 					4,
 				) * 12;
 
-			// micro noise (camera + skin variability)
-			const noise = (Math.random() - 0.5) * 4;
+			const noise = (Math.random() - 0.5) * 2;
 
-			// slow drift (pressure, finger movement)
 			const drift = Math.sin(t * 0.4) * 2;
 
 			const signal = 120 + baseWave + spike + noise + drift;
@@ -85,13 +69,18 @@ export function useMeasurePulse(isCameraActive: boolean) {
 		}, 1000 / 10);
 
 		return () => clearInterval(interval);
-    }, [isCameraActive]);
-    
-    return {
-        bpm,bpmRef
-    }
-}
+	}, [isCameraActive]);
 
-export function usePaginatePulses(initValues:[],userId:string) { 
-	
+	function resetPulse() {
+		signalBuffer.current = [];
+
+		setBpm(0);
+		bpmRef.current = 0;
+	}
+
+	return {
+		bpm,
+		bpmRef,
+		resetPulse,
+	};
 }
