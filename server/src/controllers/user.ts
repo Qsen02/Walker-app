@@ -14,6 +14,8 @@ import { body, validationResult } from "express-validator";
 import { errorParser } from "../utils/errorParser";
 import { setToken } from "../services/token";
 import { MyRequest } from "../types/express";
+import { createSteps } from "../services/steps";
+import { createWater } from "../services/water";
 
 const userRouter = Router();
 
@@ -96,6 +98,8 @@ userRouter.post(
 				fields.email
 			);
 			const token = setToken(user);
+			await createSteps(user);
+			await createWater(user);
 			res.json({
 				_id:user?._id,
 				username: user.username,
