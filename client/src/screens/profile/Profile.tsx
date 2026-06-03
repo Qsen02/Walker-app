@@ -17,14 +17,15 @@ import ChangePassword from "./change-password/ChangePassword";
 import ChangeSuccessfull from "./change-successfull/ChangeSuccessfull";
 
 export default function Profile() {
-	const { theme, language } = useUserThemeContext();
+	const { theme, language, userState,setUser } = useUserThemeContext();
 	const route = useRoute<RouteProp<Routes, "Profile">>();
 	const { userId } = route.params;
-	const { user, setUser, loading, error } = useGetOnlyUser(null, userId);
+	const { user, loading, error } = useGetOnlyUser(null, userId);
 	const navigation = useNavigation<NavigationProp<Routes>>();
 	const [isEditFormOpen, setIsEditFormOpen] = useState(false);
 	const [isChangePasswordOpen, setIsChangePassowrdOpen] = useState(false);
-	const [isChangedSuccessfullOpen,setIsChangeSuccessfullOpen]=useState(false);
+	const [isChangedSuccessfullOpen, setIsChangeSuccessfullOpen] =
+		useState(false);
 
 	function openEditForm() {
 		setIsEditFormOpen(true);
@@ -42,13 +43,14 @@ export default function Profile() {
 					visibleHandler={setIsEditFormOpen}
 					user={user}
 					userHandler={setUser}
+					userState={userState}
 					theme={theme}
 					language={language}
 				/>
 			) : (
 				""
 			)}
-				{isChangedSuccessfullOpen ? (
+			{isChangedSuccessfullOpen ? (
 				<ChangeSuccessfull
 					visible={isChangedSuccessfullOpen}
 					visibleHandler={setIsChangeSuccessfullOpen}
@@ -134,7 +136,7 @@ export default function Profile() {
 							{language == "english"
 								? "Username:"
 								: "Потребителско име:"}{" "}
-							{user?.username}
+							{userState?.username}
 						</Text>
 						<Text
 							style={[
@@ -145,7 +147,7 @@ export default function Profile() {
 							]}
 						>
 							{language == "english" ? "Email:" : "Имейл:"}{" "}
-							{user?.email}
+							{userState?.email}
 						</Text>
 						<Text
 							style={[
@@ -156,7 +158,7 @@ export default function Profile() {
 							]}
 						>
 							{language == "english" ? "Purpose:" : "Цел:"}{" "}
-							{user?.purpose}{" "}
+							{userState?.purpose}{" "}
 							{language == "english" ? "steps" : "крачки"}
 						</Text>
 						<View style={profileStyles.buttonWrapper}>

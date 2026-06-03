@@ -6,7 +6,7 @@ import {
 	TouchableOpacity,
 } from "react-native";
 import { globalStyles } from "../../../../globalStyles";
-import { User } from "../../../types/user";
+import { User, UserForAuth } from "../../../types/user";
 import { Language, Theme } from "../../../types/UserAndTheme";
 import { useState } from "react";
 import InputField from "../../../commons/input_field/InputField";
@@ -17,7 +17,8 @@ interface EditProfileProps {
 	visible: boolean;
 	visibleHandler: React.Dispatch<React.SetStateAction<boolean>>;
 	user: User | null;
-	userHandler: React.Dispatch<React.SetStateAction<User | null>>;
+	userHandler: ((user: UserForAuth | null) => void) | undefined;
+	userState: UserForAuth | null | undefined;
 	theme: Theme | undefined;
 	language: Language | undefined;
 }
@@ -26,6 +27,7 @@ export default function EditProfile({
 	visible,
 	visibleHandler,
 	user,
+	userState,
 	userHandler,
 	theme,
 	language,
@@ -86,11 +88,20 @@ export default function EditProfile({
 				return;
 			}
 			const updatedUser = await editUser(user?._id, {
-				username:username,
-				email:email,
-				purpose:purpose,
+				username: username,
+				email: email,
+				purpose: purpose,
 			});
-			userHandler(updatedUser);
+			const newUserState: UserForAuth = {
+				accessToken: userState?.accessToken || "",
+				_id: updatedUser._id,
+				username: updatedUser.username,
+				email: updatedUser.email,
+				purpose: updatedUser.purpose,
+			};
+			if(userHandler){
+				userHandler(newUserState);
+			}
 			visibleHandler(false);
 		} catch (err) {
 			if (err instanceof Error) {
